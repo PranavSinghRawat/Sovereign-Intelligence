@@ -1,13 +1,15 @@
 import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord } from "@mlc-ai/web-llm";
+import { camp, CAMPResult } from "../middleware/CAMP";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
  * 
  * Optimized for M1 MacBook Air (Unified Memory) using WebGPU.
- * Manages the lifecycle of local-first LLM inference.
+ * Manages the lifecycle of local-first LLM inference with CAMP Privacy.
  */
 export class AgentRuntime {
   private engine: MLCEngine | null = null;
+  private lastCAMPResult: CAMPResult | null = null;
   
   // Model IDs for MLC-compiled versions
   private readonly PRIMARY_MODEL = "Phi-4-mini-instruct-q4f16_1-MLC";
@@ -15,65 +17,52 @@ export class AgentRuntime {
 
   /**
    * Initializes the WebLLM engine with the primary model.
-   * Leverages WebGPU for near-native performance on M1 Silicon.
    */
   async initialize(onProgress?: (progress: InitProgressReport) => void): Promise<void> {
-    if (this.engine) {
-      console.log("[AgentRuntime] Engine already initialized.");
-      return;
-    }
+    if (this.engine) return;
 
     try {
-      console.log(`[AgentRuntime] Initializing local engine with ${this.PRIMARY_MODEL}...`);
-      
       this.engine = await CreateMLCEngine(this.PRIMARY_MODEL, {
-        initProgressCallback: (report) => {
-          console.log(`[WebLLM Load Progress]: ${report.text}`);
-          if (onProgress) onProgress(report);
-        },
-        // M1 Optimization: Ensure we target the GPU via WebGPU
+        initProgressCallback: onProgress,
         appConfig: {
           model_list: [
             {
               model: `https://huggingface.co/mlc-ai/${this.PRIMARY_MODEL}`,
               model_id: this.PRIMARY_MODEL,
-              // Optimized WASM binary for Phi-4-mini
               model_lib: `https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/phi-4-mini/phi-4-mini-q4f16_1-v1.wasm`,
             } as ModelRecord,
           ],
         },
       });
-
-      console.log("[AgentRuntime] Sovereign Intelligence Layer initialized via WebGPU.");
     } catch (error) {
-      console.error("[AgentRuntime] Primary initialization failed:", error);
       await this.handleFallback(onProgress);
     }
   }
 
-  /**
-   * Fallback logic for low-resource environments or WebGPU failures.
-   */
   private async handleFallback(onProgress?: (progress: InitProgressReport) => void): Promise<void> {
-    console.warn(`[AgentRuntime] Attempting fallback to ${this.FALLBACK_MODEL}...`);
     try {
       this.engine = await CreateMLCEngine(this.FALLBACK_MODEL, {
         initProgressCallback: onProgress
       });
-      console.log("[AgentRuntime] Fallback engine initialized successfully.");
     } catch (fallbackError) {
-      console.error("[AgentRuntime] Critical Error: All local models failed to load.", fallbackError);
       throw new Error("Local Inference Unavailable. Check WebGPU support.");
     }
   }
 
   /**
-   * Core generation method.
-   * All reasoning happens entirely within the browser's GPU memory.
+   * Core generation method with CAMP Middleware integration.
    */
-  async generateResponse(messages: any[], onStream?: (text: string) => void): Promise<string> {
+  async generateResponse(messages: any[], onStream?: (text: string) => void): Promise<{ text: string, camp: CAMPResult }> {
     if (!this.engine) {
-      throw new Error("AgentRuntime not initialized. Call initialize() first.");
+      throw new Error("AgentRuntime not initialized.");
+    }
+
+    // Apply CAMP Privacy Moat to the latest message
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage && lastMessage.role === "user") {
+      const campResult = camp.process(lastMessage.content);
+      lastMessage.content = campResult.processedText;
+      this.lastCAMPResult = campResult;
     }
 
     const chunks = await this.engine.chat.completions.create({
@@ -88,18 +77,16 @@ export class AgentRuntime {
       if (onStream) onStream(content);
     }
 
-    return fullText;
+    return { 
+      text: fullText, 
+      camp: this.lastCAMPResult! 
+    };
   }
 
-  /**
-   * Returns current engine stats for the Metrics dashboard.
-   */
   async getMetrics() {
     if (!this.engine) return null;
-    // Note: runtimeStats is a MLC feature to track tokens/sec
     return await this.engine.runtimeStats();
   }
 }
 
-// Export a singleton instance for use across the Next.js app
 export const sovereignRuntime = new AgentRuntime();
