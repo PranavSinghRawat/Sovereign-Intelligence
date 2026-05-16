@@ -85,7 +85,7 @@ export class AgentRuntime {
 
   async getMetrics() {
     if (!this.engine) return null;
-    return await this.engine.runtimeStats();
+    return await this.engine.runtimeStatsText();
   }
 }
 

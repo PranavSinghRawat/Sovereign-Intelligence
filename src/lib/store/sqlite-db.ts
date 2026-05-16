@@ -25,10 +25,7 @@ export class SqliteDatabase {
     if (typeof window === "undefined") return;
 
     try {
-      const sqlite3 = await sqlite3InitModule({
-        print: console.log,
-        printErr: console.error,
-      });
+      const sqlite3 = await (sqlite3InitModule as any)();
 
       if ("opfs" in sqlite3) {
         this.db = new sqlite3.oo1.OpfsDb("/sovereign_intelligence.db");

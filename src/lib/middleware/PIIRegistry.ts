@@ -99,4 +99,3 @@ export class PIIRegistry {
 }
 
 export const sessionPII = new PIIRegistry();
-export { PIIType };
