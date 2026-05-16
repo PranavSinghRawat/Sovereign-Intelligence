@@ -1,23 +1,20 @@
 import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord } from "@mlc-ai/web-llm";
 import { camp, CAMPResult } from "../middleware/CAMP";
+import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
  * 
  * Optimized for M1 MacBook Air (Unified Memory) using WebGPU.
- * Manages the lifecycle of local-first LLM inference with CAMP Privacy.
+ * Manages the lifecycle of local-first LLM inference with CAMP Privacy and MCP Actions.
  */
 export class AgentRuntime {
   private engine: MLCEngine | null = null;
   private lastCAMPResult: CAMPResult | null = null;
   
-  // Model IDs for MLC-compiled versions
   private readonly PRIMARY_MODEL = "Phi-4-mini-instruct-q4f16_1-MLC";
   private readonly FALLBACK_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
 
-  /**
-   * Initializes the WebLLM engine with the primary model.
-   */
   async initialize(onProgress?: (progress: InitProgressReport) => void): Promise<void> {
     if (this.engine) return;
 
@@ -50,37 +47,76 @@ export class AgentRuntime {
   }
 
   /**
-   * Core generation method with CAMP Middleware integration.
+   * Core generation method with CAMP Privacy and MCP Tool Execution.
    */
-  async generateResponse(messages: any[], onStream?: (text: string) => void): Promise<{ text: string, camp: CAMPResult }> {
+  async generateResponse(
+    messages: any[], 
+    onStream?: (text: string) => void,
+    onToolStart?: (toolName: string) => void
+  ): Promise<{ text: string, camp: CAMPResult }> {
     if (!this.engine) {
       throw new Error("AgentRuntime not initialized.");
     }
 
-    // Apply CAMP Privacy Moat to the latest message
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.role === "user") {
-      const campResult = await camp.process(lastMessage.content);
-      lastMessage.content = campResult.processedText;
+    // 1. Apply CAMP Privacy Moat to the latest user message
+    const lastUserMessage = [...messages].reverse().find(m => m.role === "user");
+    if (lastUserMessage) {
+      const campResult = await camp.process(lastUserMessage.content);
+      lastUserMessage.content = campResult.processedText;
       this.lastCAMPResult = campResult;
     }
 
-    const chunks = await this.engine.chat.completions.create({
+    // 2. Initial LLM Pass with MCP Tool Definitions
+    const response = await this.engine.chat.completions.create({
       messages,
-      stream: true,
+      tools: MCP_TOOLS as any,
+      tool_choice: "auto",
     });
 
-    let fullText = "";
-    for await (const chunk of chunks) {
-      const content = chunk.choices[0]?.delta?.content || "";
-      fullText += content;
-      if (onStream) onStream(content);
+    const message = response.choices[0].message;
+
+    // 3. Handle Tool Calls
+    if (message.tool_calls && message.tool_calls.length > 0) {
+      const toolMessages = [...messages, message];
+      
+      for (const toolCall of message.tool_calls) {
+        const toolName = toolCall.function.name;
+        const toolArgs = JSON.parse(toolCall.function.arguments);
+        
+        if (onToolStart) onToolStart(toolName);
+        console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
+
+        let result;
+        if (toolName === "search_community_resources") {
+          result = searchCommunityResources(toolArgs);
+        } else if (toolName === "get_resource_availability") {
+          result = getResourceAvailability(toolArgs.id);
+        }
+
+        toolMessages.push({
+          role: "tool",
+          content: JSON.stringify(result),
+          tool_call_id: toolCall.id,
+        });
+      }
+
+      // 4. Final Pass with Tool Results
+      const finalChunks = await this.engine.chat.completions.create({
+        messages: toolMessages,
+        stream: true,
+      });
+
+      let fullText = "";
+      for await (const chunk of finalChunks) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        fullText += content;
+        if (onStream) onStream(content);
+      }
+
+      return { text: fullText, camp: this.lastCAMPResult! };
     }
 
-    return { 
-      text: fullText, 
-      camp: this.lastCAMPResult! 
-    };
+    return { text: message.content || "", camp: this.lastCAMPResult! };
   }
 
   async getMetrics() {
