@@ -60,7 +60,7 @@ export class AgentRuntime {
     // Apply CAMP Privacy Moat to the latest message
     const lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.role === "user") {
-      const campResult = camp.process(lastMessage.content);
+      const campResult = await camp.process(lastMessage.content);
       lastMessage.content = campResult.processedText;
       this.lastCAMPResult = campResult;
     }

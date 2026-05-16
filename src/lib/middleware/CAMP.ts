@@ -27,21 +27,24 @@ export class CAMPMiddleware {
   /**
    * Processes the input text through the CAMP framework.
    */
-  process(text: string): CAMPResult {
+  async process(text: string): Promise<CAMPResult> {
     let processedText = text;
     const detected: string[] = [];
     let shouldPrune = false;
 
+    // Ensure registry is loaded
+    await sessionPII.initialize();
+
     // 1. Scan and Register
-    this.patterns.forEach(({ type, regex }) => {
+    for (const { type, regex } of this.patterns) {
       const matches = text.match(regex);
       if (matches) {
-        matches.forEach(match => {
-          sessionPII.registerFragment(type, match);
+        for (const match of matches) {
+          await sessionPII.registerFragment(type, match);
           detected.push(`${type}: ${match}`);
-        });
+        }
       }
-    });
+    }
 
     // 2. Check Re-identifiability
     const currentCPE = sessionPII.getCPE();

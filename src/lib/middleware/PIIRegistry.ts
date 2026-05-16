@@ -1,5 +1,8 @@
+import { db } from "../store/sqlite-db";
+
 /**
  * PII Registry - Session-level tracking of sensitive data fragments.
+ * Now hardened with SQLite Wasm persistence.
  */
 
 export enum PIIType {
@@ -10,12 +13,6 @@ export enum PIIType {
   PROFESSION = "PROFESSION",
   AGE = "AGE",
   ID = "ID",
-}
-
-export interface PIIFragment {
-  type: PIIType;
-  value: string;
-  weight: number;
 }
 
 const PII_WEIGHTS: Record<PIIType, number> = {
@@ -32,17 +29,53 @@ export class PIIRegistry {
   private fragments: Set<string> = new Set();
   private sessionCPE: number = 0;
   private threshold: number = 1.0;
+  private initialized: boolean = false;
 
   /**
-   * Adds a fragment to the registry and updates the CPE score.
-   * Returns true if the fragment is new.
+   * Loads persisted fragments from SQLite.
    */
-  registerFragment(type: PIIType, value: string): boolean {
+  async initialize(): Promise<void> {
+    if (this.initialized) return;
+    
+    try {
+      const rows = await db.exec("SELECT type, value FROM pii_fragments");
+      rows.forEach((row: any) => {
+        const type = row[0] as PIIType;
+        const value = row[1];
+        const fragmentKey = `${type}:${value.toLowerCase()}`;
+        if (!this.fragments.has(fragmentKey)) {
+          this.fragments.add(fragmentKey);
+          this.sessionCPE += PII_WEIGHTS[type];
+        }
+      });
+      this.initialized = true;
+      console.log(`[PIIRegistry] Loaded ${this.fragments.size} fragments from persistence.`);
+    } catch (err) {
+      console.error("[PIIRegistry] Load failed:", err);
+    }
+  }
+
+  /**
+   * Adds a fragment and persists it to SQLite.
+   */
+  async registerFragment(type: PIIType, value: string): Promise<boolean> {
     const fragmentKey = `${type}:${value.toLowerCase()}`;
     if (this.fragments.has(fragmentKey)) return false;
 
+    // 1. Update In-Memory
     this.fragments.add(fragmentKey);
     this.sessionCPE += PII_WEIGHTS[type];
+
+    // 2. Update Persistent Store (Fire and forget or await depending on strictness)
+    try {
+      await db.exec(
+        "INSERT OR IGNORE INTO pii_fragments (type, value) VALUES (?, ?)",
+        [type, value.toLowerCase()]
+      );
+    } catch (err) {
+      console.error("[PIIRegistry] Persistence failed:", err);
+    }
+
     return true;
   }
 
@@ -54,9 +87,10 @@ export class PIIRegistry {
     return this.sessionCPE >= this.threshold;
   }
 
-  reset(): void {
+  async clear(): Promise<void> {
     this.fragments.clear();
     this.sessionCPE = 0;
+    await db.exec("DELETE FROM pii_fragments");
   }
 
   getCapturedTypes(): PIIType[] {
@@ -65,3 +99,4 @@ export class PIIRegistry {
 }
 
 export const sessionPII = new PIIRegistry();
+export { PIIType };
