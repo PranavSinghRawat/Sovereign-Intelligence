@@ -1,12 +1,9 @@
-import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord } from "@mlc-ai/web-llm";
+import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord, ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { camp, CAMPResult } from "../middleware/CAMP";
 import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
- * 
- * Optimized for M1 MacBook Air (Unified Memory) using WebGPU.
- * Manages the lifecycle of local-first LLM inference with CAMP Privacy and MCP Actions.
  */
 export class AgentRuntime {
   private engine: MLCEngine | null = null;
@@ -31,7 +28,7 @@ export class AgentRuntime {
           ],
         },
       });
-    } catch (error) {
+    } catch {
       await this.handleFallback(onProgress);
     }
   }
@@ -41,7 +38,7 @@ export class AgentRuntime {
       this.engine = await CreateMLCEngine(this.FALLBACK_MODEL, {
         initProgressCallback: onProgress
       });
-    } catch (fallbackError) {
+    } catch {
       throw new Error("Local Inference Unavailable. Check WebGPU support.");
     }
   }
@@ -50,7 +47,7 @@ export class AgentRuntime {
    * Core generation method with CAMP Privacy and MCP Tool Execution.
    */
   async generateResponse(
-    messages: any[], 
+    messages: ChatCompletionMessageParam[], 
     onStream?: (text: string) => void,
     onToolStart?: (toolName: string) => void
   ): Promise<{ text: string, camp: CAMPResult }> {
@@ -60,7 +57,7 @@ export class AgentRuntime {
 
     // 1. Apply CAMP Privacy Moat to the latest user message
     const lastUserMessage = [...messages].reverse().find(m => m.role === "user");
-    if (lastUserMessage) {
+    if (lastUserMessage && typeof lastUserMessage.content === "string") {
       const campResult = await camp.process(lastUserMessage.content);
       lastUserMessage.content = campResult.processedText;
       this.lastCAMPResult = campResult;
@@ -69,7 +66,8 @@ export class AgentRuntime {
     // 2. Initial LLM Pass with MCP Tool Definitions
     const response = await this.engine.chat.completions.create({
       messages,
-      tools: MCP_TOOLS as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      tools: MCP_TOOLS as any[],
       tool_choice: "auto",
     });
 
@@ -77,7 +75,7 @@ export class AgentRuntime {
 
     // 3. Handle Tool Calls
     if (message.tool_calls && message.tool_calls.length > 0) {
-      const toolMessages = [...messages, message];
+      const toolMessages: ChatCompletionMessageParam[] = [...messages, message as unknown as ChatCompletionMessageParam];
       
       for (const toolCall of message.tool_calls) {
         const toolName = toolCall.function.name;
@@ -97,7 +95,7 @@ export class AgentRuntime {
           role: "tool",
           content: JSON.stringify(result),
           tool_call_id: toolCall.id,
-        });
+        } as ChatCompletionMessageParam);
       }
 
       // 4. Final Pass with Tool Results

@@ -39,7 +39,7 @@ export class PIIRegistry {
     
     try {
       const rows = await db.exec("SELECT type, value FROM pii_fragments");
-      rows.forEach((row: any) => {
+      (rows as unknown as [string, string][]).forEach((row) => {
         const type = row[0] as PIIType;
         const value = row[1];
         const fragmentKey = `${type}:${value.toLowerCase()}`;

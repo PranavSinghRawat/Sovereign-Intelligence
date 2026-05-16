@@ -2,12 +2,10 @@ import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
 
 /**
  * Sovereign Intelligence Layer - SQLite Wasm Manager
- * 
- * Provides a persistent local-first database using OPFS (Origin Private File System).
  */
 export class SqliteDatabase {
   private static instance: SqliteDatabase;
-  private db: any = null;
+  private db: unknown = null;
   private ready: Promise<void>;
 
   private constructor() {
@@ -25,18 +23,18 @@ export class SqliteDatabase {
     if (typeof window === "undefined") return;
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const sqlite3 = await (sqlite3InitModule as any)();
 
       if ("opfs" in sqlite3) {
         this.db = new sqlite3.oo1.OpfsDb("/sovereign_intelligence.db");
-        console.log("[SQLite] Persistent OPFS database initialized.");
       } else {
         this.db = new sqlite3.oo1.DB("/sovereign_intelligence.db", "ct");
-        console.warn("[SQLite] OPFS not available, falling back to transient/session storage.");
       }
 
-      // Initialize schemas
-      this.db.exec(`
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const database = this.db as any;
+      database.exec(`
         CREATE TABLE IF NOT EXISTS pii_fragments (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           type TEXT NOT NULL,
@@ -44,23 +42,17 @@ export class SqliteDatabase {
           timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
           UNIQUE(type, value)
         );
-
-        CREATE TABLE IF NOT EXISTS agent_checkpoints (
-          thread_id TEXT,
-          checkpoint_id TEXT,
-          data BLOB,
-          PRIMARY KEY (thread_id, checkpoint_id)
-        );
       `);
     } catch (err) {
       console.error("[SQLite] Failed to initialize database:", err);
     }
   }
 
-  async exec(sql: string, params: any[] = []) {
+  async exec(sql: string, params: unknown[] = []) {
     await this.ready;
     if (!this.db) throw new Error("Database not initialized");
-    return this.db.exec(sql, { bind: params, returnValue: "resultRows" });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (this.db as any).exec(sql, { bind: params, returnValue: "resultRows" });
   }
 
   async getDb() {
