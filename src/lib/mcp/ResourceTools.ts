@@ -21,7 +21,7 @@ const MOCK_RESOURCES: CommunityResource[] = [
 ];
 
 /**
- * Tool Definition: search_community_resources
+ * Tool Implementation: search_community_resources
  */
 export const searchCommunityResources = (query: { type?: string; location?: string }) => {
   console.log(`[MCP] Executing search_community_resources with:`, query);
@@ -34,7 +34,7 @@ export const searchCommunityResources = (query: { type?: string; location?: stri
 };
 
 /**
- * Tool Definition: get_resource_availability
+ * Tool Implementation: get_resource_availability
  */
 export const getResourceAvailability = (id: string) => {
   const resource = MOCK_RESOURCES.find(r => r.id === id);
@@ -42,30 +42,36 @@ export const getResourceAvailability = (id: string) => {
 };
 
 /**
- * Standardized Tool Schema for LLM Function Calling
+ * Standardized Tool Schema for LLM Function Calling (OpenAI/WebLLM Format)
  */
 export const MCP_TOOLS = [
   {
-    name: "search_community_resources",
-    description: "Search for local community resources like medical clinics, food banks, or financial aid.",
-    parameters: {
-      type: "object",
-      properties: {
-        type: { type: "string", enum: ["medical", "food", "financial"], description: "The type of aid needed." },
-        location: { type: "string", description: "The general area or district." }
-      },
-      required: ["type"]
+    type: "function",
+    function: {
+      name: "search_community_resources",
+      description: "Search for local community resources like medical clinics, food banks, or financial aid.",
+      parameters: {
+        type: "object",
+        properties: {
+          type: { type: "string", enum: ["medical", "food", "financial"], description: "The type of aid needed." },
+          location: { type: "string", description: "The general area or district." }
+        },
+        required: ["type"]
+      }
     }
   },
   {
-    name: "get_resource_availability",
-    description: "Get detailed availability or opening hours for a specific resource by its ID.",
-    parameters: {
-      type: "object",
-      properties: {
-        id: { type: "string", description: "The unique ID of the resource." }
-      },
-      required: ["id"]
+    type: "function",
+    function: {
+      name: "get_resource_availability",
+      description: "Get detailed availability or opening hours for a specific resource by its ID.",
+      parameters: {
+        type: "object",
+        properties: {
+          id: { type: "string", description: "The unique ID of the resource." }
+        },
+        required: ["id"]
+      }
     }
   }
 ];

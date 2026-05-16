@@ -4,6 +4,8 @@ import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "..
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
+ * 
+ * Optimized for M1 MacBook Air (Unified Memory) using WebGPU.
  */
 export class AgentRuntime {
   private engine: MLCEngine | null = null;
