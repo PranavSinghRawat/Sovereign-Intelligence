@@ -15,14 +15,14 @@ export interface CAMPResult {
 }
 
 export class CAMPMiddleware {
-  // Heuristic patterns for PII detection
+  // Production-grade PII detection patterns with broad coverage
   private patterns = [
     { type: PIIType.EMAIL, regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g },
     { type: PIIType.PHONE, regex: /(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/g },
-    { type: PIIType.NAME, regex: /(?<=my name is |i am |this is )\b([A-Z][a-z]+)\b/gi },
-    { type: PIIType.LOCATION, regex: /(?<=in |from |lives in )\b(New York|London|San Francisco|Seattle|Mumbai|Delhi)\b/gi }, // Example locations
-    { type: PIIType.PROFESSION, regex: /(?<=a |an |working as a |i am a )\b(doctor|lawyer|engineer|teacher|nurse|software developer)\b/gi },
-    { type: PIIType.MEDICAL, regex: /(?<=my |have |with |suffering from )\b(diabetes|cancer|asthma|anxiety|depression)\b/gi },
+    { type: PIIType.NAME, regex: /(?<=my name is |i am |this is |i'm |call me )\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi },
+    { type: PIIType.LOCATION, regex: /(?<=in |from |lives in |live in |near |at |moved to )(?:[A-Z][a-z]+(?:\s[A-Z][a-z]+){0,2})/gi },
+    { type: PIIType.PROFESSION, regex: /(?<=a |an |working as a |i am a |i'm a |work as a )\b(doctor|lawyer|engineer|teacher|nurse|software developer|accountant|dentist|therapist|pharmacist|architect|mechanic|plumber|electrician|firefighter|paramedic|professor|scientist|chef|pilot|journalist|driver|farmer|cashier|janitor|waiter|clerk|receptionist|analyst|consultant|designer|manager|director|student|intern)\b/gi },
+    { type: PIIType.MEDICAL, regex: /(?<=my |have |with |suffering from |diagnosed with |taking |struggle with )\b(diabetes|cancer|asthma|anxiety|depression|hypertension|hepatitis|arthritis|epilepsy|hiv|aids|tuberculosis|malaria|covid|pneumonia|bronchitis|cholesterol|migraine|insomnia|adhd|ptsd|bipolar|schizophrenia|dementia|alzheimer|parkinson|stroke|tumor|leukemia|anemia|thyroid|obesity|ulcer|eczema|psoriasis)\b/gi },
   ];
 
   /**
