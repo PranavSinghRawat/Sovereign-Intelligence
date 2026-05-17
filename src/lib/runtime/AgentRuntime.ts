@@ -1,6 +1,7 @@
 import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord, ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { camp, CAMPResult } from "../middleware/CAMP";
 import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
+import { metricsCapture } from "../metrics/MetricsCapture";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
@@ -100,7 +101,7 @@ export class AgentRuntime {
         } as ChatCompletionMessageParam);
       }
 
-      // 4. Final Pass with Tool Results
+      const startTime = performance.now();
       const finalChunks = await this.engine.chat.completions.create({
         messages: toolMessages,
         stream: true,
@@ -112,11 +113,29 @@ export class AgentRuntime {
         fullText += content;
         if (onStream) onStream(content);
       }
+      const endTime = performance.now();
+      metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
 
       return { text: fullText, camp: this.lastCAMPResult! };
     }
 
-    return { text: message.content || "", camp: this.lastCAMPResult! };
+    // Fallback if no tools called
+    const startTime = performance.now();
+    const finalChunks = await this.engine.chat.completions.create({
+      messages,
+      stream: true,
+    });
+
+    let fullText = "";
+    for await (const chunk of finalChunks) {
+      const content = chunk.choices[0]?.delta?.content || "";
+      fullText += content;
+      if (onStream) onStream(content);
+    }
+    const endTime = performance.now();
+    metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
+
+    return { text: fullText, camp: this.lastCAMPResult! };
   }
 
   async getMetrics() {
