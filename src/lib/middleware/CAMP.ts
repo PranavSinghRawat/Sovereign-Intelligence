@@ -22,6 +22,7 @@ export class CAMPMiddleware {
     { type: PIIType.NAME, regex: /(?<=my name is |i am |this is )\b([A-Z][a-z]+)\b/gi },
     { type: PIIType.LOCATION, regex: /(?<=in |from |lives in )\b(New York|London|San Francisco|Seattle|Mumbai|Delhi)\b/gi }, // Example locations
     { type: PIIType.PROFESSION, regex: /(?<=a |an |working as a |i am a )\b(doctor|lawyer|engineer|teacher|nurse|software developer)\b/gi },
+    { type: PIIType.MEDICAL, regex: /(?<=my |have |with |suffering from )\b(diabetes|cancer|asthma|anxiety|depression)\b/gi },
   ];
 
   /**

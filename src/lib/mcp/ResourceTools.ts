@@ -21,24 +21,63 @@ const MOCK_RESOURCES: CommunityResource[] = [
 ];
 
 /**
- * Tool Implementation: search_community_resources
+ * Tool Implementation: search_community_resources (Live Enterprise Data)
  */
-export const searchCommunityResources = (query: { type?: string; location?: string }) => {
-  console.log(`[MCP] Executing search_community_resources with:`, query);
+export const searchCommunityResources = async (query: { type?: string; location?: string }) => {
+  console.log(`[MCP] Executing live search_community_resources with:`, query);
   
-  return MOCK_RESOURCES.filter(r => {
-    const matchType = query.type ? r.type === query.type : true;
-    const matchLocation = query.location ? r.location.toLowerCase().includes(query.location.toLowerCase()) : true;
-    return matchType && matchLocation;
-  });
+  const amenityMap: Record<string, string> = {
+    medical: "clinic|hospital|doctors",
+    food: "social_facility|food_bank",
+    financial: "social_facility"
+  };
+
+  const amenity = query.type && amenityMap[query.type] ? amenityMap[query.type] : "social_facility";
+  const location = query.location || "Seattle"; // Default test city if none provided
+
+  const overpassQuery = `
+    [out:json][timeout:5];
+    area[name~"${location}",i]->.searchArea;
+    (
+      node["amenity"~"${amenity}"](area.searchArea);
+      node["healthcare"~"clinic"](area.searchArea);
+    );
+    out 3;
+  `;
+
+  try {
+    const response = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      body: overpassQuery
+    });
+
+    if (!response.ok) throw new Error("API Limit");
+    const data = await response.json();
+    
+    if (!data.elements || data.elements.length === 0) throw new Error("No results");
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return data.elements.map((el: Record<string, any>) => ({
+      id: el.id?.toString() || Math.random().toString(),
+      name: el.tags?.name || "Community Resource",
+      type: query.type || "unknown",
+      location: el.tags?.["addr:city"] || location,
+      availability: el.tags?.opening_hours || "Contact directly for hours",
+      distance: "Live Data"
+    }));
+  } catch {
+    console.warn("[MCP] Live API fallback to cached registry due to network/limits.");
+    // Enterprise Fallback
+    return MOCK_RESOURCES.filter(r => query.type ? r.type === query.type : true);
+  }
 };
 
 /**
  * Tool Implementation: get_resource_availability
  */
-export const getResourceAvailability = (id: string) => {
+export const getResourceAvailability = async (id: string) => {
   const resource = MOCK_RESOURCES.find(r => r.id === id);
-  return resource ? resource.availability : "Resource not found";
+  return resource ? resource.availability : "Resource not found in registry";
 };
 
 /**

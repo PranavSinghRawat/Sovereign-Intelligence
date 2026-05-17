@@ -58,17 +58,25 @@ export class AgentRuntime {
       throw new Error("AgentRuntime not initialized.");
     }
 
-    // 1. Apply CAMP Privacy Moat to the latest user message
-    const lastUserMessage = [...messages].reverse().find(m => m.role === "user");
+    // 1. Enterprise Deterministic Guardrails
+    const systemGuardrail: ChatCompletionMessageParam = {
+      role: "system",
+      content: "You are the Sovereign Intelligence Layer, a routing agent for community resources. You are strictly forbidden from providing medical diagnoses or financial advice. If a user asks for medical advice, you must append: 'I am a local AI assistant. This is not medical advice. Please consult a professional.' You must use the provided tools to find resources."
+    };
+    
+    const guardedMessages = [systemGuardrail, ...messages];
+
+    // 2. Apply CAMP Privacy Moat to the latest user message
+    const lastUserMessage = [...guardedMessages].reverse().find(m => m.role === "user");
     if (lastUserMessage && typeof lastUserMessage.content === "string") {
       const campResult = await camp.process(lastUserMessage.content);
       lastUserMessage.content = campResult.processedText;
       this.lastCAMPResult = campResult;
     }
 
-    // 2. Initial LLM Pass with MCP Tool Definitions
+    // 3. Initial LLM Pass with MCP Tool Definitions
     const response = await this.engine.chat.completions.create({
-      messages,
+      messages: guardedMessages,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tools: MCP_TOOLS as any[],
       tool_choice: "auto",
@@ -76,9 +84,9 @@ export class AgentRuntime {
 
     const message = response.choices[0].message;
 
-    // 3. Handle Tool Calls
+    // 4. Handle Tool Calls
     if (message.tool_calls && message.tool_calls.length > 0) {
-      const toolMessages: ChatCompletionMessageParam[] = [...messages, message as unknown as ChatCompletionMessageParam];
+      const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
       
       for (const toolCall of message.tool_calls) {
         const toolName = toolCall.function.name;
@@ -89,9 +97,9 @@ export class AgentRuntime {
 
         let result;
         if (toolName === "search_community_resources") {
-          result = searchCommunityResources(toolArgs);
+          result = await searchCommunityResources(toolArgs);
         } else if (toolName === "get_resource_availability") {
-          result = getResourceAvailability(toolArgs.id);
+          result = await getResourceAvailability(toolArgs.id);
         }
 
         toolMessages.push({

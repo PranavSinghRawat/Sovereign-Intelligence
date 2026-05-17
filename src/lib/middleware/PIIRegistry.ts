@@ -13,6 +13,7 @@ export enum PIIType {
   PROFESSION = "PROFESSION",
   AGE = "AGE",
   ID = "ID",
+  MEDICAL = "MEDICAL",
 }
 
 const PII_WEIGHTS: Record<PIIType, number> = {
@@ -23,6 +24,7 @@ const PII_WEIGHTS: Record<PIIType, number> = {
   [PIIType.PROFESSION]: 0.4,
   [PIIType.AGE]: 0.2,
   [PIIType.ID]: 0.9,
+  [PIIType.MEDICAL]: 0.7,
 };
 
 export class PIIRegistry {
