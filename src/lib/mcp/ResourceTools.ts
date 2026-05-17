@@ -23,6 +23,14 @@ const MOCK_RESOURCES: CommunityResource[] = [
 /**
  * Tool Implementation: search_community_resources (Live Enterprise Data)
  */
+/**
+ * Sanitizes input strings to prevent Overpass QL injection attacks.
+ * Only allows alphanumeric characters, spaces, hyphens, periods, and commas.
+ */
+const sanitizeOverpassInput = (input: string): string => {
+  return input.replace(/[^a-zA-Z0-9\s\-.,]/g, "").trim().slice(0, 100);
+};
+
 export const searchCommunityResources = async (query: { type?: string; location?: string }) => {
   console.log(`[MCP] Executing live search_community_resources with:`, query);
   
@@ -33,7 +41,14 @@ export const searchCommunityResources = async (query: { type?: string; location?
   };
 
   const amenity = query.type && amenityMap[query.type] ? amenityMap[query.type] : "social_facility";
-  const location = query.location || "Seattle"; // Default test city if none provided
+  const rawLocation = query.location || "Seattle";
+  const location = sanitizeOverpassInput(rawLocation);
+
+  // Reject obviously invalid locations that survived sanitization
+  if (location.length < 2 || location.length > 80) {
+    console.warn("[MCP] Location input rejected by sanitizer:", rawLocation);
+    return MOCK_RESOURCES.filter(r => query.type ? r.type === query.type : true);
+  }
 
   const overpassQuery = `
     [out:json][timeout:5];
