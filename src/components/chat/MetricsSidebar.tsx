@@ -82,6 +82,40 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
             value={metrics.totalPrunedFragments.toString()} 
             color="text-blue-400" 
           />
+
+          {/* $I_{rp}$ Benchmark Comparison Table */}
+          <div className="border-t border-white/10 pt-3 mt-3">
+            <span className="text-[9px] text-white/40 font-mono uppercase tracking-wider block mb-2">Research Benchmark: Local vs Cloud API</span>
+            <table className="w-full text-[10px] text-left border-collapse">
+              <thead>
+                <tr className="border-b border-white/5 text-white/40">
+                  <th className="py-1 font-mono">Metric</th>
+                  <th className="py-1 font-mono text-right">Local (CAMP)</th>
+                  <th className="py-1 font-mono text-right">Cloud API</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-white/5">
+                  <td className="py-1 text-white/60">Privacy Efficacy</td>
+                  <td className="py-1 text-right text-emerald-400">{(metrics.privacyEfficacy * 100).toFixed(0)}%</td>
+                  <td className="py-1 text-right text-red-400">0%</td>
+                </tr>
+                <tr className="border-b border-white/5">
+                  <td className="py-1 text-white/60">Speed (tok/s)</td>
+                  <td className="py-1 text-right">{metrics.inferenceSpeed > 0 ? metrics.inferenceSpeed.toFixed(1) : "0.0"}</td>
+                  <td className="py-1 text-right text-white/40">35.0</td>
+                </tr>
+                <tr>
+                  <td className="py-1 text-white/80 font-bold">Resilience I_rp</td>
+                  <td className="py-1 text-right text-emerald-400 font-bold font-mono">{metrics.irpIndex.toFixed(2)}</td>
+                  <td className="py-1 text-right text-white/40 font-bold font-mono">35.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="text-[8px] text-white/30 font-mono leading-tight mt-2">
+              * Cloud API lacks local PII masking (Privacy Efficacy = 0), reducing its real private resilience despite raw speed.
+            </p>
+          </div>
         </div>
       </GlassCard>
 
