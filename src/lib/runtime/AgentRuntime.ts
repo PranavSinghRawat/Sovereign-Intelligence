@@ -54,24 +54,34 @@ export class AgentRuntime {
     const rawUserMessage = [...messages].reverse().find(m => m.role === "user");
     if (rawUserMessage && typeof rawUserMessage.content === "string") {
       const normalizedContent = rawUserMessage.content.toLowerCase();
-      if (
-        normalizedContent.includes("diagnose") || 
-        normalizedContent.includes("prescribe") || 
-        normalizedContent.includes("heart attack") || 
-        normalizedContent.includes("chest pain") || 
-        (normalizedContent.includes("medical") && (normalizedContent.includes("advice") || normalizedContent.includes("treatment")))
-      ) {
-        const safetyMessage = "I am a local AI routing assistant. To protect your safety, I am strictly forbidden from providing medical diagnoses, treatments, or prescribing medications. Please seek professional medical attention immediately.";
-        if (onStream) onStream(safetyMessage);
-        return {
-          text: safetyMessage,
-          camp: {
-            processedText: rawUserMessage.content,
-            cpeScore: 0,
-            pruned: false,
-            fragmentsDetected: []
-          }
-        };
+
+      // Context-aware exclusion: Do not trigger for pet, historical, or hypothetical queries
+      const exclusionTerms = ["cat", "dog", "pet", "animal", "history", "article", "book", "movie", "story", "game", "character"];
+      const hasExclusion = exclusionTerms.some(term => normalizedContent.includes(term));
+
+      if (!hasExclusion) {
+        // Human-self-referencing medical signal detection
+        const selfReferenceTerms = ["i have", "i'm having", "i feel", "my ", "am i", "should i take", "give me", "help me with"];
+        const hasSelfReference = selfReferenceTerms.some(term => normalizedContent.includes(term));
+
+        const medicalTriggers = ["diagnose", "prescribe", "heart attack", "chest pain", "medication for", "dosage", "symptoms of"];
+        const hasMedicalTrigger = medicalTriggers.some(term => normalizedContent.includes(term));
+
+        const compositeCheck = normalizedContent.includes("medical") && (normalizedContent.includes("advice") || normalizedContent.includes("treatment"));
+
+        if (hasMedicalTrigger && hasSelfReference || compositeCheck) {
+          const safetyMessage = "I am a local AI routing assistant. To protect your safety, I am strictly forbidden from providing medical diagnoses, treatments, or prescribing medications. Please seek professional medical attention immediately.";
+          if (onStream) onStream(safetyMessage);
+          return {
+            text: safetyMessage,
+            camp: {
+              processedText: rawUserMessage.content,
+              cpeScore: 0,
+              pruned: false,
+              fragmentsDetected: []
+            }
+          };
+        }
       }
     }
 
