@@ -43,6 +43,13 @@ export class SqliteDatabase {
           UNIQUE(type, value)
         );
       `);
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS api_cache (
+          cache_key TEXT PRIMARY KEY,
+          response_json TEXT NOT NULL,
+          created_at INTEGER NOT NULL
+        );
+      `);
     } catch (err) {
       console.error("[SQLite] Failed to initialize database:", err);
     }

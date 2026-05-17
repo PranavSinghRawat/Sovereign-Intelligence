@@ -23,6 +23,8 @@ const MOCK_RESOURCES: CommunityResource[] = [
 /**
  * Tool Implementation: search_community_resources (Live Enterprise Data)
  */
+import { db } from "../store/sqlite-db";
+
 /**
  * Sanitizes input strings to prevent Overpass QL injection attacks.
  * Only allows alphanumeric characters, spaces, hyphens, periods, and commas.
@@ -30,6 +32,48 @@ const MOCK_RESOURCES: CommunityResource[] = [
 const sanitizeOverpassInput = (input: string): string => {
   return input.replace(/[^a-zA-Z0-9\s\-.,]/g, "").trim().slice(0, 100);
 };
+
+/** TTL for API response cache: 1 hour in milliseconds */
+const CACHE_TTL_MS = 60 * 60 * 1000;
+
+/**
+ * Checks the SQLite cache for a valid (non-expired) API response.
+ */
+async function getCachedResponse(cacheKey: string): Promise<CommunityResource[] | null> {
+  try {
+    const rows = await db.exec(
+      "SELECT response_json, created_at FROM api_cache WHERE cache_key = ?",
+      [cacheKey]
+    );
+    const results = rows as unknown as [string, number][];
+    if (results.length > 0) {
+      const [responseJson, createdAt] = results[0];
+      if (Date.now() - createdAt < CACHE_TTL_MS) {
+        console.log("[MCP] Serving from SQLite cache (TTL valid):", cacheKey);
+        return JSON.parse(responseJson);
+      }
+      // Cache expired — delete stale entry
+      await db.exec("DELETE FROM api_cache WHERE cache_key = ?", [cacheKey]);
+    }
+  } catch {
+    // Cache miss or DB not ready — proceed to live fetch
+  }
+  return null;
+}
+
+/**
+ * Stores an API response in the SQLite cache.
+ */
+async function setCachedResponse(cacheKey: string, data: CommunityResource[]): Promise<void> {
+  try {
+    await db.exec(
+      "INSERT OR REPLACE INTO api_cache (cache_key, response_json, created_at) VALUES (?, ?, ?)",
+      [cacheKey, JSON.stringify(data), Date.now()]
+    );
+  } catch {
+    // Silently fail — caching is best-effort
+  }
+}
 
 export const searchCommunityResources = async (query: { type?: string; location?: string }) => {
   console.log(`[MCP] Executing live search_community_resources with:`, query);
@@ -49,6 +93,11 @@ export const searchCommunityResources = async (query: { type?: string; location?
     console.warn("[MCP] Location input rejected by sanitizer:", rawLocation);
     return MOCK_RESOURCES.filter(r => query.type ? r.type === query.type : true);
   }
+
+  // Check SQLite cache before making a live API call
+  const cacheKey = `overpass:${query.type || "all"}:${location.toLowerCase()}`;
+  const cached = await getCachedResponse(cacheKey);
+  if (cached) return cached;
 
   const overpassQuery = `
     [out:json][timeout:5];
@@ -72,7 +121,7 @@ export const searchCommunityResources = async (query: { type?: string; location?
     if (!data.elements || data.elements.length === 0) throw new Error("No results");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return data.elements.map((el: Record<string, any>) => ({
+    const results = data.elements.map((el: Record<string, any>) => ({
       id: el.id?.toString() || Math.random().toString(),
       name: el.tags?.name || "Community Resource",
       type: query.type || "unknown",
@@ -80,6 +129,11 @@ export const searchCommunityResources = async (query: { type?: string; location?
       availability: el.tags?.opening_hours || "Contact directly for hours",
       distance: "Live Data"
     }));
+
+    // Store in cache for future requests
+    await setCachedResponse(cacheKey, results);
+
+    return results;
   } catch {
     console.warn("[MCP] Live API fallback to cached registry due to network/limits.");
     // Enterprise Fallback
