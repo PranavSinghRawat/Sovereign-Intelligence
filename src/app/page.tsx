@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Bot, Shield, Zap, Database, Activity, Cpu } from "lucide-react";
 import { sovereignRuntime } from "@/lib/runtime/AgentRuntime";
+import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { metricsCapture, SystemMetrics } from "@/lib/metrics/MetricsCapture";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PrivacyFirewall } from "@/components/agent/PrivacyFirewall";
@@ -11,7 +12,7 @@ import { CAMPResult } from "@/lib/middleware/CAMP";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const [isInitializing, setIsInitializing] = useState(true);
   const [isThinking, setIsThinking] = useState(false);
   const [initProgress, setInitProgress] = useState("Waking up local engine...");
@@ -49,7 +50,7 @@ export default function Home() {
   const handleSend = async () => {
     if (!input.trim() || isThinking) return;
 
-    const userMessage = { role: "user", content: input };
+    const userMessage: ChatCompletionMessageParam = { role: "user", content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsThinking(true);
@@ -65,9 +66,9 @@ export default function Home() {
           setMessages(prev => {
             const last = prev[prev.length - 1];
             if (last && last.role === "assistant") {
-              return [...prev.slice(0, -1), { role: "assistant", content: streamingText }];
+              return [...prev.slice(0, -1), { role: "assistant", content: streamingText } as ChatCompletionMessageParam];
             }
-            return [...prev, { role: "assistant", content: streamingText }];
+            return [...prev, { role: "assistant", content: streamingText } as ChatCompletionMessageParam];
           });
         },
         (toolName) => {
@@ -194,7 +195,9 @@ export default function Home() {
                       ? "bg-primary text-white ml-12 rounded-tr-none" 
                       : "glass mr-12 rounded-tl-none border-white/10"
                   }`}>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                      {typeof m.content === "string" ? m.content : JSON.stringify(m.content)}
+                    </p>
                   </div>
                 </motion.div>
               ))}
