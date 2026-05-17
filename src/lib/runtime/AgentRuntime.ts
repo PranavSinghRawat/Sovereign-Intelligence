@@ -15,7 +15,8 @@ export class AgentRuntime {
   
   // Phase 7: Industrial Scale - Switched from 2.5GB Phi-4-mini to ~800MB Llama-3.2-1B for PWA distribution
   private readonly PRIMARY_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
-  private readonly FALLBACK_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
+  // Genuine lightweight fallback for devices where 1B parameter model fails to load
+  private readonly FALLBACK_MODEL = "SmolLM2-135M-Instruct-q0f16-MLC";
 
   async initialize(onProgress?: (progress: InitProgressReport) => void): Promise<void> {
     if (this.engine) return;
