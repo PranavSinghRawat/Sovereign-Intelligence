@@ -49,6 +49,31 @@ export class AgentRuntime {
     onStream?: (text: string) => void,
     onToolStart?: (toolName: string) => void
   ): Promise<{ text: string, camp: CAMPResult }> {
+    // A. Deterministic Hybrid Guardrail Pre-Processor (Instant protection without engine dependency)
+    const rawUserMessage = [...messages].reverse().find(m => m.role === "user");
+    if (rawUserMessage && typeof rawUserMessage.content === "string") {
+      const normalizedContent = rawUserMessage.content.toLowerCase();
+      if (
+        normalizedContent.includes("diagnose") || 
+        normalizedContent.includes("prescribe") || 
+        normalizedContent.includes("heart attack") || 
+        normalizedContent.includes("chest pain") || 
+        (normalizedContent.includes("medical") && (normalizedContent.includes("advice") || normalizedContent.includes("treatment")))
+      ) {
+        const safetyMessage = "I am a local AI routing assistant. To protect your safety, I am strictly forbidden from providing medical diagnoses, treatments, or prescribing medications. Please seek professional medical attention immediately.";
+        if (onStream) onStream(safetyMessage);
+        return {
+          text: safetyMessage,
+          camp: {
+            processedText: rawUserMessage.content,
+            cpeScore: 0,
+            pruned: false,
+            fragmentsDetected: []
+          }
+        };
+      }
+    }
+
     if (!this.engine) {
       throw new Error("AgentRuntime not initialized.");
     }
