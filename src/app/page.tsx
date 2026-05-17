@@ -20,7 +20,18 @@ export default function Home() {
     lastCamp,
     toolExecuting,
     metrics,
-    handleSend
+    handleSend,
+    // P2P State
+    p2pStatus,
+    offerCode,
+    answerCode,
+    peerCodeInput,
+    setPeerCodeInput,
+    // P2P Handlers
+    handleGenerateOffer,
+    handleAcceptOffer,
+    handleCompleteConnection,
+    handleSendP2PData
   } = useSovereignAgent();
   
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -63,6 +74,15 @@ export default function Home() {
         metrics={metrics} 
         lastCamp={lastCamp} 
         toolExecuting={toolExecuting} 
+        p2pStatus={p2pStatus}
+        offerCode={offerCode}
+        answerCode={answerCode}
+        peerCodeInput={peerCodeInput}
+        setPeerCodeInput={setPeerCodeInput}
+        handleGenerateOffer={handleGenerateOffer}
+        handleAcceptOffer={handleAcceptOffer}
+        handleCompleteConnection={handleCompleteConnection}
+        handleSendP2PData={handleSendP2PData}
       />
 
       <section className="flex-1 flex flex-col gap-4">
@@ -70,7 +90,7 @@ export default function Home() {
           <header className="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-sm font-medium">Local Engine: Phi-4-mini (WebGPU)</span>
+              <span className="text-sm font-medium">Local Engine: Llama-3.2-1B (WebGPU)</span>
             </div>
             <div className="flex gap-4">
               <span className="text-[10px] opacity-40 uppercase tracking-tighter">Encrypted</span>

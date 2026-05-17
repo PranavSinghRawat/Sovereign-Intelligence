@@ -9,11 +9,20 @@ export class WebRTCNode {
   private peerConnection: RTCPeerConnection;
   private dataChannel: RTCDataChannel | null = null;
   private onMessageCallback: ((data: unknown) => void) | null = null;
+  private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
 
   constructor() {
     this.peerConnection = new RTCPeerConnection({
       iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
     });
+
+    // Listen for connection status changes
+    this.peerConnection.onconnectionstatechange = () => {
+      console.log("[WebRTC] Connection State:", this.peerConnection.connectionState);
+      if (this.onStatusChangeCallback) {
+        this.onStatusChangeCallback(this.peerConnection.connectionState);
+      }
+    };
 
     // Listen for incoming data channels (if we are the Answerer)
     this.peerConnection.ondatachannel = (event) => {
@@ -93,6 +102,10 @@ export class WebRTCNode {
 
   onReceiveData(callback: (data: unknown) => void) {
     this.onMessageCallback = callback;
+  }
+
+  onStatusChange(callback: (status: RTCPeerConnectionState) => void) {
+    this.onStatusChangeCallback = callback;
   }
 
   private setupDataChannel() {
