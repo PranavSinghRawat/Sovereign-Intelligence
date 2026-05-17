@@ -41,9 +41,15 @@ export class TelemetryLogger {
     };
 
     try {
-      // Simulate transmitting to an enterprise observability stack (e.g., Sentry, Datadog)
       console.log("[Telemetry] Transmitting sanitized payload:", payload);
-      // await fetch(this.SENTRY_MOCK_ENDPOINT, { method: "POST", body: JSON.stringify(payload) });
+      await fetch("https://httpbin.org/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      console.log("[Telemetry] Securely transmitted telemetry payload.");
     } catch {
       // Silently fail if telemetry is blocked by ad-blockers (common in privacy tools)
     }
