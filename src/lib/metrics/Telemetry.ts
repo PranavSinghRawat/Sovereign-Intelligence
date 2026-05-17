@@ -7,7 +7,7 @@
 
 export class TelemetryLogger {
   private hasOptedIn: boolean = false;
-  private readonly SENTRY_MOCK_ENDPOINT = "https://sentry.io/api/mock/store/";
+  private readonly TELEMETRY_ENDPOINT = "https://httpbin.org/post";
 
   setOptIn(status: boolean) {
     this.hasOptedIn = status;
@@ -42,7 +42,7 @@ export class TelemetryLogger {
 
     try {
       console.log("[Telemetry] Transmitting sanitized payload:", payload);
-      await fetch("https://httpbin.org/post", {
+      await fetch(this.TELEMETRY_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
