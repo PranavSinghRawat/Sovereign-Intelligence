@@ -6,12 +6,19 @@
  */
 
 export class WebRTCNode {
-  private peerConnection: RTCPeerConnection;
+  private peerConnection!: RTCPeerConnection;
   private dataChannel: RTCDataChannel | null = null;
   private onMessageCallback: ((data: unknown) => void) | null = null;
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
 
   constructor() {
+    this.initPeerConnection();
+  }
+
+  /**
+   * Creates a fresh RTCPeerConnection. Called on construction and on reset().
+   */
+  private initPeerConnection() {
     this.peerConnection = new RTCPeerConnection({
       iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
     });
@@ -29,6 +36,25 @@ export class WebRTCNode {
       this.dataChannel = event.channel;
       this.setupDataChannel();
     };
+  }
+
+  /**
+   * Tears down the current connection and creates a fresh one.
+   * Allows reconnecting to a different peer without reloading the page.
+   */
+  reset() {
+    try {
+      if (this.dataChannel) this.dataChannel.close();
+      this.peerConnection.close();
+    } catch {
+      // Silently handle already-closed connections
+    }
+    this.dataChannel = null;
+    this.initPeerConnection();
+    console.log("[WebRTC] Connection reset. Ready for new peer.");
+    if (this.onStatusChangeCallback) {
+      this.onStatusChangeCallback("new");
+    }
   }
 
   /**
