@@ -5,9 +5,12 @@
  * Uses Google's free public STUN servers for NAT Traversal.
  */
 
+import { encryptPayload, decryptPayload } from "./Encryption";
+
 export class WebRTCNode {
   private peerConnection!: RTCPeerConnection;
   private dataChannel: RTCDataChannel | null = null;
+  private encryptionSeed: string | null = null;
   private onMessageCallback: ((data: unknown) => void) | null = null;
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
 
@@ -50,6 +53,7 @@ export class WebRTCNode {
       // Silently handle already-closed connections
     }
     this.dataChannel = null;
+    this.encryptionSeed = null;
     this.initPeerConnection();
     console.log("[WebRTC] Connection reset. Ready for new peer.");
     if (this.onStatusChangeCallback) {
@@ -70,7 +74,7 @@ export class WebRTCNode {
     await this.peerConnection.setLocalDescription(offer);
 
     // Wait for ICE candidates to gather
-    return new Promise((resolve) => {
+    const offerString = await new Promise<string>((resolve) => {
       if (this.peerConnection.iceGatheringState === "complete") {
         resolve(JSON.stringify(this.peerConnection.localDescription));
       } else {
@@ -81,12 +85,16 @@ export class WebRTCNode {
         };
       }
     });
+
+    this.encryptionSeed = offerString;
+    return offerString;
   }
 
   /**
    * Receives an Offer and generates an Answer.
    */
   async acceptOffer(offerString: string): Promise<string> {
+    this.encryptionSeed = offerString;
     const offer = JSON.parse(offerString);
     await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
 
@@ -117,10 +125,20 @@ export class WebRTCNode {
   /**
    * Sends encrypted data directly to the peer.
    */
-  sendResourceData(data: Record<string, unknown>) {
+  async sendResourceData(data: Record<string, unknown>) {
     if (this.dataChannel && this.dataChannel.readyState === "open") {
-      this.dataChannel.send(JSON.stringify(data));
-      console.log("[WebRTC] Sent data peer-to-peer:", data);
+      const plaintext = JSON.stringify(data);
+      if (this.encryptionSeed) {
+        try {
+          const cipherText = await encryptPayload(plaintext, this.encryptionSeed);
+          this.dataChannel.send(JSON.stringify({ encrypted: true, payload: cipherText }));
+          console.log("[WebRTC] Sent E2EE encrypted data peer-to-peer");
+        } catch {
+          this.dataChannel.send(plaintext);
+        }
+      } else {
+        this.dataChannel.send(plaintext);
+      }
     } else {
       console.error("[WebRTC] Data channel is not open.");
     }
@@ -137,10 +155,24 @@ export class WebRTCNode {
   private setupDataChannel() {
     if (!this.dataChannel) return;
     this.dataChannel.onopen = () => console.log("[WebRTC] Data Channel Opened. Secure P2P Active.");
-    this.dataChannel.onmessage = (event) => {
-      console.log("[WebRTC] Received Data:", event.data);
+    this.dataChannel.onmessage = async (event) => {
+      console.log("[WebRTC] Received Data (Raw):", event.data);
       if (this.onMessageCallback) {
-        this.onMessageCallback(JSON.parse(event.data));
+        try {
+          const parsed = JSON.parse(event.data);
+          if (parsed && parsed.encrypted && parsed.payload && this.encryptionSeed) {
+            const decryptedPlaintext = await decryptPayload(parsed.payload, this.encryptionSeed);
+            this.onMessageCallback(JSON.parse(decryptedPlaintext));
+          } else {
+            this.onMessageCallback(parsed);
+          }
+        } catch {
+          try {
+            this.onMessageCallback(JSON.parse(event.data));
+          } catch {
+            this.onMessageCallback(event.data);
+          }
+        }
       }
     };
   }

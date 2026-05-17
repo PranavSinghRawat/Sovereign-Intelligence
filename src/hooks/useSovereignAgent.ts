@@ -127,8 +127,8 @@ export function useSovereignAgent() {
     }
   };
 
-  const handleSendP2PData = (text: string) => {
-    p2pNode.sendResourceData({ text });
+  const handleSendP2PData = async (text: string) => {
+    await p2pNode.sendResourceData({ text });
     setMessages(prev => [...prev, { role: "user", content: `[P2P Sent]: ${text}` } as ChatCompletionMessageParam]);
   };
 
