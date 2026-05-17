@@ -13,6 +13,7 @@ export function useSovereignAgent() {
   const [initProgress, setInitProgress] = useState("Waking up local engine...");
   const [lastCamp, setLastCamp] = useState<CAMPResult | null>(null);
   const [toolExecuting, setToolExecuting] = useState<string | null>(null);
+  const [thinkingStep, setThinkingStep] = useState<string | null>(null);
   const [metrics, setMetrics] = useState<SystemMetrics>(metricsCapture.getMetrics());
 
   // WebRTC P2P manual signaling state
@@ -64,12 +65,14 @@ export function useSovereignAgent() {
     setInput("");
     setIsThinking(true);
     setToolExecuting(null);
+    setThinkingStep("Evaluating Safety Intercepts...");
 
     try {
       let streamingText = "";
       const result = await sovereignRuntime.generateResponse(
         [...messages, userMessage],
         (chunk) => {
+          setThinkingStep(null); // Clear progress text once actual token stream starts
           streamingText += chunk;
           setMessages(prev => {
             const last = prev[prev.length - 1];
@@ -81,6 +84,9 @@ export function useSovereignAgent() {
         },
         (toolName) => {
           setToolExecuting(toolName);
+        },
+        (step) => {
+          setThinkingStep(step);
         }
       );
 
@@ -91,6 +97,7 @@ export function useSovereignAgent() {
     } finally {
       setIsThinking(false);
       setToolExecuting(null);
+      setThinkingStep(null);
     }
   };
 
@@ -134,6 +141,7 @@ export function useSovereignAgent() {
     initProgress,
     lastCamp,
     toolExecuting,
+    thinkingStep,
     metrics,
     handleSend,
     // P2P State

@@ -48,8 +48,10 @@ export class AgentRuntime {
   async generateResponse(
     messages: ChatCompletionMessageParam[], 
     onStream?: (text: string) => void,
-    onToolStart?: (toolName: string) => void
+    onToolStart?: (toolName: string) => void,
+    onStepChange?: (step: string) => void
   ): Promise<{ text: string, camp: CAMPResult }> {
+    if (onStepChange) onStepChange("Evaluating safety guardrails...");
     // A. Deterministic Hybrid Guardrail Pre-Processor (Instant protection without engine dependency)
     const rawUserMessage = [...messages].reverse().find(m => m.role === "user");
     if (rawUserMessage && typeof rawUserMessage.content === "string") {
@@ -85,6 +87,7 @@ export class AgentRuntime {
       }
     }
 
+    if (onStepChange) onStepChange("Verifying Local GPU Engine Context...");
     if (!this.engine) {
       throw new Error("AgentRuntime not initialized.");
     }
@@ -99,51 +102,75 @@ export class AgentRuntime {
 
     try {
       // 2. Apply CAMP Privacy Moat to the latest user message
-    const lastUserMessage = [...guardedMessages].reverse().find(m => m.role === "user");
-    if (lastUserMessage && typeof lastUserMessage.content === "string") {
-      const campResult = await camp.process(lastUserMessage.content);
-      lastUserMessage.content = campResult.processedText;
-      this.lastCAMPResult = campResult;
-    }
-
-    // 3. Initial LLM Pass with MCP Tool Definitions
-    const response = await this.engine.chat.completions.create({
-      messages: guardedMessages,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tools: MCP_TOOLS as any[],
-      tool_choice: "auto",
-    });
-
-    const message = response.choices[0].message;
-
-    // 4. Handle Tool Calls
-    if (message.tool_calls && message.tool_calls.length > 0) {
-      const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
-      
-      for (const toolCall of message.tool_calls) {
-        const toolName = toolCall.function.name;
-        const toolArgs = JSON.parse(toolCall.function.arguments);
-        
-        if (onToolStart) onToolStart(toolName);
-        console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
-
-        let result;
-        if (toolName === "search_community_resources") {
-          result = await searchCommunityResources(toolArgs);
-        } else if (toolName === "get_resource_availability") {
-          result = await getResourceAvailability(toolArgs.id);
-        }
-
-        toolMessages.push({
-          role: "tool",
-          content: JSON.stringify(result),
-          tool_call_id: toolCall.id,
-        } as ChatCompletionMessageParam);
+      if (onStepChange) onStepChange("Activating CAMP Privacy Firewall: Redacting local PII...");
+      const lastUserMessage = [...guardedMessages].reverse().find(m => m.role === "user");
+      if (lastUserMessage && typeof lastUserMessage.content === "string") {
+        const campResult = await camp.process(lastUserMessage.content);
+        lastUserMessage.content = campResult.processedText;
+        this.lastCAMPResult = campResult;
       }
 
+      // 3. Initial LLM Pass with MCP Tool Definitions
+      if (onStepChange) onStepChange("Analyzing user intent with Llama-3.2-1B on WebGPU...");
+      const response = await this.engine.chat.completions.create({
+        messages: guardedMessages,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tools: MCP_TOOLS as any[],
+        tool_choice: "auto",
+      });
+
+      const message = response.choices[0].message;
+
+      // 4. Handle Tool Calls
+      if (message.tool_calls && message.tool_calls.length > 0) {
+        const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
+        
+        for (const toolCall of message.tool_calls) {
+          const toolName = toolCall.function.name;
+          const toolArgs = JSON.parse(toolCall.function.arguments);
+          
+          if (onToolStart) onToolStart(toolName);
+          if (onStepChange) onStepChange(`Executing local MCP tool: ${toolName}...`);
+          console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
+
+          let result;
+          if (toolName === "search_community_resources") {
+            result = await searchCommunityResources(toolArgs);
+          } else if (toolName === "get_resource_availability") {
+            result = await getResourceAvailability(toolArgs.id);
+          }
+
+          toolMessages.push({
+            role: "tool",
+            content: JSON.stringify(result),
+            tool_call_id: toolCall.id,
+          } as ChatCompletionMessageParam);
+        }
+
+        const startTime = performance.now();
+        if (onStepChange) onStepChange("Synthesizing final response with tool content...");
+        const finalChunks = await this.engine.chat.completions.create({
+          messages: toolMessages,
+          stream: true,
+        });
+
+        let fullText = "";
+        for await (const chunk of finalChunks) {
+          const content = chunk.choices[0]?.delta?.content || "";
+          fullText += content;
+          if (onStream) onStream(content);
+        }
+        const endTime = performance.now();
+        metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
+
+        return { text: fullText, camp: this.lastCAMPResult! };
+      }
+
+      // Fallback if no tools called
       const startTime = performance.now();
+      if (onStepChange) onStepChange("Composing secure local-only response...");
       const finalChunks = await this.engine.chat.completions.create({
-        messages: toolMessages,
+        messages,
         stream: true,
       });
 
@@ -157,25 +184,6 @@ export class AgentRuntime {
       metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
 
       return { text: fullText, camp: this.lastCAMPResult! };
-    }
-
-    // Fallback if no tools called
-    const startTime = performance.now();
-    const finalChunks = await this.engine.chat.completions.create({
-      messages,
-      stream: true,
-    });
-
-    let fullText = "";
-    for await (const chunk of finalChunks) {
-      const content = chunk.choices[0]?.delta?.content || "";
-      fullText += content;
-      if (onStream) onStream(content);
-    }
-    const endTime = performance.now();
-    metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
-
-    return { text: fullText, camp: this.lastCAMPResult! };
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       telemetry.logError("Inference_Failure", errorMessage);

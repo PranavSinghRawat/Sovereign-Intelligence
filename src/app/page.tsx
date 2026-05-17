@@ -20,6 +20,7 @@ export default function Home() {
     initProgress,
     lastCamp,
     toolExecuting,
+    thinkingStep,
     metrics,
     handleSend,
     // P2P State
@@ -105,6 +106,7 @@ export default function Home() {
             <MessageList 
               messages={messages} 
               isThinking={isThinking} 
+              thinkingStep={thinkingStep}
               scrollRef={scrollRef} 
             />
 

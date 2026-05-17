@@ -8,10 +8,11 @@ import remarkGfm from "remark-gfm";
 interface MessageListProps {
   messages: ChatCompletionMessageParam[];
   isThinking: boolean;
+  thinkingStep?: string | null;
   scrollRef: RefObject<HTMLDivElement | null>;
 }
 
-export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, scrollRef }) => {
+export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, thinkingStep, scrollRef }) => {
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth">
       {messages.length === 0 && (
@@ -36,9 +37,9 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
             }`}>
               <div className="text-sm leading-relaxed whitespace-pre-wrap prose prose-invert max-w-none">
                 {typeof m.content === "string" ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {m.content}
-                  </ReactMarkdown>
+                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                     {m.content}
+                   </ReactMarkdown>
                 ) : (
                   JSON.stringify(m.content)
                 )}
@@ -50,17 +51,30 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
 
       {isThinking && (
         <div className="flex justify-start">
-          <div className="glass p-4 rounded-2xl rounded-tl-none border-white/10">
-            <div className="flex gap-1">
-              {[0, 1, 2].map(d => (
-                <motion.div 
-                  key={d}
-                  animate={{ opacity: [0.2, 1, 0.2] }}
-                  transition={{ repeat: Infinity, duration: 1, delay: d * 0.2 }}
-                  className="w-2 h-2 rounded-full bg-primary"
-                />
-              ))}
+          <div className="glass p-4 rounded-2xl rounded-tl-none border-white/10 flex flex-col gap-2 min-w-[200px]">
+            <div className="flex items-center gap-2">
+              <div className="flex gap-1">
+                {[0, 1, 2].map(d => (
+                  <motion.div 
+                    key={d}
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{ repeat: Infinity, duration: 1, delay: d * 0.2 }}
+                    className="w-1.5 h-1.5 rounded-full bg-primary"
+                  />
+                ))}
+              </div>
+              <span className="text-[10px] text-white/40 uppercase font-mono tracking-widest">Processing</span>
             </div>
+            {thinkingStep && (
+              <motion.span 
+                initial={{ opacity: 0, y: 3 }}
+                animate={{ opacity: 1, y: 0 }}
+                key={thinkingStep}
+                className="text-xs font-mono text-primary"
+              >
+                {thinkingStep}
+              </motion.span>
+            )}
           </div>
         </div>
       )}
