@@ -6,11 +6,24 @@
  */
 
 export class TelemetryLogger {
-  private hasOptedIn: boolean = false;
+  private hasOptedIn: boolean;
   private readonly TELEMETRY_ENDPOINT = "https://httpbin.org/post";
+  private readonly STORAGE_KEY = "sovereign_telemetry_opt_in";
+
+  constructor() {
+    // Restore persisted opt-in preference from localStorage
+    if (typeof window !== "undefined") {
+      this.hasOptedIn = localStorage.getItem(this.STORAGE_KEY) === "true";
+    } else {
+      this.hasOptedIn = false;
+    }
+  }
 
   setOptIn(status: boolean) {
     this.hasOptedIn = status;
+    if (typeof window !== "undefined") {
+      localStorage.setItem(this.STORAGE_KEY, String(status));
+    }
     if (status) {
       console.log("[Telemetry] User opted-in to anonymous diagnostics.");
     }
