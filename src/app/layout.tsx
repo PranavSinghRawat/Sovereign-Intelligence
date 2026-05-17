@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sovereign Intelligence Layer",
   description: "Private, Edge-Native Agentic Framework for Decentralized Community Resource Access",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

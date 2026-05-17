@@ -1,4 +1,4 @@
-import { CreateMLCEngine, MLCEngine, InitProgressReport, ModelRecord, ChatCompletionMessageParam } from "@mlc-ai/web-llm";
+import { CreateMLCEngine, MLCEngine, InitProgressReport, ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { camp, CAMPResult } from "../middleware/CAMP";
 import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
 import { metricsCapture } from "../metrics/MetricsCapture";
@@ -12,7 +12,8 @@ export class AgentRuntime {
   private engine: MLCEngine | null = null;
   private lastCAMPResult: CAMPResult | null = null;
   
-  private readonly PRIMARY_MODEL = "Phi-4-mini-instruct-q4f16_1-MLC";
+  // Phase 7: Industrial Scale - Switched from 2.5GB Phi-4-mini to ~800MB Llama-3.2-1B for PWA distribution
+  private readonly PRIMARY_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
   private readonly FALLBACK_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
 
   async initialize(onProgress?: (progress: InitProgressReport) => void): Promise<void> {
@@ -21,15 +22,6 @@ export class AgentRuntime {
     try {
       this.engine = await CreateMLCEngine(this.PRIMARY_MODEL, {
         initProgressCallback: onProgress,
-        appConfig: {
-          model_list: [
-            {
-              model: `https://huggingface.co/mlc-ai/${this.PRIMARY_MODEL}`,
-              model_id: this.PRIMARY_MODEL,
-              model_lib: `https://raw.githubusercontent.com/mlc-ai/binary-mlc-llm-libs/main/phi-4-mini/phi-4-mini-q4f16_1-v1.wasm`,
-            } as ModelRecord,
-          ],
-        },
       });
     } catch {
       await this.handleFallback(onProgress);
