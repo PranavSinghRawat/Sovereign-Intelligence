@@ -1,10 +1,11 @@
-import React from "react";
-import { Activity, Zap, Shield, Database } from "lucide-react";
+import React, { useState } from "react";
+import { Activity, Zap, Shield, Database, Radio } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PrivacyFirewall } from "@/components/agent/PrivacyFirewall";
 import { SystemMetrics } from "@/lib/metrics/MetricsCapture";
 import { CAMPResult } from "@/lib/middleware/CAMP";
+import { telemetry } from "@/lib/metrics/Telemetry";
 
 interface MetricsSidebarProps {
   metrics: SystemMetrics;
@@ -13,12 +14,22 @@ interface MetricsSidebarProps {
 }
 
 export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({ metrics, lastCamp, toolExecuting }) => {
+  const [optIn, setOptIn] = useState(telemetry.getOptInStatus());
+
+  const handleOptIn = () => {
+    const newStatus = !optIn;
+    setOptIn(newStatus);
+    telemetry.setOptIn(newStatus);
+  };
+
   return (
     <aside className="w-80 flex flex-col gap-4 overflow-y-auto pr-2">
       <GlassCard className="p-4" gradient>
-        <div className="flex items-center gap-2 mb-4">
-          <Activity className="w-4 h-4 text-primary" />
-          <h2 className="text-sm font-bold uppercase tracking-widest">Research Metrics</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-bold uppercase tracking-widest">Research Metrics</h2>
+          </div>
         </div>
         <div className="space-y-4">
           <MetricItem 
@@ -54,6 +65,20 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({ metrics, lastCam
           </GlassCard>
         </motion.div>
       )}
+
+      {/* Telemetry Opt-In */}
+      <div className="mt-auto pt-4 flex items-center justify-between text-xs border-t border-white/5">
+        <div className="flex items-center gap-2 text-white/60">
+          <Radio className="w-3 h-3" />
+          <span>Anonymous Diagnostics</span>
+        </div>
+        <button 
+          onClick={handleOptIn}
+          className={`w-8 h-4 rounded-full transition-colors relative ${optIn ? 'bg-primary' : 'bg-white/10'}`}
+        >
+          <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${optIn ? 'translate-x-4' : 'translate-x-1'}`} />
+        </button>
+      </div>
     </aside>
   );
 };

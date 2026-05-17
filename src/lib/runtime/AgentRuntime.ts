@@ -2,6 +2,7 @@ import { CreateMLCEngine, MLCEngine, InitProgressReport, ChatCompletionMessagePa
 import { camp, CAMPResult } from "../middleware/CAMP";
 import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
 import { metricsCapture } from "../metrics/MetricsCapture";
+import { telemetry } from "../metrics/Telemetry";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
@@ -33,7 +34,9 @@ export class AgentRuntime {
       this.engine = await CreateMLCEngine(this.FALLBACK_MODEL, {
         initProgressCallback: onProgress
       });
-    } catch {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      telemetry.logError("WebGPU_Init_Failure", errorMessage);
       throw new Error("Local Inference Unavailable. Check WebGPU support.");
     }
   }
@@ -58,7 +61,8 @@ export class AgentRuntime {
     
     const guardedMessages = [systemGuardrail, ...messages];
 
-    // 2. Apply CAMP Privacy Moat to the latest user message
+    try {
+      // 2. Apply CAMP Privacy Moat to the latest user message
     const lastUserMessage = [...guardedMessages].reverse().find(m => m.role === "user");
     if (lastUserMessage && typeof lastUserMessage.content === "string") {
       const campResult = await camp.process(lastUserMessage.content);
@@ -136,6 +140,11 @@ export class AgentRuntime {
     metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
 
     return { text: fullText, camp: this.lastCAMPResult! };
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      telemetry.logError("Inference_Failure", errorMessage);
+      throw err;
+    }
   }
 
   async getMetrics() {
