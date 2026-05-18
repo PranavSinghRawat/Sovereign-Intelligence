@@ -15,7 +15,10 @@ export class WebRTCNode {
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
 
   constructor() {
-    this.initPeerConnection();
+    // Prevent SSR crashes during Next.js production builds
+    if (typeof window !== "undefined") {
+      this.initPeerConnection();
+    }
   }
 
   /**
