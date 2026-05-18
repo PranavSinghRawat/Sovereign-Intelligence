@@ -2,8 +2,12 @@ import React, { RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot } from "lucide-react";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import dynamic from "next/dynamic";
+
+const DynamicMarkdownRenderer = dynamic(
+  () => import("./MarkdownRenderer"),
+  { ssr: false, loading: () => <span className="opacity-50 text-xs tracking-widest uppercase">Rendering...</span> }
+);
 
 interface MessageListProps {
   messages: ChatCompletionMessageParam[];
@@ -37,9 +41,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
             }`}>
               <div className="text-sm leading-relaxed whitespace-pre-wrap prose prose-invert max-w-none">
                 {typeof m.content === "string" ? (
-                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                     {m.content}
-                   </ReactMarkdown>
+                   <DynamicMarkdownRenderer content={m.content} />
                 ) : (
                   JSON.stringify(m.content)
                 )}
