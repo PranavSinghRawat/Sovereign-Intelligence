@@ -35,6 +35,7 @@ export function useSovereignAgent() {
     return () => {
       isMounted = false;
       clearInterval(interval);
+      sovereignRuntime.destroy();
     };
   }, []);
 

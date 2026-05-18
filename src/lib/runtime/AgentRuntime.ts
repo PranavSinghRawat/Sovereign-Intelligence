@@ -43,6 +43,18 @@ export class AgentRuntime {
   }
 
   /**
+   * Gracefully unloads the WebLLM engine to free up GPU VRAM.
+   * Crucial for preventing memory leaks when the agent is unmounted.
+   */
+  async destroy(): Promise<void> {
+    if (this.engine) {
+      await this.engine.unload();
+      this.engine = null;
+      console.log("[WebGPU] Engine unloaded and VRAM freed.");
+    }
+  }
+
+  /**
    * Core generation method with CAMP Privacy and MCP Tool Execution.
    */
   async generateResponse(
