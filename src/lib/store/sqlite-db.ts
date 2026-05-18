@@ -18,9 +18,9 @@ export class SqliteDatabase {
     }
     return SqliteDatabase.instance;
   }
-
   private async init() {
-    if (typeof window === "undefined") return;
+    // Allow initialization in both browser window and Web Worker (importScripts exists in workers)
+    if (typeof window === "undefined" && typeof importScripts === "undefined") return;
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -117,7 +117,20 @@ export class AgentRuntime {
       if (onStepChange) onStepChange("Activating CAMP Privacy Firewall: Redacting local PII...");
       const lastUserMessage = [...guardedMessages].reverse().find(m => m.role === "user");
       if (lastUserMessage && typeof lastUserMessage.content === "string") {
-        const campResult = await camp.process(lastUserMessage.content);
+        let campResult: CAMPResult;
+        if (typeof window !== "undefined" && window.Worker) {
+          campResult = await new Promise((resolve, reject) => {
+            const worker = new Worker(new URL('../middleware/camp.worker.ts', import.meta.url));
+            worker.onmessage = (e) => {
+              if (e.data.success) resolve(e.data.result);
+              else reject(new Error(e.data.error));
+              worker.terminate();
+            };
+            worker.postMessage({ id: 1, context: lastUserMessage.content });
+          });
+        } else {
+          campResult = await camp.process(lastUserMessage.content);
+        }
         lastUserMessage.content = campResult.processedText;
         this.lastCAMPResult = campResult;
       }
