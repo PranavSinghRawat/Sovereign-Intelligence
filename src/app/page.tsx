@@ -6,6 +6,7 @@ import { Cpu } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { useSovereignAgent } from "@/hooks/useSovereignAgent";
+import { useWebRTC } from "@/hooks/useWebRTC";
 import { MetricsSidebar } from "@/components/chat/MetricsSidebar";
 import { MessageList } from "@/components/chat/MessageList";
 import { ChatInput } from "@/components/chat/ChatInput";
@@ -23,18 +24,20 @@ export default function Home() {
     thinkingStep,
     metrics,
     handleSend,
-    // P2P State
+    addExternalMessage
+  } = useSovereignAgent();
+
+  const {
     p2pStatus,
     offerCode,
     answerCode,
     peerCodeInput,
     setPeerCodeInput,
-    // P2P Handlers
     handleGenerateOffer,
     handleAcceptOffer,
     handleCompleteConnection,
     handleSendP2PData
-  } = useSovereignAgent();
+  } = useWebRTC(addExternalMessage);
   
   const scrollRef = useRef<HTMLDivElement>(null);
 

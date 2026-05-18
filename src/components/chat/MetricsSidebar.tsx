@@ -55,7 +55,7 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   };
 
   return (
-    <aside className="w-80 flex flex-col gap-4 overflow-y-auto pr-2">
+    <aside className="w-80 flex flex-col gap-4 overflow-y-auto pr-2" role="complementary" aria-label="System Metrics and Settings">
       <GlassCard className="p-4" gradient>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">

@@ -22,9 +22,19 @@ export class WebRTCNode {
    * Creates a fresh RTCPeerConnection. Called on construction and on reset().
    */
   private initPeerConnection() {
-    this.peerConnection = new RTCPeerConnection({
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
-    });
+    const stunServer = process.env.NEXT_PUBLIC_STUN_SERVER || "stun:stun.l.google.com:19302";
+    const iceServers: RTCIceServer[] = [{ urls: stunServer }];
+
+    const turnServer = process.env.NEXT_PUBLIC_TURN_SERVER;
+    if (turnServer) {
+      iceServers.push({
+        urls: turnServer,
+        username: process.env.NEXT_PUBLIC_TURN_USERNAME || "",
+        credential: process.env.NEXT_PUBLIC_TURN_PASSWORD || "",
+      });
+    }
+
+    this.peerConnection = new RTCPeerConnection({ iceServers });
 
     // Listen for connection status changes
     this.peerConnection.onconnectionstatechange = () => {

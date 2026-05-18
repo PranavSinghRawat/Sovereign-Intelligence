@@ -50,10 +50,10 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
       </AnimatePresence>
 
       {isThinking && (
-        <div className="flex justify-start">
+        <div className="flex justify-start" aria-live="polite" aria-atomic="true">
           <div className="glass p-4 rounded-2xl rounded-tl-none border-white/10 flex flex-col gap-2 min-w-[200px]">
             <div className="flex items-center gap-2">
-              <div className="flex gap-1">
+              <div className="flex gap-1" aria-hidden="true">
                 {[0, 1, 2].map(d => (
                   <motion.div 
                     key={d}
