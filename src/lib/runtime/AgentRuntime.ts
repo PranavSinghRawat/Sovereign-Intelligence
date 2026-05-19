@@ -1,6 +1,6 @@
 import { CreateMLCEngine, MLCEngine, InitProgressReport, ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { camp, CAMPResult } from "../middleware/CAMP";
-import { MCP_TOOLS, searchCommunityResources, getResourceAvailability } from "../mcp/ResourceTools";
+import { searchCommunityResources } from "../mcp/ResourceTools";
 import { metricsCapture } from "../metrics/MetricsCapture";
 import { telemetry } from "../metrics/Telemetry";
 
@@ -104,13 +104,18 @@ export class AgentRuntime {
       throw new Error("AgentRuntime not initialized.");
     }
 
-    // 1. Enterprise Deterministic Guardrails (Simplified for 1B Model constraints)
-    const systemGuardrail: ChatCompletionMessageParam = {
-      role: "system",
-      content: "You are the Sovereign Intelligence Layer, a helpful routing assistant for local community resources (food banks, medical clinics, financial aid). Use the retrieved resources to answer the user. Be concise, direct, and friendly. Do not invent details."
-    };
+    // 1. Hardened System Guardrail (Scoped to ONLY community resources)
+    const SYSTEM_PROMPT = `You are the Sovereign Intelligence Layer, a community resource routing assistant.
+
+SCOPE: You can ONLY help find food banks, medical clinics, and financial aid services.
+RULES:
+- ONLY use the data provided in the VERIFIED RESOURCES section below.
+- Copy the Name, Location, Availability, and Distance exactly as shown. Do NOT add street addresses, phone numbers, websites, or any details not listed.
+- If no VERIFIED RESOURCES are provided, say: "I can only help with finding community resources like food banks, medical clinics, and financial aid. Please ask me about those."
+- If the user asks about weather, news, coding, math, general knowledge, or anything outside community resources, say: "I can only help with finding community resources like food banks, medical clinics, and financial aid. Try asking me something like: Where can I find food banks near Seattle?"
+- Never invent or fabricate information.`;
     
-    const guardedMessages = [systemGuardrail, ...messages];
+    const guardedMessages: ChatCompletionMessageParam[] = [{ role: "system", content: SYSTEM_PROMPT }, ...messages];
 
     try {
       // 2. Apply CAMP Privacy Moat to the latest user message
@@ -135,151 +140,93 @@ export class AgentRuntime {
         this.lastCAMPResult = campResult;
       }
 
-      // 3. Initial LLM Pass with MCP Tool Definitions
-      let response = null;
-      let useNativeTools = true;
+      // 3. Classify user intent with deterministic keyword matching
+      //    (Do NOT rely on the 1B model to classify — it will hallucinate)
+      const lastUserMsg = [...messages].reverse().find(m => m.role === "user");
+      let matchedType: "medical" | "food" | "financial" | null = null;
+      let matchedLocation = "Seattle";
+      let isGreeting = false;
 
-      try {
-        if (onStepChange) onStepChange("Analyzing user intent with Llama-3.2-1B on WebGPU...");
-        response = await this.engine.chat.completions.create({
-          messages: guardedMessages,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tools: MCP_TOOLS as any[],
-          tool_choice: "auto",
-        });
-      } catch (err: any) {
-        const errorMsg = err instanceof Error ? err.message : String(err);
-        if (
-          errorMsg.includes("UnsupportedModelIdError") || 
-          errorMsg.includes("tools") || 
-          errorMsg.includes("tool")
-        ) {
-          console.log("[AgentRuntime] Model does not support native tools. Falling back to pre-grounding RAG pipeline...");
-          useNativeTools = false;
-        } else {
-          throw err;
+      if (lastUserMsg && typeof lastUserMsg.content === "string") {
+        const normalized = lastUserMsg.content.toLowerCase().trim();
+
+        // Detect simple greetings
+        const greetingPatterns = ["hello", "hi", "hey", "who are you", "what are you", "what can you do", "help"];
+        isGreeting = greetingPatterns.some(g => normalized.startsWith(g) || normalized === g);
+
+        // Detect resource type
+        if (normalized.includes("medical") || normalized.includes("clinic") || normalized.includes("doctor") || normalized.includes("health") || normalized.includes("hospital")) {
+          matchedType = "medical";
+        } else if (normalized.includes("food") || normalized.includes("bread") || normalized.includes("bank") || normalized.includes("pantry") || normalized.includes("meal") || normalized.includes("hunger") || normalized.includes("hungry")) {
+          matchedType = "food";
+        } else if (normalized.includes("financial") || normalized.includes("fund") || normalized.includes("money") || normalized.includes("aid") || normalized.includes("rent") || normalized.includes("bill")) {
+          matchedType = "financial";
+        }
+
+        // Extract location
+        const locationPatterns = [
+          /(?:in|near|around|at)\s+([a-zA-Z][a-zA-Z\s]{1,30}?)(?:\.|,|\?|!|$)/i,
+        ];
+        for (const pat of locationPatterns) {
+          const match = normalized.match(pat);
+          if (match && match[1]) {
+            matchedLocation = match[1].trim();
+            break;
+          }
         }
       }
 
-      // 4. Fallback if native tools are not supported
-      if (!useNativeTools) {
-        const lastUserMsg = [...guardedMessages].reverse().find(m => m.role === "user");
-        let matchedType: "medical" | "food" | "financial" | null = null;
-        let matchedLocation = "Seattle"; // Default fallback
-
-        if (lastUserMsg && typeof lastUserMsg.content === "string") {
-          const normalized = lastUserMsg.content.toLowerCase();
-          if (normalized.includes("medical") || normalized.includes("clinic") || normalized.includes("doctor") || normalized.includes("health") || normalized.includes("hospital")) {
-            matchedType = "medical";
-          } else if (normalized.includes("food") || normalized.includes("bread") || normalized.includes("bank") || normalized.includes("pantry") || normalized.includes("meal")) {
-            matchedType = "food";
-          } else if (normalized.includes("financial") || normalized.includes("fund") || normalized.includes("money") || normalized.includes("aid") || normalized.includes("rent")) {
-            matchedType = "financial";
-          }
-
-          const locationMatch = normalized.match(/in\s+([a-zA-Z\s]+?)(?:\.|\?|,|$)/);
-          if (locationMatch && locationMatch[1]) {
-            matchedLocation = locationMatch[1].trim();
-          }
-        }
-
-        let contextPrompt = "";
-        if (matchedType) {
-          if (onToolStart) onToolStart("search_community_resources");
-          if (onStepChange) onStepChange(`Executing pre-grounding RAG tool for ${matchedType} in ${matchedLocation}...`);
-          const results = await searchCommunityResources({ type: matchedType, location: matchedLocation });
-          if (results && results.length > 0) {
-            contextPrompt = results.map((r: any) => `- ${r.name} (Location: ${r.location}, Availability: ${r.availability})`).join("\n");
-          } else {
-            contextPrompt = "No resources found in this area.";
-          }
-        }
-
-        const combinedSystemGuardrail: ChatCompletionMessageParam = {
-          role: "system",
-          content: `${systemGuardrail.content}
-
-### VERIFIED LOCAL RESOURCES (Use ONLY these):
-${contextPrompt || "No verified resources found for this search."}
-
-### REQUIRED INSTRUCTION:
-List the verified resources above with their location and availability. Do not suggest web searches or add any external info. If no verified resources are listed, reply that no local resources were found.`
-        };
-        const synthesisMessages = [combinedSystemGuardrail, ...messages];
-
-        const startTime = performance.now();
-        if (onStepChange) onStepChange("Synthesizing response with local context...");
-        const finalChunks = await this.engine.chat.completions.create({
-          messages: synthesisMessages,
-          stream: true,
-        });
-
-        let fullText = "";
-        for await (const chunk of finalChunks) {
-          const content = chunk.choices[0]?.delta?.content || "";
-          fullText += content;
-          if (onStream) onStream(content);
-        }
-        const endTime = performance.now();
-        metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
-
-        return { text: fullText, camp: this.lastCAMPResult! };
+      // 4a. Handle greetings deterministically (no model needed)
+      if (isGreeting && !matchedType) {
+        const greeting = "I'm the Sovereign Intelligence Layer. I help you find verified community resources like food banks, medical clinics, and financial aid services — all processed locally on your device with zero cloud dependency. Try asking: \"Find me food banks in Seattle\"";
+        if (onStream) onStream(greeting);
+        const defaultCamp: CAMPResult = this.lastCAMPResult || { processedText: "", cpeScore: 0, pruned: false, fragmentsDetected: [] };
+        metricsCapture.update(0, greeting.length, defaultCamp);
+        return { text: greeting, camp: defaultCamp };
       }
 
-      // 5. Handle Native Tool Calls (if supported by engine/model)
-      if (response) {
-        const message = response.choices[0].message;
-
-        if (message.tool_calls && message.tool_calls.length > 0) {
-          const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
-          
-          for (const toolCall of message.tool_calls) {
-            const toolName = toolCall.function.name;
-            const toolArgs = JSON.parse(toolCall.function.arguments);
-            
-            if (onToolStart) onToolStart(toolName);
-            if (onStepChange) onStepChange(`Executing local MCP tool: ${toolName}...`);
-            console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
-
-            let result;
-            if (toolName === "search_community_resources") {
-              result = await searchCommunityResources(toolArgs);
-            } else if (toolName === "get_resource_availability") {
-              result = await getResourceAvailability(toolArgs.id);
-            }
-
-            toolMessages.push({
-              role: "tool",
-              content: JSON.stringify(result),
-              tool_call_id: toolCall.id,
-            } as ChatCompletionMessageParam);
-          }
-
-          const startTime = performance.now();
-          if (onStepChange) onStepChange("Synthesizing final response with tool content...");
-          const finalChunks = await this.engine.chat.completions.create({
-            messages: toolMessages,
-            stream: true,
-          });
-
-          let fullText = "";
-          for await (const chunk of finalChunks) {
-            const content = chunk.choices[0]?.delta?.content || "";
-            fullText += content;
-            if (onStream) onStream(content);
-          }
-          const endTime = performance.now();
-          metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
-
-          return { text: fullText, camp: this.lastCAMPResult! };
-        }
+      // 4b. Handle out-of-scope queries deterministically (no model needed)
+      if (!matchedType) {
+        const refusal = "I can only help with finding community resources like food banks, medical clinics, and financial aid. Try asking me something like: \"Where can I find food banks near Seattle?\" or \"I need medical help in Chicago.\"";
+        if (onStream) onStream(refusal);
+        const defaultCamp: CAMPResult = this.lastCAMPResult || { processedText: "", cpeScore: 0, pruned: false, fragmentsDetected: [] };
+        metricsCapture.update(0, refusal.length, defaultCamp);
+        return { text: refusal, camp: defaultCamp };
       }
 
-      // Fallback if no tools called natively
+      // 5. We have a valid resource query — fetch data FIRST, then send to model
+      if (onToolStart) onToolStart("search_community_resources");
+      if (onStepChange) onStepChange(`Searching ${matchedType} resources in ${matchedLocation}...`);
+      const results = await searchCommunityResources({ type: matchedType, location: matchedLocation });
+
+      // Format results as rigid copy-verbatim blocks
+      let resourceBlock: string;
+      if (results && results.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        resourceBlock = results.map((r: any, i: number) => 
+          `Resource ${i + 1}:\n  Name: ${r.name}\n  Location: ${r.location}\n  Availability: ${r.availability}\n  Distance: ${r.distance}`
+        ).join("\n\n");
+      } else {
+        resourceBlock = "No resources found in this area.";
+      }
+
+      // Build the final prompt with data already embedded
+      const groundedSystemPrompt: ChatCompletionMessageParam = {
+        role: "system",
+        content: `${SYSTEM_PROMPT}
+
+VERIFIED RESOURCES:
+${resourceBlock}
+
+List each resource above with its Name, Location, Availability, and Distance exactly as written. Do NOT add addresses, phone numbers, websites, or any details not listed. After listing the resources, stop. Do not add any follow-up text or suggestions.`
+      };
+
+      const synthesisMessages: ChatCompletionMessageParam[] = [groundedSystemPrompt, ...messages];
+
       const startTime = performance.now();
-      if (onStepChange) onStepChange("Composing secure local-only response...");
+      if (onStepChange) onStepChange("Synthesizing response with verified data...");
       const finalChunks = await this.engine.chat.completions.create({
-        messages,
+        messages: synthesisMessages,
         stream: true,
       });
 
