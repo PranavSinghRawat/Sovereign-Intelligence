@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body className="antialiased bg-background text-foreground h-full overflow-hidden">
+      <body className="antialiased bg-radial-gradient text-foreground h-full overflow-hidden">
         {children}
       </body>
     </html>

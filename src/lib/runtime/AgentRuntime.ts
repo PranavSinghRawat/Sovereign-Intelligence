@@ -104,10 +104,10 @@ export class AgentRuntime {
       throw new Error("AgentRuntime not initialized.");
     }
 
-    // 1. Enterprise Deterministic Guardrails
+    // 1. Enterprise Deterministic Guardrails (Simplified for 1B Model constraints)
     const systemGuardrail: ChatCompletionMessageParam = {
       role: "system",
-      content: "You are the Sovereign Intelligence Layer, a routing agent for community resources. You are strictly forbidden from providing medical diagnoses or financial advice. If a user asks for medical advice, you must append: 'I am a local AI assistant. This is not medical advice. Please consult a professional.' You must use the provided tools to find resources."
+      content: "You are the Sovereign Intelligence Layer, a helpful routing assistant for local community resources (food banks, medical clinics, financial aid). Use the retrieved resources to answer the user. Be concise, direct, and friendly. Do not invent details."
     };
     
     const guardedMessages = [systemGuardrail, ...messages];
@@ -136,46 +136,81 @@ export class AgentRuntime {
       }
 
       // 3. Initial LLM Pass with MCP Tool Definitions
-      if (onStepChange) onStepChange("Analyzing user intent with Llama-3.2-1B on WebGPU...");
-      const response = await this.engine.chat.completions.create({
-        messages: guardedMessages,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        tools: MCP_TOOLS as any[],
-        tool_choice: "auto",
-      });
+      let response = null;
+      let useNativeTools = true;
 
-      const message = response.choices[0].message;
+      try {
+        if (onStepChange) onStepChange("Analyzing user intent with Llama-3.2-1B on WebGPU...");
+        response = await this.engine.chat.completions.create({
+          messages: guardedMessages,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          tools: MCP_TOOLS as any[],
+          tool_choice: "auto",
+        });
+      } catch (err: any) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        if (
+          errorMsg.includes("UnsupportedModelIdError") || 
+          errorMsg.includes("tools") || 
+          errorMsg.includes("tool")
+        ) {
+          console.log("[AgentRuntime] Model does not support native tools. Falling back to pre-grounding RAG pipeline...");
+          useNativeTools = false;
+        } else {
+          throw err;
+        }
+      }
 
-      // 4. Handle Tool Calls
-      if (message.tool_calls && message.tool_calls.length > 0) {
-        const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
-        
-        for (const toolCall of message.tool_calls) {
-          const toolName = toolCall.function.name;
-          const toolArgs = JSON.parse(toolCall.function.arguments);
-          
-          if (onToolStart) onToolStart(toolName);
-          if (onStepChange) onStepChange(`Executing local MCP tool: ${toolName}...`);
-          console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
+      // 4. Fallback if native tools are not supported
+      if (!useNativeTools) {
+        const lastUserMsg = [...guardedMessages].reverse().find(m => m.role === "user");
+        let matchedType: "medical" | "food" | "financial" | null = null;
+        let matchedLocation = "Seattle"; // Default fallback
 
-          let result;
-          if (toolName === "search_community_resources") {
-            result = await searchCommunityResources(toolArgs);
-          } else if (toolName === "get_resource_availability") {
-            result = await getResourceAvailability(toolArgs.id);
+        if (lastUserMsg && typeof lastUserMsg.content === "string") {
+          const normalized = lastUserMsg.content.toLowerCase();
+          if (normalized.includes("medical") || normalized.includes("clinic") || normalized.includes("doctor") || normalized.includes("health") || normalized.includes("hospital")) {
+            matchedType = "medical";
+          } else if (normalized.includes("food") || normalized.includes("bread") || normalized.includes("bank") || normalized.includes("pantry") || normalized.includes("meal")) {
+            matchedType = "food";
+          } else if (normalized.includes("financial") || normalized.includes("fund") || normalized.includes("money") || normalized.includes("aid") || normalized.includes("rent")) {
+            matchedType = "financial";
           }
 
-          toolMessages.push({
-            role: "tool",
-            content: JSON.stringify(result),
-            tool_call_id: toolCall.id,
-          } as ChatCompletionMessageParam);
+          const locationMatch = normalized.match(/in\s+([a-zA-Z\s]+?)(?:\.|\?|,|$)/);
+          if (locationMatch && locationMatch[1]) {
+            matchedLocation = locationMatch[1].trim();
+          }
         }
 
+        let contextPrompt = "";
+        if (matchedType) {
+          if (onToolStart) onToolStart("search_community_resources");
+          if (onStepChange) onStepChange(`Executing pre-grounding RAG tool for ${matchedType} in ${matchedLocation}...`);
+          const results = await searchCommunityResources({ type: matchedType, location: matchedLocation });
+          if (results && results.length > 0) {
+            contextPrompt = results.map((r: any) => `- ${r.name} (Location: ${r.location}, Availability: ${r.availability})`).join("\n");
+          } else {
+            contextPrompt = "No resources found in this area.";
+          }
+        }
+
+        const combinedSystemGuardrail: ChatCompletionMessageParam = {
+          role: "system",
+          content: `${systemGuardrail.content}
+
+### VERIFIED LOCAL RESOURCES (Use ONLY these):
+${contextPrompt || "No verified resources found for this search."}
+
+### REQUIRED INSTRUCTION:
+List the verified resources above with their location and availability. Do not suggest web searches or add any external info. If no verified resources are listed, reply that no local resources were found.`
+        };
+        const synthesisMessages = [combinedSystemGuardrail, ...messages];
+
         const startTime = performance.now();
-        if (onStepChange) onStepChange("Synthesizing final response with tool content...");
+        if (onStepChange) onStepChange("Synthesizing response with local context...");
         const finalChunks = await this.engine.chat.completions.create({
-          messages: toolMessages,
+          messages: synthesisMessages,
           stream: true,
         });
 
@@ -191,7 +226,56 @@ export class AgentRuntime {
         return { text: fullText, camp: this.lastCAMPResult! };
       }
 
-      // Fallback if no tools called
+      // 5. Handle Native Tool Calls (if supported by engine/model)
+      if (response) {
+        const message = response.choices[0].message;
+
+        if (message.tool_calls && message.tool_calls.length > 0) {
+          const toolMessages: ChatCompletionMessageParam[] = [...guardedMessages, message as unknown as ChatCompletionMessageParam];
+          
+          for (const toolCall of message.tool_calls) {
+            const toolName = toolCall.function.name;
+            const toolArgs = JSON.parse(toolCall.function.arguments);
+            
+            if (onToolStart) onToolStart(toolName);
+            if (onStepChange) onStepChange(`Executing local MCP tool: ${toolName}...`);
+            console.log(`[AgentRuntime] Tool Call: ${toolName}`, toolArgs);
+
+            let result;
+            if (toolName === "search_community_resources") {
+              result = await searchCommunityResources(toolArgs);
+            } else if (toolName === "get_resource_availability") {
+              result = await getResourceAvailability(toolArgs.id);
+            }
+
+            toolMessages.push({
+              role: "tool",
+              content: JSON.stringify(result),
+              tool_call_id: toolCall.id,
+            } as ChatCompletionMessageParam);
+          }
+
+          const startTime = performance.now();
+          if (onStepChange) onStepChange("Synthesizing final response with tool content...");
+          const finalChunks = await this.engine.chat.completions.create({
+            messages: toolMessages,
+            stream: true,
+          });
+
+          let fullText = "";
+          for await (const chunk of finalChunks) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            fullText += content;
+            if (onStream) onStream(content);
+          }
+          const endTime = performance.now();
+          metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
+
+          return { text: fullText, camp: this.lastCAMPResult! };
+        }
+      }
+
+      // Fallback if no tools called natively
       const startTime = performance.now();
       if (onStepChange) onStepChange("Composing secure local-only response...");
       const finalChunks = await this.engine.chat.completions.create({
