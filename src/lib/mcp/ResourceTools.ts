@@ -99,9 +99,11 @@ export const searchCommunityResources = async (query: { type?: string; location?
   const cached = await getCachedResponse(cacheKey);
   if (cached) return cached;
 
+  // BUG 7 Fix: Use exact match (=) instead of regex (~) for location to prevent
+  // sanitized dots from acting as regex wildcards in Overpass QL.
   const overpassQuery = `
     [out:json][timeout:5];
-    area[name~"${location}",i]->.searchArea;
+    area[name="${location}"]->.searchArea;
     (
       node["amenity"~"${amenity}"](area.searchArea);
       node["healthcare"~"clinic"](area.searchArea);
@@ -110,10 +112,16 @@ export const searchCommunityResources = async (query: { type?: string; location?
   `;
 
   try {
+    // BUG 9 Fix: Add client-side AbortController with 10s timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const response = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
-      body: overpassQuery
+      body: overpassQuery,
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
 
     if (!response.ok) throw new Error("API Limit");
     const data = await response.json();

@@ -41,13 +41,16 @@ export class PIIRegistry {
     
     try {
       const rows = await db.exec("SELECT type, value FROM pii_fragments");
-      (rows as unknown as [string, string][]).forEach((row) => {
+      const results = rows as unknown as unknown[][];
+      results.forEach((row) => {
+        // BUG 5 Fix: Validate row structure before accessing indices
+        if (!Array.isArray(row) || row.length < 2 || typeof row[0] !== "string" || typeof row[1] !== "string") return;
         const type = row[0] as PIIType;
         const value = row[1];
         const fragmentKey = `${type}:${value.toLowerCase()}`;
         if (!this.fragments.has(fragmentKey)) {
           this.fragments.add(fragmentKey);
-          this.sessionCPE += PII_WEIGHTS[type];
+          this.sessionCPE += PII_WEIGHTS[type] ?? 0;
         }
       });
       this.initialized = true;

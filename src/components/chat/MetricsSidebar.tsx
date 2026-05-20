@@ -55,66 +55,63 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   };
 
   return (
-    <aside className="w-80 flex flex-col gap-4 overflow-y-auto pr-2" role="complementary" aria-label="System Metrics and Settings">
-      <GlassCard className="p-4" gradient>
+    <aside className="w-80 flex flex-col gap-6 overflow-y-auto pr-2" role="complementary" aria-label="System Metrics and Settings">
+      <GlassCard className="p-4 border-zinc-800 bg-zinc-900/20 animate-fade-in" gradient>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-primary" />
-            <h2 className="text-sm font-bold uppercase tracking-widest">Research Metrics</h2>
+            <Activity className="w-4 h-4 text-zinc-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 font-mono">Research Metrics</h2>
           </div>
         </div>
         <div className="space-y-4">
           <MetricItem 
-            icon={<Zap className="w-3 h-3"/>} 
+            icon={<Zap className="w-4 h-4"/>} 
             label="Inference Latency" 
-            value={`${metrics.latencyMs.toFixed(0)} ms (${metrics.inferenceSpeed.toFixed(1)} tok/s)`} 
-            color="text-yellow-400" 
+            value={`${metrics.latencyMs.toFixed(0)} ms (${metrics.inferenceSpeed.toFixed(1)} t/s)`} 
+            color="text-zinc-300" 
           />
           <MetricItem 
-            icon={<Shield className="w-3 h-3"/>} 
-            label="Resilience-Privacy Index" 
+            icon={<Shield className="w-4 h-4"/>} 
+            label="Resilience-Privacy" 
             value={`I_rp = ${metrics.irpIndex.toFixed(2)}`} 
-            color="text-emerald-400" 
+            color="text-zinc-300" 
           />
           <MetricItem 
-            icon={<Database className="w-3 h-3"/>} 
-            label="Total Fragments Pruned" 
+            icon={<Database className="w-4 h-4"/>} 
+            label="Fragments Pruned" 
             value={metrics.totalPrunedFragments.toString()} 
-            color="text-blue-400" 
+            color="text-zinc-400" 
           />
 
-          {/* $I_{rp}$ Benchmark Comparison Table */}
-          <div className="border-t border-white/10 pt-3 mt-3">
-            <span className="text-[9px] text-white/40 font-mono uppercase tracking-wider block mb-2">Research Benchmark: Local vs Cloud API</span>
-            <table className="w-full text-[10px] text-left border-collapse">
+          {/* Benchmark Comparison Table */}
+          <div className="border-t border-zinc-850 pt-4">
+            <span className="text-xs text-zinc-500 font-mono uppercase tracking-wider block mb-2 font-bold">Local vs Cloud Benchmarks</span>
+            <table className="w-full text-xs text-left border-collapse font-mono">
               <thead>
-                <tr className="border-b border-white/5 text-white/40">
-                  <th className="py-1 font-mono">Metric</th>
-                  <th className="py-1 font-mono text-right">Local (CAMP)</th>
-                  <th className="py-1 font-mono text-right">Cloud API</th>
+                <tr className="border-b border-zinc-850 text-zinc-500">
+                  <th className="pb-1 text-xs uppercase font-semibold">Metric</th>
+                  <th className="pb-1 text-right text-xs uppercase font-semibold">Local (CAMP)</th>
+                  <th className="pb-1 text-right text-xs uppercase font-semibold">Cloud API</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/5">
-                  <td className="py-1 text-white/60">Privacy Efficacy</td>
-                  <td className="py-1 text-right text-emerald-400">{(metrics.privacyEfficacy * 100).toFixed(0)}%</td>
-                  <td className="py-1 text-right text-red-400">0%</td>
+                <tr className="border-b border-zinc-900">
+                  <td className="py-1.5 text-zinc-400">Privacy Efficacy</td>
+                  <td className="py-1.5 text-right text-zinc-200">{(metrics.privacyEfficacy * 100).toFixed(0)}%</td>
+                  <td className="py-1.5 text-right text-zinc-650">0%</td>
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="py-1 text-white/60">Speed (tok/s)</td>
-                  <td className="py-1 text-right">{metrics.inferenceSpeed > 0 ? metrics.inferenceSpeed.toFixed(1) : "0.0"}</td>
-                  <td className="py-1 text-right text-white/40">35.0</td>
+                <tr className="border-b border-zinc-900">
+                  <td className="py-1.5 text-zinc-400">Speed (tok/s)</td>
+                  <td className="py-1.5 text-right text-zinc-200">{metrics.inferenceSpeed > 0 ? metrics.inferenceSpeed.toFixed(1) : "0.0"}</td>
+                  <td className="py-1.5 text-right text-zinc-650">35.0</td>
                 </tr>
                 <tr>
-                  <td className="py-1 text-white/80 font-bold">Resilience I_rp</td>
-                  <td className="py-1 text-right text-emerald-400 font-bold font-mono">{metrics.irpIndex.toFixed(2)}</td>
-                  <td className="py-1 text-right text-white/40 font-bold font-mono">35.00</td>
+                  <td className="py-1.5 text-zinc-300 font-bold uppercase text-xs">Resilience I_rp</td>
+                  <td className="py-1.5 text-right text-zinc-100 font-bold">{metrics.irpIndex.toFixed(2)}</td>
+                  <td className="py-1.5 text-right text-zinc-650 font-bold">35.00</td>
                 </tr>
               </tbody>
             </table>
-            <p className="text-[8px] text-white/30 font-mono leading-tight mt-2">
-              * Cloud API lacks local PII masking (Privacy Efficacy = 0), reducing its real private resilience despite raw speed.
-            </p>
           </div>
         </div>
       </GlassCard>
@@ -123,98 +120,103 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
 
       {toolExecuting && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <GlassCard className="p-4 border-primary/30 bg-primary/5">
+          <GlassCard className="p-4 border-zinc-800 bg-zinc-900/20">
             <div className="flex items-center gap-3 animate-pulse">
-              <div className="w-2 h-2 rounded-full bg-primary" />
-              <span className="text-xs font-mono">Executing: {toolExecuting}</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+              <span className="text-xs font-mono text-zinc-400">Executing: {toolExecuting}</span>
             </div>
           </GlassCard>
         </motion.div>
       )}
 
       {/* WebRTC P2P Console */}
-      <GlassCard className="p-4 flex flex-col gap-3">
+      <GlassCard className="p-4 flex flex-col gap-4 border-zinc-800 bg-zinc-900/20">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Share2 className="w-4 h-4 text-primary" />
-            <h2 className="text-sm font-bold uppercase tracking-widest">P2P Secure Connection</h2>
+            <Share2 className="w-4 h-4 text-zinc-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 font-mono">P2P Secure Connection</h2>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className={`w-2 h-2 rounded-full ${
+          <div className="flex items-center gap-2">
+            <span className={`w-2.5 h-2.5 rounded-full ${
               p2pStatus === "connected" ? "bg-emerald-500 animate-pulse" :
-              p2pStatus === "connecting" ? "bg-yellow-500 animate-pulse" : "bg-red-500"
+              p2pStatus === "connecting" ? "bg-yellow-500 animate-pulse" : "bg-zinc-800"
             }`} />
-            <span className="text-[10px] font-mono capitalize text-white/50">{p2pStatus}</span>
+            <span className="text-xs font-mono text-zinc-400 capitalize">{p2pStatus}</span>
           </div>
         </div>
 
         {p2pStatus !== "connected" ? (
-          <div className="flex flex-col gap-3 text-xs">
+          <div className="flex flex-col gap-4 text-xs">
             {/* Step A: Generate Offer */}
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] text-white/40 uppercase font-mono">1. Host a P2P Session</span>
+            <div className="flex flex-col gap-2">
+              <span className="text-xs text-zinc-500 uppercase font-mono tracking-wider font-bold">1. Host a P2P Session</span>
               {!offerCode ? (
                 <button 
                   onClick={handleGenerateOffer}
-                  className="w-full py-1.5 rounded bg-primary/25 hover:bg-primary/40 border border-primary/40 text-white font-medium transition-colors font-mono text-[10px]"
+                  className="w-full py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-850 hover:-translate-y-0.5 active:scale-95 text-zinc-200 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
                 >
                   Generate Invite Code
                 </button>
               ) : (
-                <div className="flex gap-1.5">
+                <div className="flex gap-2">
                   <input 
                     readOnly 
                     value={offerCode} 
-                    className="flex-1 px-2 py-1 rounded bg-black/40 border border-white/10 font-mono text-[9px] select-all outline-none"
+                    className="flex-1 px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-200 select-all outline-none"
+                    aria-label="Host invitation code"
                   />
                   <button 
                     onClick={() => copyToClipboard(offerCode, "offer")}
-                    className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                    className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 transition-colors cursor-pointer"
+                    aria-label="Copy invitation code"
                   >
-                    {copied === "offer" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied === "offer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-zinc-400" />}
                   </button>
                 </div>
               )}
             </div>
 
             {/* Step B: Connect with Peer Code */}
-            <div className="flex flex-col gap-1.5 border-t border-white/5 pt-2">
-              <span className="text-[10px] text-white/40 uppercase font-mono">2. Join Peer Session</span>
+            <div className="flex flex-col gap-2 border-t border-zinc-850 pt-4">
+              <span className="text-xs text-zinc-500 uppercase font-mono tracking-wider font-bold">2. Join Peer Session</span>
               <textarea 
                 value={peerCodeInput}
                 onChange={(e) => setPeerCodeInput(e.target.value)}
                 placeholder="Paste Peer Invitation or Answer code..."
-                className="w-full h-12 px-2 py-1 rounded bg-black/40 border border-white/10 font-mono text-[9px] resize-none outline-none focus:border-primary/50"
+                className="w-full h-16 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-200 resize-none outline-none focus:ring-1 focus:ring-zinc-700"
+                aria-label="Peer invite code input"
               />
               <div className="flex gap-2">
                 <button 
                   onClick={() => handleAcceptOffer(peerCodeInput)}
-                  className="flex-1 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] transition-colors font-mono"
+                  className="flex-1 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-850 hover:-translate-y-0.5 active:scale-95 text-zinc-200 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
                 >
                   Generate Answer
                 </button>
                 <button 
                   onClick={() => handleCompleteConnection(peerCodeInput)}
-                  className="flex-1 py-1 rounded bg-primary/20 hover:bg-primary/30 border border-primary/30 text-[10px] text-primary transition-colors font-mono"
+                  className="flex-1 py-2 rounded-xl bg-zinc-850 border border-zinc-750 hover:bg-zinc-800 hover:-translate-y-0.5 active:scale-95 text-zinc-100 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
                 >
                   Complete Link
                 </button>
               </div>
 
               {answerCode && (
-                <div className="flex flex-col gap-1 mt-1">
-                  <span className="text-[9px] text-emerald-400 uppercase font-mono">Answer Code Generated:</span>
-                  <div className="flex gap-1.5">
+                <div className="flex flex-col gap-2 mt-2">
+                  <span className="text-xs text-emerald-400 uppercase font-mono tracking-wider font-bold">Answer Code Generated:</span>
+                  <div className="flex gap-2">
                     <input 
                       readOnly 
                       value={answerCode} 
-                      className="flex-1 px-2 py-1 rounded bg-black/40 border border-white/10 font-mono text-[9px] select-all outline-none"
+                      className="flex-1 px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-200 select-all outline-none"
+                      aria-label="Answer code output"
                     />
                     <button 
                       onClick={() => copyToClipboard(answerCode, "answer")}
-                      className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                      className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 transition-colors cursor-pointer"
+                      aria-label="Copy answer code"
                     >
-                      {copied === "answer" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied === "answer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-zinc-400" />}
                     </button>
                   </div>
                 </div>
@@ -223,14 +225,15 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
           </div>
         ) : (
           <div className="flex flex-col gap-2 text-xs">
-            <span className="text-[10px] text-emerald-400 font-mono">✓ Secure Channel Established.</span>
-            <div className="flex gap-1.5">
+            <span className="text-xs text-emerald-400 font-mono">✓ Secure Channel Established.</span>
+            <div className="flex gap-2">
               <input 
                 type="text"
                 placeholder="Type secure peer message..."
                 value={p2pMsgInput}
                 onChange={(e) => setP2pMsgInput(e.target.value)}
-                className="flex-1 px-2 py-1 rounded bg-black/40 border border-white/10 font-mono text-[10px] outline-none focus:border-primary/50"
+                className="flex-1 px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-200 outline-none focus:ring-1 focus:ring-zinc-700"
+                aria-label="P2P chat input"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && p2pMsgInput.trim()) {
                     handleSendP2PData(p2pMsgInput);
@@ -245,7 +248,8 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                     setP2pMsgInput("");
                   }
                 }}
-                className="p-1 rounded bg-primary hover:bg-primary/80 transition-colors text-white"
+                className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-200 hover:bg-zinc-850 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 ease-out cursor-pointer"
+                aria-label="Send P2P Message"
               >
                 <Send className="w-3.5 h-3.5" />
               </button>
@@ -255,16 +259,19 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
       </GlassCard>
 
       {/* Telemetry Opt-In */}
-      <div className="mt-auto pt-4 flex items-center justify-between text-xs border-t border-white/5">
-        <div className="flex items-center gap-2 text-white/60">
-          <Radio className="w-3 h-3" />
-          <span>Anonymous Diagnostics</span>
+      <div className="mt-auto pt-4 flex items-center justify-between text-xs border-t border-zinc-850">
+        <div className="flex items-center gap-2 text-zinc-400">
+          <Radio className="w-4 h-4" />
+          <span className="font-mono text-xs uppercase tracking-wider">Anonymous Diagnostics</span>
         </div>
         <button 
           onClick={handleOptIn}
-          className={`w-8 h-4 rounded-full transition-colors relative ${optIn ? 'bg-primary' : 'bg-white/10'}`}
+          className={`w-8 h-4 rounded-full transition-colors relative cursor-pointer ${optIn ? 'bg-zinc-200' : 'bg-zinc-800'}`}
+          aria-label="Toggle anonymous diagnostics sharing"
+          aria-checked={optIn}
+          role="switch"
         >
-          <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${optIn ? 'translate-x-4' : 'translate-x-1'}`} />
+          <div className={`absolute top-0.5 w-3 h-3 rounded-full transition-transform ${optIn ? 'translate-x-4 bg-zinc-950' : 'translate-x-1 bg-zinc-100'}`} />
         </button>
       </div>
     </aside>
@@ -275,8 +282,8 @@ function MetricItem({ icon, label, value, color }: { icon: React.ReactNode, labe
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
-        <div className={`p-1.5 rounded-lg bg-white/5 ${color}`}>{icon}</div>
-        <span className="text-[10px] text-white/50 uppercase">{label}</span>
+        <div className="p-1.5 rounded-lg bg-zinc-950 border border-zinc-850 text-zinc-400">{icon}</div>
+        <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">{label}</span>
       </div>
       <span className={`text-xs font-mono font-bold ${color}`}>{value}</span>
     </div>

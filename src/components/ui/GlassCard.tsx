@@ -10,8 +10,8 @@ interface GlassCardProps {
 export const GlassCard: React.FC<GlassCardProps> = ({ children, className, gradient = false }) => {
   return (
     <div className={cn(
-      "glass rounded-2xl overflow-hidden transition-all duration-300",
-      gradient && "gradient-border",
+      "bg-zinc-900/40 border border-zinc-800/80 rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-200 ease-out",
+      gradient && "border-zinc-800/90 shadow-sm",
       className
     )}>
       {children}

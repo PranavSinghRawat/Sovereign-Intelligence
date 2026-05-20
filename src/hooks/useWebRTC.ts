@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { p2pNode } from "@/lib/network/WebRTCNode";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 
@@ -7,6 +7,11 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
   const [offerCode, setOfferCode] = useState("");
   const [answerCode, setAnswerCode] = useState("");
   const [peerCodeInput, setPeerCodeInput] = useState("");
+
+  // BUG 8 Fix: Use a ref to hold the latest callback so the effect
+  // doesn't need to re-register listeners when the callback identity changes
+  const onReceiveRef = useRef(onReceiveMessage);
+  onReceiveRef.current = onReceiveMessage;
 
   useEffect(() => {
     let isMounted = true;
@@ -19,14 +24,14 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       console.log("[P2P Hook Received]:", data);
       const parsed = data as { text?: string };
       if (isMounted && parsed?.text) {
-        onReceiveMessage({ role: "assistant", content: `[P2P Node]: ${parsed.text}` } as ChatCompletionMessageParam);
+        onReceiveRef.current({ role: "assistant", content: `[P2P Node]: ${parsed.text}` } as ChatCompletionMessageParam);
       }
     });
 
     return () => {
       isMounted = false;
     };
-  }, [onReceiveMessage]);
+  }, []);
 
   const handleGenerateOffer = async () => {
     try {

@@ -12,6 +12,7 @@ import { telemetry } from "../metrics/Telemetry";
 export class AgentRuntime {
   private engine: MLCEngine | null = null;
   private lastCAMPResult: CAMPResult | null = null;
+  private campWorker: Worker | null = null;
   
   // Phase 7: Industrial Scale - Switched from 2.5GB Phi-4-mini to ~800MB Llama-3.2-1B for PWA distribution
   private readonly PRIMARY_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
@@ -47,6 +48,11 @@ export class AgentRuntime {
    * Crucial for preventing memory leaks when the agent is unmounted.
    */
   async destroy(): Promise<void> {
+    if (this.campWorker) {
+      this.campWorker.terminate();
+      this.campWorker = null;
+      console.log("[CAMP] Worker terminated.");
+    }
     if (this.engine) {
       await this.engine.unload();
       this.engine = null;
@@ -83,7 +89,7 @@ export class AgentRuntime {
 
         const compositeCheck = normalizedContent.includes("medical") && (normalizedContent.includes("advice") || normalizedContent.includes("treatment"));
 
-        if (hasMedicalTrigger && hasSelfReference || compositeCheck) {
+        if ((hasMedicalTrigger && hasSelfReference) || (compositeCheck && hasSelfReference)) {
           const safetyMessage = "I am a local AI routing assistant. To protect your safety, I am strictly forbidden from providing medical diagnoses, treatments, or prescribing medications. Please seek professional medical attention immediately.";
           if (onStream) onStream(safetyMessage);
           return {
@@ -124,12 +130,15 @@ RULES:
       if (lastUserMessage && typeof lastUserMessage.content === "string") {
         let campResult: CAMPResult;
         if (typeof window !== "undefined" && window.Worker) {
+          // BUG 6 Fix: Reuse a persistent worker instead of spawning one per message
+          if (!this.campWorker) {
+            this.campWorker = new Worker(new URL('../middleware/camp.worker.ts', import.meta.url));
+          }
+          const worker = this.campWorker;
           campResult = await new Promise((resolve, reject) => {
-            const worker = new Worker(new URL('../middleware/camp.worker.ts', import.meta.url));
             worker.onmessage = (e) => {
               if (e.data.success) resolve(e.data.result);
               else reject(new Error(e.data.error));
-              worker.terminate();
             };
             worker.postMessage({ id: 1, context: lastUserMessage.content });
           });
@@ -142,7 +151,9 @@ RULES:
 
       // 3. Classify user intent with deterministic keyword matching
       //    (Do NOT rely on the 1B model to classify — it will hallucinate)
-      const lastUserMsg = [...messages].reverse().find(m => m.role === "user");
+      //    BUG 1 Fix: Read from CAMP-scrubbed guardedMessages, not raw messages,
+      //    so that PII tokens like email domains don't pollute location extraction.
+      const lastUserMsg = [...guardedMessages].reverse().find(m => m.role === "user");
       let matchedType: "medical" | "food" | "financial" | null = null;
       let matchedLocation = "Seattle";
       let isGreeting = false;
@@ -177,6 +188,9 @@ RULES:
       }
 
       // 4a. Handle greetings deterministically (no model needed)
+      //     BUG 4 Note: Deterministic paths send the FULL response in one onStream call.
+      //     The hook's streaming accumulator handles this correctly because it concatenates
+      //     chunks into streamingText. This is safe as long as deterministic paths send exactly once.
       if (isGreeting && !matchedType) {
         const greeting = "I'm the Sovereign Intelligence Layer. I help you find verified community resources like food banks, medical clinics, and financial aid services — all processed locally on your device with zero cloud dependency. Try asking: \"Find me food banks in Seattle\"";
         if (onStream) onStream(greeting);

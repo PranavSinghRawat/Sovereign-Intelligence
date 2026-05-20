@@ -27,31 +27,56 @@ export class CAMPMiddleware {
 
   /**
    * Processes the input text through the CAMP framework.
+   * BUG 3 Fix: Collects ALL match positions in a single scan pass, then replaces
+   * them in reverse order so that earlier replacements don't shift positions
+   * or destroy lookbehind context for later patterns.
    */
   async process(text: string): Promise<CAMPResult> {
-    let processedText = text;
     const detected: string[] = [];
     let shouldPrune = false;
 
     // Ensure registry is loaded
     await sessionPII.initialize();
 
-    // 1. Scan and Register
+    // 1. Scan ALL patterns and collect match positions + types
+    interface MatchRecord { start: number; end: number; type: PIIType; value: string; }
+    const allMatches: MatchRecord[] = [];
+
     for (const { type, regex } of this.patterns) {
-      const matches = text.match(regex);
-      if (matches) {
-        for (const match of matches) {
-          await sessionPII.registerFragment(type, match);
-          detected.push(`${type}: ${match}`);
-        }
+      // Reset regex lastIndex for global patterns
+      regex.lastIndex = 0;
+      let match: RegExpExecArray | null;
+      while ((match = regex.exec(text)) !== null) {
+        allMatches.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          type,
+          value: match[0],
+        });
       }
     }
 
-    // 2. Check Re-identifiability
+    // 2. Register all detected fragments
+    for (const m of allMatches) {
+      await sessionPII.registerFragment(m.type, m.value);
+      detected.push(`${m.type}: ${m.value}`);
+    }
+
+    // 3. Check Re-identifiability
     const currentCPE = sessionPII.getCPE();
+    let processedText = text;
+
     if (sessionPII.isReidentifiable()) {
       shouldPrune = true;
-      processedText = this.prune(processedText);
+
+      // 4. Sort matches by start position DESCENDING so replacements
+      //    don't shift the positions of earlier matches
+      const sorted = [...allMatches].sort((a, b) => b.start - a.start);
+      for (const m of sorted) {
+        const before = processedText.slice(0, m.start);
+        const after = processedText.slice(m.end);
+        processedText = before + `[${m.type}_PRUNED]` + after;
+      }
     }
 
     return {
@@ -60,20 +85,6 @@ export class CAMPMiddleware {
       pruned: shouldPrune,
       fragmentsDetected: detected
     };
-  }
-
-  /**
-   * Prunes/Masks the text to stay below the re-identification threshold.
-   */
-  private prune(text: string): string {
-    let pruned = text;
-    
-    // Replace detected patterns with placeholders if re-identifiable
-    this.patterns.forEach(({ type, regex }) => {
-      pruned = pruned.replace(regex, `[${type}_PRUNED]`);
-    });
-
-    return pruned;
   }
 }
 

@@ -49,10 +49,10 @@ export const PrivacyFirewall: React.FC<PrivacyFirewallProps> = ({ result }) => {
 
         {result.fragmentsDetected.length > 0 && (
           <div className="mt-3">
-            <p className="text-[10px] uppercase opacity-60 mb-1">Detected Fragments:</p>
+            <p className="text-xs uppercase opacity-60 mb-1">Detected Fragments:</p>
             <div className="flex flex-wrap gap-2">
               {result.fragmentsDetected.map((f, i) => (
-                <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 border border-white/5">
+                <span key={i} className="text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/5">
                   {f}
                 </span>
               ))}

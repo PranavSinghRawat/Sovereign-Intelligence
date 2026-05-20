@@ -35,16 +35,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   render() {
     if (this.state.hasError) {
       return (
-        <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-background text-center">
-          <div className="p-8 rounded-2xl border border-red-500/20 bg-red-500/5 max-w-lg space-y-4">
-            <div className="w-16 h-16 mx-auto rounded-full bg-red-500/10 flex items-center justify-center">
-              <span className="text-3xl">⚠️</span>
+        <main className="flex flex-col items-center justify-center min-h-screen p-6 bg-zinc-950 text-center">
+          <div className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/20 max-w-lg space-y-4">
+            <div className="w-12 h-12 mx-auto rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+              <span className="text-sm">⚠️</span>
             </div>
-            <h1 className="text-xl font-bold text-red-400">Runtime Error Detected</h1>
-            <p className="text-sm text-white/60 font-mono break-words">
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Runtime Error Detected</h1>
+            <p className="text-sm text-zinc-400 font-mono break-words leading-relaxed">
               {this.state.errorMessage || "An unexpected error occurred in the local engine."}
             </p>
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-zinc-500 max-w-prose leading-relaxed">
               This may be caused by WebGPU incompatibility, insufficient device memory, or a browser restriction.
             </p>
             <button
@@ -52,7 +52,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 this.setState({ hasError: false, errorMessage: "" });
                 window.location.reload();
               }}
-              className="px-6 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary font-mono text-sm transition-colors"
+              className="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-medium text-xs cursor-pointer transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus:outline-none"
             >
               Reload Application
             </button>
