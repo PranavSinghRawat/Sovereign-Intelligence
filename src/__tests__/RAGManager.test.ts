@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { vi, describe, it, expect, beforeEach, beforeAll } from "vitest";
 
+let chunkText: (text: string, size: number, overlap: number) => string[];
+
 // Mock the SQLite OPFS database dependency
 const mockDbExec = vi.fn();
 vi.mock("../lib/store/sqlite-db", () => {
@@ -58,7 +60,14 @@ vi.stubGlobal("Worker", MockWorker);
 import { ragManager } from "../lib/runtime/RAGManager";
 
 describe("RAGManager - On-Device Orchestrator", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
+    vi.stubGlobal("DOMMatrix", class {});
+    vi.stubGlobal("self", {
+      onmessage: null,
+      postMessage: vi.fn(),
+    });
+    const workerModule = await import("../lib/runtime/rag.worker");
+    chunkText = workerModule.chunkText;
     // Force worker initialization in test environment where window is undefined
     (ragManager as any).initWorker();
   });
@@ -148,5 +157,44 @@ describe("RAGManager - On-Device Orchestrator", () => {
     expect(results[1].documentName).toBe("doc-a.pdf");
     expect(results[1].chunkIndex).toBe(1);
     expect(results[1].score).toBeCloseTo(0.48, 2);
+  });
+
+  it("should split text on sentence boundaries when possible", () => {
+    const text = "First sentence. Second sentence? Third sentence! A very long sentence that exceeds the chunk size limit.";
+    const chunks = chunkText(text, 40, 10);
+    expect(chunks.length).toBeGreaterThan(1);
+    expect(chunks[0]).toBe("First sentence. Second sentence?");
+    expect(chunks[1]).toBe("Third sentence!");
+  });
+
+  it("should cache query embeddings", async () => {
+    const spy = vi.spyOn((ragManager as any).worker, "postMessage");
+    
+    // First query - should call worker postMessage
+    const vec1 = await ragManager.getQueryEmbedding("caching test query");
+    expect(spy).toHaveBeenCalledTimes(1);
+    
+    // Second query - should return cache and not call worker postMessage again
+    const vec2 = await ragManager.getQueryEmbedding("caching test query");
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(vec1).toEqual(vec2);
+    
+    spy.mockRestore();
+  });
+
+  it("should filter out stop words and punctuation from query words in semantic search", async () => {
+    const mockChunks = [
+      ["doc-a.pdf", 0, "This has specific and generic terms.", JSON.stringify([1.0, 0.0])],
+    ];
+    mockDbExec.mockResolvedValue(mockChunks);
+    
+    // Stub query embedding to match
+    const getQueryEmbeddingSpy = vi.spyOn(ragManager, "getQueryEmbedding").mockResolvedValue([1.0, 0.0]);
+    
+    const results = await ragManager.semanticSearch("the specific and a generic!", 1, 0.0);
+    // Score should be 1.0 (semantic) + 2 * 0.04 (lexical matches: 'specific', 'generic') = 1.08
+    expect(results[0].score).toBeCloseTo(1.08, 2);
+    
+    getQueryEmbeddingSpy.mockRestore();
   });
 });

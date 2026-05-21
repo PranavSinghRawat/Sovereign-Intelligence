@@ -1,6 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { db } from "../store/sqlite-db";
 
+const STOP_WORDS = new Set([
+  "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "arent", "as", "at",
+  "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "cant", "cannot", "could",
+  "couldnt", "did", "didnt", "do", "does", "doesnt", "doing", "dont", "down", "during", "each", "few", "for",
+  "from", "further", "had", "hadnt", "has", "hasnt", "have", "havent", "having", "he", "hed", "hell", "hes",
+  "her", "here", "heres", "hers", "herself", "him", "himself", "his", "how", "hows", "i", "id", "ill", "im",
+  "ive", "if", "in", "into", "is", "isnt", "it", "its", "itself", "lets", "me", "more", "most", "mustnt", "my",
+  "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours",
+  "ourselves", "out", "over", "own", "same", "shant", "she", "shed", "shell", "shes", "should", "shouldnt",
+  "so", "some", "such", "than", "that", "thats", "the", "their", "theirs", "them", "themselves", "then",
+  "there", "theres", "these", "they", "theyd", "theyll", "theyre", "theyve", "this", "those", "through",
+  "to", "too", "under", "until", "up", "very", "was", "wasnt", "we", "wed", "well", "were", "weve", "werent",
+  "what", "whats", "when", "whens", "where", "wheres", "which", "while", "who", "whos", "whom", "why", "whys",
+  "with", "wont", "would", "wouldnt", "you", "youd", "youll", "youre", "youve", "your", "yours", "yourself",
+  "yourselves"
+]);
+
 export interface DocumentInfo {
   name: string;
   size: number;
@@ -22,6 +39,7 @@ export class RAGManager {
   private pendingResolves = new Map<string, (val: any) => void>();
   private statusListeners: ((status: string) => void)[] = [];
   private progressListeners: ((percent: number, msg: string) => void)[] = [];
+  private queryEmbeddingCache = new Map<string, number[]>();
 
   private constructor() {
     if (typeof window !== "undefined") {
@@ -179,12 +197,21 @@ export class RAGManager {
     return dot;
   }
 
+  isDbOpfs(): boolean {
+    return db.isOpfsUsed();
+  }
+
   async getQueryEmbedding(query: string): Promise<number[]> {
+    const trimmed = query.trim().toLowerCase();
+    if (this.queryEmbeddingCache.has(trimmed)) {
+      return this.queryEmbeddingCache.get(trimmed)!;
+    }
+
     await this.initializeModel();
     if (!this.worker) {
       throw new Error("RAG Worker not available");
     }
-    return new Promise<number[]>((resolve, reject) => {
+    const vector = await new Promise<number[]>((resolve, reject) => {
       const key = `query-${query}`;
       this.pendingResolves.set(key, (val) => {
         if (val && val.error) reject(new Error(val.error));
@@ -195,6 +222,13 @@ export class RAGManager {
         payload: { query }
       });
     });
+
+    this.queryEmbeddingCache.set(trimmed, vector);
+    if (this.queryEmbeddingCache.size > 100) {
+      const firstKey = this.queryEmbeddingCache.keys().next().value;
+      if (firstKey !== undefined) this.queryEmbeddingCache.delete(firstKey);
+    }
+    return vector;
   }
 
   async semanticSearch(query: string, topK = 3, threshold = 0.35): Promise<SearchResult[]> {
@@ -209,7 +243,12 @@ export class RAGManager {
       const results = rows as unknown as unknown[][];
       if (!Array.isArray(results) || results.length === 0) return [];
 
-      const queryWords = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+      const queryWords = query
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "")
+        .split(/\s+/)
+        .filter(w => w.length > 1 && !STOP_WORDS.has(w));
+
       const searchResults: SearchResult[] = [];
 
       for (const row of results) {
@@ -224,7 +263,7 @@ export class RAGManager {
 
         // Hybrid Lexical Match Boost
         if (queryWords.length > 0) {
-          const chunkTextLower = textContent.toLowerCase();
+          const chunkTextLower = textContent.toLowerCase().replace(/[^a-z0-9\s]/g, "");
           let wordMatches = 0;
           for (const word of queryWords) {
             if (chunkTextLower.includes(word)) {

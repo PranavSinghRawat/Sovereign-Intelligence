@@ -7,6 +7,7 @@ export class SqliteDatabase {
   private static instance: SqliteDatabase;
   private db: unknown = null;
   private ready: Promise<void>;
+  private isOpfs = false;
 
   private constructor() {
     this.ready = this.init();
@@ -28,12 +29,15 @@ export class SqliteDatabase {
 
       if ("opfs" in sqlite3) {
         this.db = new sqlite3.oo1.OpfsDb("/sovereign_intelligence.db");
+        this.isOpfs = true;
       } else {
         this.db = new sqlite3.oo1.DB("/sovereign_intelligence.db", "ct");
+        this.isOpfs = false;
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const database = this.db as any;
+      database.exec("PRAGMA foreign_keys = ON;");
       database.exec(`
         CREATE TABLE IF NOT EXISTS pii_fragments (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,6 +89,10 @@ export class SqliteDatabase {
   async getDb() {
     await this.ready;
     return this.db;
+  }
+
+  isOpfsUsed(): boolean {
+    return this.isOpfs;
   }
 }
 

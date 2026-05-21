@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 export const RAGSidebarTab: React.FC = () => {
   const [documents, setDocuments] = useState<DocumentInfo[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+
+  const totalChunks = documents.reduce((sum, doc) => sum + doc.chunk_count, 0);
+  const isOpfs = ragManager.isDbOpfs();
   const [indexingState, setIndexingState] = useState<{
     status: "idle" | "loading" | "indexing" | "complete" | "error";
     message: string;
@@ -252,7 +255,17 @@ export const RAGSidebarTab: React.FC = () => {
 
       {/* Document Inventory */}
       <div className="flex flex-col gap-2 mt-2">
-        <span className="text-zinc-500 uppercase tracking-wider font-bold">Local Knowledge Base ({documents.length})</span>
+        <div className="flex items-center justify-between text-zinc-500 uppercase tracking-wider font-bold">
+          <span>Local Knowledge Base ({documents.length})</span>
+          <span className="text-[8px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-450 font-normal normal-case">
+            {isOpfs ? "Storage: OPFS" : "Storage: Memory"}
+          </span>
+        </div>
+        {documents.length > 0 && (
+          <div className="flex items-center justify-between text-[9px] text-zinc-650 font-medium">
+            <span>Total Index Chunks: {totalChunks}</span>
+          </div>
+        )}
         <div className="max-h-48 overflow-y-auto space-y-2 pr-1.5 scrollbar-thin">
           <AnimatePresence initial={false}>
             {documents.length === 0 ? (

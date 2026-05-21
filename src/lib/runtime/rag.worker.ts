@@ -56,7 +56,9 @@ self.onmessage = async (e: MessageEvent) => {
         });
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
-        const pageText = textContent.items.map((item: any) => item.str).join(" ");
+        const pageText = textContent.items.map((item: any) => {
+          return item.str + (item.hasEOL ? "\n" : " ");
+        }).join("");
         fullText += pageText + "\n";
       }
 
@@ -129,7 +131,84 @@ self.onmessage = async (e: MessageEvent) => {
   }
 };
 
-function chunkText(text: string, size: number, overlap: number): string[] {
+export function chunkText(text: string, size: number, overlap: number): string[] {
+  // Split the text into sentences using a regex that captures punctuation
+  const sentenceRegex = /([^.!?]+[.!?]+)(\s+|$)/g;
+  const sentences: string[] = [];
+  let match;
+  
+  // Normalize double whitespaces/newlines into spaces
+  const normalizedText = text.replace(/\s+/g, " ").trim();
+  
+  let lastIndex = 0;
+  while ((match = sentenceRegex.exec(normalizedText)) !== null) {
+    sentences.push(match[1].trim());
+    lastIndex = sentenceRegex.lastIndex;
+  }
+  
+  if (lastIndex < normalizedText.length) {
+    const remaining = normalizedText.slice(lastIndex).trim();
+    if (remaining) {
+      sentences.push(remaining);
+    }
+  }
+  
+  if (sentences.length === 0) {
+    return chunkTextByWords(normalizedText, size, overlap);
+  }
+  
+  const chunks: string[] = [];
+  let currentChunk: string[] = [];
+  let currentLength = 0;
+  
+  for (const sentence of sentences) {
+    const sentenceLength = sentence.length;
+    
+    // If a single sentence is longer than chunkSize, split it by words
+    if (sentenceLength > size) {
+      if (currentChunk.length > 0) {
+        chunks.push(currentChunk.join(" "));
+        currentChunk = [];
+        currentLength = 0;
+      }
+      
+      const subChunks = chunkTextByWords(sentence, size, overlap);
+      chunks.push(...subChunks);
+      continue;
+    }
+    
+    if (currentLength + sentenceLength + (currentChunk.length > 0 ? 1 : 0) > size) {
+      chunks.push(currentChunk.join(" "));
+      
+      // Calculate overlap: keep some sentences from the end of current chunk
+      const overlapChunks: string[] = [];
+      let overlapLen = 0;
+      for (let i = currentChunk.length - 1; i >= 0; i--) {
+        const s = currentChunk[i];
+        if (overlapLen + s.length + (overlapChunks.length > 0 ? 1 : 0) <= overlap) {
+          overlapChunks.unshift(s);
+          overlapLen += s.length + 1;
+        } else {
+          break;
+        }
+      }
+      
+      currentChunk = [...overlapChunks, sentence];
+      currentLength = currentChunk.join(" ").length;
+    } else {
+      currentChunk.push(sentence);
+      currentLength += sentenceLength + (currentChunk.length > 1 ? 1 : 0);
+    }
+  }
+  
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk.join(" "));
+  }
+  
+  return chunks.filter(c => c.trim().length > 10);
+}
+
+function chunkTextByWords(text: string, size: number, overlap: number): string[] {
   const words = text.split(/\s+/);
   const chunks: string[] = [];
   let currentWords: string[] = [];
@@ -139,7 +218,6 @@ function chunkText(text: string, size: number, overlap: number): string[] {
     const currentLength = currentWords.join(" ").length;
     if (currentLength >= size) {
       chunks.push(currentWords.join(" "));
-      // Overlap by sliding back
       const keepCount = Math.max(1, Math.floor(currentWords.length * (overlap / size)));
       currentWords = currentWords.slice(-keepCount);
     }
@@ -149,5 +227,5 @@ function chunkText(text: string, size: number, overlap: number): string[] {
     chunks.push(currentWords.join(" "));
   }
   
-  return chunks.filter(c => c.trim().length > 10);
+  return chunks;
 }
