@@ -3,6 +3,7 @@ import { camp, CAMPResult } from "../middleware/CAMP";
 import { searchCommunityResources, getCurrentWeather, CommunityResource } from "../mcp/ResourceTools";
 import { metricsCapture } from "../metrics/MetricsCapture";
 import { telemetry } from "../metrics/Telemetry";
+import { ragManager, SearchResult } from "./RAGManager";
 
 /**
  * Sovereign Intelligence Layer - AgentRuntime
@@ -68,7 +69,7 @@ export class AgentRuntime {
     onStream?: (text: string) => void,
     onToolStart?: (toolName: string) => void,
     onStepChange?: (step: string) => void
-  ): Promise<{ text: string, camp: CAMPResult }> {
+  ): Promise<{ text: string, camp: CAMPResult, ragSources?: SearchResult[] }> {
     if (onStepChange) onStepChange("Evaluating safety guardrails...");
     // A. Deterministic Hybrid Guardrail Pre-Processor (Instant protection without engine dependency)
     const rawUserMessage = [...messages].reverse().find(m => m.role === "user");
@@ -379,9 +380,35 @@ List each resource above with its Name, Location, Availability, and Distance exa
         return { text: fullText, camp: this.lastCAMPResult! };
       }
 
-      // 5c. General-purpose query fallback (Direct LLM synthesis)
+      // 5c. General-purpose query fallback (Direct LLM synthesis with RAG context if available)
+      let ragSources: SearchResult[] = [];
+      let dynamicSystemPrompt = SYSTEM_PROMPT;
+
+      if (lastUserMsg && typeof lastUserMsg.content === "string") {
+        try {
+          if (onStepChange) onStepChange("Scanning local document indexes...");
+          ragSources = await ragManager.semanticSearch(lastUserMsg.content);
+          
+          if (ragSources.length > 0) {
+            if (onStepChange) onStepChange(`Retrieved ${ragSources.length} relevant document snippets...`);
+            const contextBlock = ragSources.map((src) => 
+              `[Document: ${src.documentName} (Chunk #${src.chunkIndex}, Score: ${src.score.toFixed(2)})]\n"${src.textContent}"`
+            ).join("\n\n");
+            
+            dynamicSystemPrompt = `${SYSTEM_PROMPT}
+
+RETRIEVED CONTEXT FROM LOCAL DOCUMENTS:
+You have access to the following verified snippets from the user's local documents. Answer the user's query utilizing this context when relevant. Do NOT mention that you are using this context unless asked, but use it to answer precisely.
+
+${contextBlock}`;
+          }
+        } catch (err) {
+          console.error("[RAG] Retrieval failed:", err);
+        }
+      }
+
       const generalMessages: ChatCompletionMessageParam[] = [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: dynamicSystemPrompt },
         ...messages
       ];
 
@@ -401,7 +428,7 @@ List each resource above with its Name, Location, Availability, and Distance exa
       const endTime = performance.now();
       metricsCapture.update(endTime - startTime, fullText.length, this.lastCAMPResult);
 
-      return { text: fullText, camp: this.lastCAMPResult! };
+      return { text: fullText, camp: this.lastCAMPResult!, ragSources };
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       telemetry.logError("Inference_Failure", errorMessage);

@@ -50,10 +50,16 @@ export default function RoadmapPage() {
               <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> ZK-Signaling & WebRTC</li>
             </ul>
           </GlassCard>
-          <GlassCard hoverEffect className="p-6 space-y-4">
-            <div className="text-zinc-500 font-mono text-xs">VERSION 3.0</div>
-            <h3 className="font-bold text-sm text-zinc-300">On-Device RAG</h3>
-            <ul className="text-xs text-zinc-400 space-y-2 pt-2"><li>• Transformers.js Embeddings</li><li>• Local Vector Indexes</li><li>• Offline Drag & Drop PDF</li><li>• In-browser Semantic Search</li></ul>
+          <GlassCard hoverEffect className="p-6 space-y-4 relative">
+            <div className="absolute top-4 right-4 text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded-full uppercase tracking-wider">Active</div>
+            <div className="text-zinc-400 font-mono text-xs">VERSION 3.0</div>
+            <h3 className="font-bold text-sm text-zinc-200">On-Device RAG</h3>
+            <ul className="text-xs text-zinc-400 space-y-2 pt-2">
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Transformers.js Embeddings</li>
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Local Vector Indexes</li>
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Offline Drag & Drop PDF</li>
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> In-browser Semantic Search</li>
+            </ul>
           </GlassCard>
           <GlassCard hoverEffect className="p-6 space-y-4">
             <div className="text-zinc-500 font-mono text-xs">VERSION 4.0</div>

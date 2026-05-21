@@ -50,6 +50,26 @@ export class SqliteDatabase {
           created_at INTEGER NOT NULL
         );
       `);
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS documents (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL UNIQUE,
+          size INTEGER NOT NULL,
+          chunk_count INTEGER NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS document_chunks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          document_name TEXT NOT NULL,
+          chunk_index INTEGER NOT NULL,
+          text_content TEXT NOT NULL,
+          embedding_json TEXT NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY(document_name) REFERENCES documents(name) ON DELETE CASCADE
+        );
+      `);
     } catch (err) {
       console.error("[SQLite] Failed to initialize database:", err);
     }
