@@ -181,15 +181,31 @@ RULES:
 
         // Extract location using location-specific patterns
         const locationPatterns = [
-          /(?:in|near|around|at)\s+([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
-          /(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)\s+(?:for|in|at|near|around)?\s*([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
-          /([a-zA-Z][a-zA-Z\s,]{1,30}?)\s+(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)/i,
+          /\b(?:in|near|around|at)\b\s+([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
+          /\b(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)\b\s+(?:for|in|at|near|around)?\s*([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
+          /([a-zA-Z][a-zA-Z\s,]{1,30}?)\s+\b(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)\b/i,
         ];
         for (const pat of locationPatterns) {
           const match = normalized.match(pat);
           if (match && match[1]) {
             matchedLocation = match[1].trim();
             break;
+          }
+        }
+
+        if (matchedLocation) {
+          const words = matchedLocation.toLowerCase().split(/\s+/);
+          const locationBlockers = [
+            "where", "what", "how", "who", "why", "are", "is", "some", "any", "find", "show",
+            "me", "the", "a", "an", "do", "you", "have", "please", "local", "nearest", "near",
+            "around", "available", "get", "good", "best", "cheap", "free", "info", "information",
+            "details", "weather", "forecast", "temperature", "food", "bank", "banks", "clinic",
+            "clinics", "medical", "financial", "aid", "like", "today", "tomorrow", "tonight",
+            "now", "this", "week", "weekend", "daily", "currently", "current", "here", "there"
+          ];
+          const hasBlocker = words.some(w => locationBlockers.includes(w));
+          if (hasBlocker) {
+            matchedLocation = null;
           }
         }
 
