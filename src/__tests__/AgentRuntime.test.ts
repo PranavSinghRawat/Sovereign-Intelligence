@@ -137,4 +137,138 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     (sovereignRuntime as unknown as { engine: unknown }).engine = null;
     vi.unstubAllGlobals();
   });
+
+  it("should return a clarification prompt when weather query is missing a location", async () => {
+    (sovereignRuntime as unknown as { engine: unknown }).engine = {} as unknown;
+
+    const noLocQuery: ChatCompletionMessageParam[] = [
+      { role: "user", content: "What is the weather like?" }
+    ];
+
+    const result = await sovereignRuntime.generateResponse(noLocQuery);
+    expect(result.text).toBe("Which city or location would you like to check the weather for?");
+
+    // Cleanup
+    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+  });
+
+  it("should resolve weather queries using conversational memory when a location is provided in the next turn", async () => {
+    const mockFetch = vi.fn((url: string) => {
+      if (url.includes("geocoding-api")) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            results: [{ latitude: 40.7, longitude: -74.0, name: "New York", country: "United States" }]
+          })
+        } as Response);
+      }
+      if (url.includes("api.open-meteo.com")) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            current: {
+              temperature_2m: 22.0,
+              apparent_temperature: 21.0,
+              precipitation: 0.0,
+              weather_code: 0,
+              wind_speed_10m: 5.0
+            }
+          })
+        } as Response);
+      }
+      return Promise.reject(new Error("Unknown URL"));
+    });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const mockCreate = vi.fn(() => {
+      throw new Error("LLM Engine call reached for weather follow-up");
+    });
+    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+      chat: {
+        completions: {
+          create: mockCreate
+        }
+      }
+    };
+
+    const conversation: ChatCompletionMessageParam[] = [
+      { role: "user", content: "What is the weather like?" },
+      { role: "assistant", content: "Which city or location would you like to check the weather for?" },
+      { role: "user", content: "New York" }
+    ];
+
+    await expect(sovereignRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for weather follow-up");
+    expect(mockFetch).toHaveBeenCalled();
+    expect(mockCreate).toHaveBeenCalled();
+
+    const lastCall = (mockCreate.mock.calls as unknown as [ [ { messages: { content: string }[] } ] ])[0][0];
+    const systemPrompt = lastCall.messages[0].content;
+    expect(systemPrompt).toContain("CURRENT WEATHER:");
+    expect(systemPrompt).toContain("Location: New York, United States");
+    expect(systemPrompt).toContain("Temperature: 22°C");
+
+    // Cleanup
+    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    vi.unstubAllGlobals();
+  });
+
+  it("should return a clarification prompt when community resource query is missing a location, and resolve in the next turn", async () => {
+    (sovereignRuntime as unknown as { engine: unknown }).engine = {} as unknown;
+
+    const noLocQuery: ChatCompletionMessageParam[] = [
+      { role: "user", content: "Where are some food banks?" }
+    ];
+
+    const result = await sovereignRuntime.generateResponse(noLocQuery);
+    expect(result.text).toBe("Which city or area do you need food resources for?");
+
+    // Verify follow-up
+    const mockCreate = vi.fn(() => {
+      throw new Error("LLM Engine call reached for resources follow-up");
+    });
+    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+      chat: {
+        completions: {
+          create: mockCreate
+        }
+      }
+    };
+
+    const mockFetch = vi.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          elements: [
+            {
+              id: 123,
+              tags: {
+                name: "Boston Food Pantry",
+                "addr:city": "Boston",
+                opening_hours: "10 AM - 4 PM"
+              }
+            }
+          ]
+        })
+      } as Response);
+    });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const conversation: ChatCompletionMessageParam[] = [
+      { role: "user", content: "Where are some food banks?" },
+      { role: "assistant", content: "Which city or area do you need food resources for?" },
+      { role: "user", content: "Boston" }
+    ];
+
+    await expect(sovereignRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for resources follow-up");
+    expect(mockCreate).toHaveBeenCalled();
+
+    const lastCall = (mockCreate.mock.calls as unknown as [ [ { messages: { content: string }[] } ] ])[0][0];
+    const systemPrompt = lastCall.messages[0].content;
+    expect(systemPrompt).toContain("VERIFIED RESOURCES:");
+    expect(systemPrompt).toContain("Boston Food Pantry");
+
+    // Cleanup
+    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    vi.unstubAllGlobals();
+  });
 });
