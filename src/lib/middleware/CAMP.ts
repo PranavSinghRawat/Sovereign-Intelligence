@@ -38,7 +38,27 @@ export class CAMPMiddleware {
     // Ensure registry is loaded
     await sessionPII.initialize();
 
-    // 1. Scan ALL patterns and collect match positions + types
+    // 0. Extract markdown code blocks to prevent PII scanning inside them
+    const codeBlocks: string[] = [];
+    let placeholderText = text;
+
+    // Fenced code blocks
+    const fencedRegex = /```[\s\S]*?```/g;
+    placeholderText = placeholderText.replace(fencedRegex, (match) => {
+      const idx = codeBlocks.length;
+      codeBlocks.push(match);
+      return `__CAMP_CODE_BLOCK_${idx}__`;
+    });
+
+    // Inline code blocks
+    const inlineRegex = /`[^`\n]+`/g;
+    placeholderText = placeholderText.replace(inlineRegex, (match) => {
+      const idx = codeBlocks.length;
+      codeBlocks.push(match);
+      return `__CAMP_CODE_BLOCK_${idx}__`;
+    });
+
+    // 1. Scan ALL patterns and collect match positions + types on the placeholder text
     interface MatchRecord { start: number; end: number; type: PIIType; value: string; }
     const allMatches: MatchRecord[] = [];
 
@@ -46,7 +66,7 @@ export class CAMPMiddleware {
       // Reset regex lastIndex for global patterns
       regex.lastIndex = 0;
       let match: RegExpExecArray | null;
-      while ((match = regex.exec(text)) !== null) {
+      while ((match = regex.exec(placeholderText)) !== null) {
         allMatches.push({
           start: match.index,
           end: match.index + match[0].length,
@@ -64,7 +84,7 @@ export class CAMPMiddleware {
 
     // 3. Check Re-identifiability
     const currentCPE = sessionPII.getCPE();
-    let processedText = text;
+    let processedText = placeholderText;
 
     if (sessionPII.isReidentifiable()) {
       shouldPrune = true;
@@ -77,6 +97,11 @@ export class CAMPMiddleware {
         const after = processedText.slice(m.end);
         processedText = before + `[${m.type}_PRUNED]` + after;
       }
+    }
+
+    // 5. Restore the code blocks
+    for (let i = 0; i < codeBlocks.length; i++) {
+      processedText = processedText.replace(`__CAMP_CODE_BLOCK_${i}__`, codeBlocks[i]);
     }
 
     return {

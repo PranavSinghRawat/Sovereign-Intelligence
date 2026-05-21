@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { camp } from "../lib/middleware/CAMP";
-import { sessionPII } from "../lib/middleware/PIIRegistry";
+import { sessionPII, PIIType } from "../lib/middleware/PIIRegistry";
 
 // Mock the SQLite OPFS database dependency since OPFS doesn't run in Node.js test environment
 vi.mock("../lib/store/sqlite-db", () => {
@@ -47,5 +47,21 @@ describe("CAMP Middleware (Privacy Firewall)", () => {
     expect(result.cpeScore).toBeLessThan(1.0);
     expect(result.pruned).toBe(false);
     expect(result.processedText).toBe(input);
+  });
+
+  it("should whitelist and NOT prune mock PII content inside markdown code blocks", async () => {
+    // Fill the registry with PII to force the system into a high-risk re-identifiable state
+    await sessionPII.registerFragment(PIIType.NAME, "John Doe");
+    await sessionPII.registerFragment(PIIType.LOCATION, "Seattle");
+    await sessionPII.registerFragment(PIIType.MEDICAL, "diabetes");
+
+    const input = "Check this Python script:\n```python\nemail = 'user@example.com'\nprint('Hello ' + name)\n```\nAlso I live in Seattle.";
+    const result = await camp.process(input);
+
+    // The code block content must remain completely unmodified, but external location "Seattle" should be pruned
+    expect(result.processedText).toContain("email = 'user@example.com'");
+    expect(result.processedText).toContain("print('Hello ' + name)");
+    expect(result.processedText).not.toContain("user@example.com_PRUNED");
+    expect(result.processedText).toContain("[LOCATION_PRUNED]");
   });
 });
