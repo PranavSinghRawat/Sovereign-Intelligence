@@ -150,6 +150,116 @@ export const searchCommunityResources = async (query: { type?: string; location?
 };
 
 /**
+ * WMO Weather code mapper to human readable descriptions
+ */
+const getWeatherDescription = (code: number): string => {
+  const codes: Record<number, string> = {
+    0: "Clear sky",
+    1: "Mainly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Depositing rime fog",
+    51: "Light drizzle",
+    53: "Moderate drizzle",
+    55: "Dense drizzle",
+    61: "Slight rain",
+    63: "Moderate rain",
+    65: "Heavy rain",
+    71: "Slight snow fall",
+    73: "Moderate snow fall",
+    75: "Heavy snow fall",
+    77: "Snow grains",
+    80: "Slight rain showers",
+    81: "Moderate rain showers",
+    82: "Violent rain showers",
+    85: "Slight snow showers",
+    86: "Heavy snow showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm with slight hail",
+    99: "Thunderstorm with heavy hail"
+  };
+  return codes[code] || "Unknown weather condition";
+};
+
+export interface WeatherData {
+  location: string;
+  temperature: string;
+  apparentTemperature: string;
+  precipitation: string;
+  condition: string;
+  windSpeed: string;
+}
+
+/**
+ * Tool Implementation: get_current_weather
+ * Uses Open-Meteo Geocoding & Weather Forecast APIs anonymously
+ */
+export const getCurrentWeather = async (location: string): Promise<WeatherData> => {
+  console.log(`[MCP] Executing live getCurrentWeather with:`, location);
+  
+  const sanitizedLocation = sanitizeOverpassInput(location);
+  if (!sanitizedLocation || sanitizedLocation.length < 2) {
+    throw new Error("Invalid location specified");
+  }
+
+  // 1. Fetch Geocoding details (latitude/longitude)
+  const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(sanitizedLocation)}&count=1&language=en&format=json`;
+  
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const geoResponse = await fetch(geocodeUrl, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
+    if (!geoResponse.ok) {
+      throw new Error("Geocoding service unavailable");
+    }
+
+    const geoData = await geoResponse.json();
+    if (!geoData.results || geoData.results.length === 0) {
+      throw new Error(`Location "${sanitizedLocation}" not found`);
+    }
+
+    const { latitude, longitude, name, country } = geoData.results[0];
+
+    // 2. Fetch Weather details
+    const weatherController = new AbortController();
+    const weatherTimeoutId = setTimeout(() => weatherController.abort(), 8000);
+
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`;
+
+    const weatherResponse = await fetch(weatherUrl, { signal: weatherController.signal });
+    clearTimeout(weatherTimeoutId);
+
+    if (!weatherResponse.ok) {
+      throw new Error("Weather service unavailable");
+    }
+
+    const weatherData = await weatherResponse.json();
+    const current = weatherData.current;
+
+    if (!current) {
+      throw new Error("Invalid weather data response");
+    }
+
+    return {
+      location: `${name}, ${country}`,
+      temperature: `${current.temperature_2m}°C`,
+      apparentTemperature: `${current.apparent_temperature}°C`,
+      precipitation: `${current.precipitation} mm`,
+      condition: getWeatherDescription(current.weather_code),
+      windSpeed: `${current.wind_speed_10m} km/h`
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : "Unknown network error";
+    console.error("[MCP] Weather Tool Error:", errorMsg);
+    throw new Error(`Unable to fetch weather for ${sanitizedLocation}: ${errorMsg}`);
+  }
+};
+
+/**
  * Tool Implementation: get_resource_availability
  */
 export const getResourceAvailability = async (id: string) => {
@@ -187,6 +297,20 @@ export const MCP_TOOLS = [
           id: { type: "string", description: "The unique ID of the resource." }
         },
         required: ["id"]
+      }
+    }
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_current_weather",
+      description: "Get real-time weather information for a specific location.",
+      parameters: {
+        type: "object",
+        properties: {
+          location: { type: "string", description: "The city or location name." }
+        },
+        required: ["location"]
       }
     }
   }

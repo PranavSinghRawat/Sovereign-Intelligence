@@ -39,10 +39,16 @@ export default function RoadmapPage() {
               <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Manual P2P WebRTC</li>
             </ul>
           </GlassCard>
-          <GlassCard hoverEffect className="p-6 space-y-4">
-            <div className="text-zinc-500 font-mono text-xs">VERSION 2.0</div>
-            <h3 className="font-bold text-sm text-zinc-300">Connected Node</h3>
-            <ul className="text-xs text-zinc-400 space-y-2 pt-2"><li>• ZK-Signaling Relays</li><li>• Automated WebRTC</li><li>• Dynamic agent:// protocol</li><li>• Live OpenStreetMap API</li></ul>
+          <GlassCard hoverEffect className="p-6 space-y-4 relative">
+            <div className="absolute top-4 right-4 text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded-full uppercase tracking-wider">Active</div>
+            <div className="text-zinc-400 font-mono text-xs">VERSION 2.0</div>
+            <h3 className="font-bold text-sm text-zinc-200">Connected Node</h3>
+            <ul className="text-xs text-zinc-400 space-y-2 pt-2">
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Live OpenStreetMap API</li>
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> Anonymous Weather Tool</li>
+              <li className="flex items-start gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-zinc-400 shrink-0 mt-0.5" /> General WebGPU LLM</li>
+              <li className="flex items-start gap-1 text-zinc-500"><span className="shrink-0 mt-0.5 w-3.5 text-center">•</span> ZK-Signaling & WebRTC</li>
+            </ul>
           </GlassCard>
           <GlassCard hoverEffect className="p-6 space-y-4">
             <div className="text-zinc-500 font-mono text-xs">VERSION 3.0</div>
