@@ -254,7 +254,7 @@ export const getCurrentWeather = async (location: string): Promise<WeatherData> 
     };
   } catch (err: unknown) {
     const errorMsg = err instanceof Error ? err.message : "Unknown network error";
-    console.error("[MCP] Weather Tool Error:", errorMsg);
+    console.warn("[MCP] Weather Tool unavailable:", errorMsg);
     throw new Error(`Unable to fetch weather for ${sanitizedLocation}: ${errorMsg}`);
   }
 };

@@ -40,6 +40,7 @@ export class RAGManager {
   private statusListeners: ((status: string) => void)[] = [];
   private progressListeners: ((percent: number, msg: string) => void)[] = [];
   private queryEmbeddingCache = new Map<string, number[]>();
+  private modelFailed = false;
 
   private constructor() {
     if (typeof window !== "undefined") {
@@ -75,8 +76,14 @@ export class RAGManager {
           const resolve = this.pendingResolves.get(`query-${payload.query}`);
           if (resolve) resolve(payload.vector);
         } else if (type === "error") {
-          console.error("[RAG Worker Error]:", payload);
-          // Alert and reject pending promises
+          const isInitError = typeof payload === "string" && payload.includes("initialization failed");
+          if (isInitError) {
+            console.warn("[RAG] Embedding model unavailable (offline or unsupported):", payload);
+            this.modelFailed = true;
+          } else {
+            console.warn("[RAG] Worker error:", payload);
+          }
+          // Resolve pending promises with error payload so they can reject gracefully
           this.pendingResolves.forEach((resolve) => resolve({ error: payload }));
           this.pendingResolves.clear();
         }
@@ -103,7 +110,7 @@ export class RAGManager {
   }
 
   async initializeModel(): Promise<void> {
-    if (!this.worker) return;
+    if (!this.worker || this.modelFailed) return;
     if (this.initPromise) return this.initPromise;
 
     this.initPromise = new Promise((resolve) => {
@@ -207,6 +214,10 @@ export class RAGManager {
       return this.queryEmbeddingCache.get(trimmed)!;
     }
 
+    if (this.modelFailed) {
+      throw new Error("RAG embedding model unavailable");
+    }
+
     await this.initializeModel();
     if (!this.worker) {
       throw new Error("RAG Worker not available");
@@ -287,8 +298,8 @@ export class RAGManager {
 
       // 3. Sort by score descending and return topK
       return searchResults.sort((a, b) => b.score - a.score).slice(0, topK);
-    } catch (err) {
-      console.error("[RAGManager] Search failed:", err);
+    } catch {
+      // Silently degrade — RAG search is best-effort
       return [];
     }
   }
