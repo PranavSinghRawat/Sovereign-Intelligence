@@ -80,6 +80,7 @@ export class SqliteDatabase {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async exec(sql: string, params: unknown[] = []): Promise<any[]> {
     await this.ready;
     if (!this.db) {
@@ -93,6 +94,7 @@ export class SqliteDatabase {
       return (this.db as any).exec(sql, { bind: params, returnValue: "resultRows" });
     });
     this.writeQueue = resultPromise.catch(() => {});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return resultPromise as Promise<any[]>;
   }
 

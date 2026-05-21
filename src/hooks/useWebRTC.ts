@@ -28,13 +28,30 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       if (isMounted) {
         setP2pStatus(status);
         if (status === "connected") {
-          // Connection established! Safe to close signaling channels.
-          if (signalingChannelRef.current) {
-            signalingChannelRef.current.close();
-            signalingChannelRef.current = null;
-          }
+          // Connection established! Log but retain signaling for ICE restarts.
+          setSignalingLogs((prev) => [...prev, "[System] WebRTC connected. Signaling channel retained for self-healing."]);
           setIsSignaling(false);
         }
+      }
+    });
+
+    // Self-healing: when ICE restart is needed, re-use retained signaling channel
+    p2pNode.onIceRestartNeeded(async () => {
+      const channel = signalingChannelRef.current;
+      if (!channel) {
+        console.warn("[ICE Restart] No signaling channel available for recovery.");
+        return;
+      }
+      try {
+        setSignalingLogs((prev) => [...prev, "[ICE Restart] Connection dropped. Attempting ICE restart..."]);
+        setIsSignaling(true);
+        const newOffer = await p2pNode.performIceRestart();
+        await channel.send("offer", newOffer);
+        setSignalingLogs((prev) => [...prev, "[ICE Restart] New SDP offer published. Awaiting peer response..."]);
+      } catch (err) {
+        console.error("[ICE Restart] Failed:", err);
+        setSignalingLogs((prev) => [...prev, `[ICE Restart] Failed: ${err}`]);
+        setIsSignaling(false);
       }
     });
 

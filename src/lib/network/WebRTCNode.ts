@@ -13,6 +13,9 @@ export class WebRTCNode {
   private encryptionSeed: string | null = null;
   private onMessageCallback: ((data: unknown) => void) | null = null;
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
+  private onIceRestartNeededCallback: (() => void) | null = null;
+  private iceRestartAttempts = 0;
+  private static MAX_ICE_RESTARTS = 3;
 
   constructor() {
     // Prevent SSR crashes during Next.js production builds
@@ -41,9 +44,20 @@ export class WebRTCNode {
 
     // Listen for connection status changes
     this.peerConnection.onconnectionstatechange = () => {
-      console.log("[WebRTC] Connection State:", this.peerConnection.connectionState);
+      const state = this.peerConnection.connectionState;
+      console.log("[WebRTC] Connection State:", state);
       if (this.onStatusChangeCallback) {
-        this.onStatusChangeCallback(this.peerConnection.connectionState);
+        this.onStatusChangeCallback(state);
+      }
+
+      // Self-healing: trigger ICE restart on transient failures
+      if (state === "connected") {
+        this.iceRestartAttempts = 0; // Reset on successful connection
+      } else if ((state === "disconnected" || state === "failed") && this.iceRestartAttempts < WebRTCNode.MAX_ICE_RESTARTS) {
+        console.log(`[WebRTC] Connection ${state}. Attempting ICE restart (${this.iceRestartAttempts + 1}/${WebRTCNode.MAX_ICE_RESTARTS})...`);
+        if (this.onIceRestartNeededCallback) {
+          this.onIceRestartNeededCallback();
+        }
       }
     };
 
@@ -163,6 +177,34 @@ export class WebRTCNode {
 
   onStatusChange(callback: (status: RTCPeerConnectionState) => void) {
     this.onStatusChangeCallback = callback;
+  }
+
+  onIceRestartNeeded(callback: () => void) {
+    this.onIceRestartNeededCallback = callback;
+  }
+
+  /**
+   * Performs an ICE restart by creating a new offer with iceRestart: true.
+   * Returns the new SDP offer string for re-signaling.
+   */
+  async performIceRestart(): Promise<string> {
+    this.iceRestartAttempts++;
+    console.log(`[WebRTC] Performing ICE restart attempt ${this.iceRestartAttempts}...`);
+
+    const offer = await this.peerConnection.createOffer({ iceRestart: true });
+    await this.peerConnection.setLocalDescription(offer);
+
+    return new Promise<string>((resolve) => {
+      if (this.peerConnection.iceGatheringState === "complete") {
+        resolve(JSON.stringify(this.peerConnection.localDescription));
+      } else {
+        this.peerConnection.onicecandidate = (event) => {
+          if (event.candidate === null) {
+            resolve(JSON.stringify(this.peerConnection.localDescription));
+          }
+        };
+      }
+    });
   }
 
   private setupDataChannel() {
