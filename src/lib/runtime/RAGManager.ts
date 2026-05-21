@@ -233,6 +233,7 @@ export class RAGManager {
 
   async semanticSearch(query: string, topK = 3, threshold = 0.35): Promise<SearchResult[]> {
     if (!query.trim()) return [];
+    if (!this.worker) return []; // No worker available (SSR/Node) — skip silently
 
     try {
       // 1. Generate query embedding
