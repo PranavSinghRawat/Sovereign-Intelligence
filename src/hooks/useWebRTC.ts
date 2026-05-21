@@ -8,10 +8,11 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
   const [answerCode, setAnswerCode] = useState("");
   const [peerCodeInput, setPeerCodeInput] = useState("");
 
-  // BUG 8 Fix: Use a ref to hold the latest callback so the effect
-  // doesn't need to re-register listeners when the callback identity changes
   const onReceiveRef = useRef(onReceiveMessage);
-  onReceiveRef.current = onReceiveMessage;
+
+  useEffect(() => {
+    onReceiveRef.current = onReceiveMessage;
+  }, [onReceiveMessage]);
 
   useEffect(() => {
     let isMounted = true;

@@ -37,10 +37,10 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            <div className={`max-w-[75%] p-4 rounded-2xl ${
+            <div className={`max-w-[75%] p-4 rounded-2xl shadow-sm ${
               m.role === "user" 
-                ? "bg-zinc-100 text-zinc-950 ml-12 rounded-tr-none" 
-                : "bg-zinc-900/40 border border-zinc-800 mr-12 rounded-tl-none text-zinc-200"
+                ? "bg-zinc-100 text-zinc-950 ml-12 rounded-tr-none font-sans font-medium" 
+                : "bg-zinc-950/35 backdrop-blur-xl border border-zinc-900/60 mr-12 rounded-tl-none text-zinc-200"
             }`}>
               <div className="text-sm leading-relaxed prose prose-invert max-w-none prose-sm">
                 {typeof m.content === "string" ? (
@@ -56,7 +56,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
 
       {isThinking && (
         <div className="flex justify-start" aria-live="polite" aria-atomic="true">
-          <div className="bg-zinc-900/40 border border-zinc-800 p-4 rounded-2xl rounded-tl-none flex flex-col gap-2 min-w-[200px]">
+          <div className="bg-zinc-950/35 backdrop-blur-xl border border-zinc-900/60 p-4 rounded-2xl rounded-tl-none flex flex-col gap-2 min-w-[220px] shadow-sm">
             <div className="flex items-center gap-2">
               <div className="flex gap-1" aria-hidden="true">
                 {[0, 1, 2].map(d => (
@@ -75,7 +75,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
                 initial={{ opacity: 0, y: 2 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={thinkingStep}
-                className="text-xs font-mono text-zinc-350"
+                className="text-xs font-mono text-zinc-400"
               >
                 {thinkingStep}
               </motion.span>
