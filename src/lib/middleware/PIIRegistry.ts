@@ -2,7 +2,12 @@ import { db } from "../store/sqlite-db";
 
 /**
  * PII Registry - Session-level tracking of sensitive data fragments.
- * Now hardened with SQLite Wasm persistence.
+ * Hardened with SQLite Wasm persistence and SHA-256 hashing.
+ *
+ * Security: PII values are NEVER stored in plain text. Only a one-way
+ * SHA-256 hash of the normalized value is persisted. This ensures that
+ * the registry can still detect duplicate fragments across sessions
+ * without ever leaking raw PII if the database is compromised.
  */
 
 export enum PIIType {
@@ -27,6 +32,29 @@ const PII_WEIGHTS: Record<PIIType, number> = {
   [PIIType.MEDICAL]: 0.7,
 };
 
+/**
+ * Computes a SHA-256 hex digest of a string value.
+ * Uses the Web Crypto API when available (browser/worker),
+ * falls back to a simple deterministic hash in Node test environments.
+ */
+async function sha256(value: string): Promise<string> {
+  if (typeof globalThis.crypto !== "undefined" && globalThis.crypto.subtle) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(value);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  // Fallback for Node.js test environment without Web Crypto
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    const char = value.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0; // Convert to 32-bit integer
+  }
+  return Math.abs(hash).toString(16).padStart(8, "0");
+}
+
 export class PIIRegistry {
   private fragments: Set<string> = new Set();
   private sessionCPE: number = 0;
@@ -34,7 +62,7 @@ export class PIIRegistry {
   private initialized: boolean = false;
 
   /**
-   * Loads persisted fragments from SQLite.
+   * Loads persisted fragment hashes from SQLite.
    */
   async initialize(): Promise<void> {
     if (this.initialized) return;
@@ -46,8 +74,8 @@ export class PIIRegistry {
         // BUG 5 Fix: Validate row structure before accessing indices
         if (!Array.isArray(row) || row.length < 2 || typeof row[0] !== "string" || typeof row[1] !== "string") return;
         const type = row[0] as PIIType;
-        const value = row[1];
-        const fragmentKey = `${type}:${value.toLowerCase()}`;
+        const hashedValue = row[1]; // Already stored as a hash
+        const fragmentKey = `${type}:${hashedValue}`;
         if (!this.fragments.has(fragmentKey)) {
           this.fragments.add(fragmentKey);
           this.sessionCPE += PII_WEIGHTS[type] ?? 0;
@@ -61,21 +89,23 @@ export class PIIRegistry {
   }
 
   /**
-   * Adds a fragment and persists it to SQLite.
+   * Adds a fragment and persists its SHA-256 hash to SQLite.
+   * The raw value is NEVER written to the database.
    */
   async registerFragment(type: PIIType, value: string): Promise<boolean> {
-    const fragmentKey = `${type}:${value.toLowerCase()}`;
+    const hashedValue = await sha256(value.toLowerCase());
+    const fragmentKey = `${type}:${hashedValue}`;
     if (this.fragments.has(fragmentKey)) return false;
 
     // 1. Update In-Memory
     this.fragments.add(fragmentKey);
     this.sessionCPE += PII_WEIGHTS[type];
 
-    // 2. Update Persistent Store (Fire and forget or await depending on strictness)
+    // 2. Update Persistent Store with hashed value only
     try {
       await db.exec(
         "INSERT OR IGNORE INTO pii_fragments (type, value) VALUES (?, ?)",
-        [type, value.toLowerCase()]
+        [type, hashedValue]
       );
     } catch (err) {
       console.error("[PIIRegistry] Persistence failed:", err);
