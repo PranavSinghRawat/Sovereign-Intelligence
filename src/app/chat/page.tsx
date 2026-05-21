@@ -37,7 +37,15 @@ export default function ChatPage() {
     handleGenerateOffer,
     handleAcceptOffer,
     handleCompleteConnection,
-    handleSendP2PData
+    handleSendP2PData,
+    // ZK-Signaling props
+    roomPassphrase,
+    setRoomPassphrase,
+    isSignaling,
+    signalingLogs,
+    handleInitZKSignaling,
+    handleJoinZKSignaling,
+    handleCancelZKSignaling
   } = useWebRTC(addExternalMessage);
   
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -102,6 +110,14 @@ export default function ChatPage() {
             handleAcceptOffer={handleAcceptOffer}
             handleCompleteConnection={handleCompleteConnection}
             handleSendP2PData={handleSendP2PData}
+            // ZK-Signaling props
+            roomPassphrase={roomPassphrase}
+            setRoomPassphrase={setRoomPassphrase}
+            isSignaling={isSignaling}
+            signalingLogs={signalingLogs}
+            handleInitZKSignaling={handleInitZKSignaling}
+            handleJoinZKSignaling={handleJoinZKSignaling}
+            handleCancelZKSignaling={handleCancelZKSignaling}
           />
 
           <section className="flex-1 flex flex-col gap-6" aria-label="Secure Chat Area">

@@ -23,6 +23,15 @@ interface MetricsSidebarProps {
   handleAcceptOffer: (invite: string) => void;
   handleCompleteConnection: (answer: string) => void;
   handleSendP2PData: (text: string) => void;
+
+  // ZK-Signaling Props
+  roomPassphrase: string;
+  setRoomPassphrase: (val: string) => void;
+  isSignaling: boolean;
+  signalingLogs: string[];
+  handleInitZKSignaling: (passphrase: string) => void;
+  handleJoinZKSignaling: (passphrase: string) => void;
+  handleCancelZKSignaling: () => void;
 }
 
 export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({ 
@@ -37,11 +46,20 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   handleGenerateOffer,
   handleAcceptOffer,
   handleCompleteConnection,
-  handleSendP2PData
+  handleSendP2PData,
+  // ZK-Signaling Props
+  roomPassphrase,
+  setRoomPassphrase,
+  isSignaling,
+  signalingLogs,
+  handleInitZKSignaling,
+  handleJoinZKSignaling,
+  handleCancelZKSignaling
 }) => {
   const [optIn, setOptIn] = useState(telemetry.getOptInStatus());
   const [copied, setCopied] = useState("");
   const [p2pMsgInput, setP2pMsgInput] = useState("");
+  const [mode, setMode] = useState<"zk" | "manual">("zk");
 
   const handleOptIn = () => {
     const newStatus = !optIn;
@@ -147,84 +165,170 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
           </div>
         </div>
 
+        {/* Tab Selection */}
+        <div className="flex bg-zinc-950 p-0.5 rounded-xl border border-zinc-900 text-[10px] font-mono">
+          <button 
+            onClick={() => setMode("zk")}
+            className={cn(
+              "flex-1 py-1 rounded-lg transition-colors cursor-pointer text-center",
+              mode === "zk" ? "bg-zinc-900 text-zinc-200 font-semibold" : "text-zinc-500 hover:text-zinc-400"
+            )}
+          >
+            ZK-Auto Link
+          </button>
+          <button 
+            onClick={() => setMode("manual")}
+            className={cn(
+              "flex-1 py-1 rounded-lg transition-colors cursor-pointer text-center",
+              mode === "manual" ? "bg-zinc-900 text-zinc-200 font-semibold" : "text-zinc-500 hover:text-zinc-400"
+            )}
+          >
+            Manual Link
+          </button>
+        </div>
+
         {p2pStatus !== "connected" ? (
-          <div className="flex flex-col gap-4 text-[10px]">
-            {/* Step A: Generate Offer */}
-            <div className="flex flex-col gap-2">
-              <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">1. Host a P2P Session</span>
-              {!offerCode ? (
-                <button 
-                  onClick={handleGenerateOffer}
-                  className="w-full py-2 px-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 hover:bg-zinc-800/50 hover:text-zinc-100 active:scale-[0.98] text-zinc-300 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none shadow-sm"
-                >
-                  Generate Invite Code
-                </button>
-              ) : (
+          mode === "zk" ? (
+            /* ZK-Auto Mode Panel */
+            <div className="flex flex-col gap-3 text-[10px]">
+              <div className="flex flex-col gap-2">
+                <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">1. Secure Passphrase</span>
+                <input 
+                  type="text" 
+                  placeholder="Enter shared passphrase..." 
+                  value={roomPassphrase} 
+                  onChange={(e) => setRoomPassphrase(e.target.value)} 
+                  disabled={isSignaling}
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 placeholder-zinc-700 outline-none focus:border-zinc-750 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)] disabled:opacity-50"
+                  aria-label="Secure room passphrase"
+                />
+              </div>
+              
+              {!isSignaling ? (
                 <div className="flex gap-2">
-                  <input 
-                    readOnly 
-                    value={offerCode} 
-                    className="flex-1 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 select-all outline-none focus:border-zinc-750 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
-                    aria-label="Host invitation code"
-                  />
                   <button 
-                    onClick={() => copyToClipboard(offerCode, "offer")}
-                    className="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200"
-                    aria-label="Copy invitation code"
+                    onClick={() => handleInitZKSignaling(roomPassphrase)}
+                    disabled={!roomPassphrase.trim()}
+                    className="flex-1 py-2 px-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 hover:bg-zinc-850 hover:text-zinc-150 active:scale-[0.98] text-zinc-300 font-mono text-xs cursor-pointer transition-all duration-200 ease-out disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    {copied === "offer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    Host Session
+                  </button>
+                  <button 
+                    onClick={() => handleJoinZKSignaling(roomPassphrase)}
+                    disabled={!roomPassphrase.trim()}
+                    className="flex-1 py-2 px-3 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600/80 hover:bg-zinc-750 hover:text-white active:scale-[0.98] text-zinc-200 font-mono text-xs cursor-pointer transition-all duration-200 ease-out disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Join Session
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <button 
+                    onClick={handleCancelZKSignaling}
+                    className="w-full py-2 px-3 rounded-xl bg-red-950/20 border border-red-900/50 hover:bg-red-900/30 hover:border-red-800 text-red-300 font-mono text-xs cursor-pointer transition-all duration-200"
+                  >
+                    Cancel Handshake
                   </button>
                 </div>
               )}
-            </div>
 
-            {/* Step B: Connect with Peer Code */}
-            <div className="flex flex-col gap-2 border-t border-zinc-900/60 pt-4">
-              <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">2. Join Peer Session</span>
-              <textarea 
-                value={peerCodeInput}
-                onChange={(e) => setPeerCodeInput(e.target.value)}
-                placeholder="Paste Peer Invitation or Answer code..."
-                className="w-full h-16 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 placeholder-zinc-600 resize-none outline-none focus:border-zinc-700/80 transition-all duration-300 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
-                aria-label="Peer invite code input"
-              />
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => handleAcceptOffer(peerCodeInput)}
-                  className="flex-1 py-2 px-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 hover:bg-zinc-800/50 hover:text-zinc-100 active:scale-[0.98] text-zinc-300 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
-                >
-                  Generate Answer
-                </button>
-                <button 
-                  onClick={() => handleCompleteConnection(peerCodeInput)}
-                  className="flex-1 py-2 px-3 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600/80 hover:bg-zinc-700/50 hover:text-white active:scale-[0.98] text-zinc-200 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
-                >
-                  Complete Link
-                </button>
-              </div>
-
-              {answerCode && (
-                <div className="flex flex-col gap-2 mt-2">
-                  <span className="text-emerald-450 uppercase font-mono tracking-wider font-bold">Answer Code Generated:</span>
-                  <div className="flex gap-2">
-                    <input 
-                      readOnly 
-                      value={answerCode} 
-                      className="flex-1 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 select-all outline-none focus:border-zinc-750 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
-                      aria-label="Answer code output"
-                    />
-                    <button 
-                      onClick={() => copyToClipboard(answerCode, "answer")}
-                      className="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200"
-                      aria-label="Copy answer code"
-                    >
-                      {copied === "answer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                    </button>
+              {signalingLogs.length > 0 && (
+                <div className="flex flex-col gap-1.5 mt-2">
+                  <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">Signaling Console:</span>
+                  <div className="h-32 overflow-y-auto bg-zinc-950 border border-zinc-900 p-2.5 rounded-xl font-mono text-[9px] text-zinc-400 space-y-1 scrollbar-thin">
+                    {signalingLogs.map((log, idx) => (
+                      <div key={idx} className={cn(
+                        "leading-tight",
+                        log.includes("[Host]") ? "text-cyan-400/90" : 
+                        log.includes("[Joiner]") ? "text-amber-400/90" : "text-zinc-450"
+                      )}>
+                        {log}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          ) : (
+            /* Manual copy-paste mode panel */
+            <div className="flex flex-col gap-4 text-[10px]">
+              {/* Step A: Generate Offer */}
+              <div className="flex flex-col gap-2">
+                <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">1. Host a P2P Session</span>
+                {!offerCode ? (
+                  <button 
+                    onClick={handleGenerateOffer}
+                    className="w-full py-2 px-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 hover:bg-zinc-800/50 hover:text-zinc-100 active:scale-[0.98] text-zinc-300 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none shadow-sm"
+                  >
+                    Generate Invite Code
+                  </button>
+                ) : (
+                  <div className="flex gap-2">
+                    <input 
+                      readOnly 
+                      value={offerCode} 
+                      className="flex-1 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 select-all outline-none focus:border-zinc-750 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
+                      aria-label="Host invitation code"
+                    />
+                    <button 
+                      onClick={() => copyToClipboard(offerCode, "offer")}
+                      className="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200"
+                      aria-label="Copy invitation code"
+                    >
+                      {copied === "offer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Step B: Connect with Peer Code */}
+              <div className="flex flex-col gap-2 border-t border-zinc-900/60 pt-4">
+                <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">2. Join Peer Session</span>
+                <textarea 
+                  value={peerCodeInput}
+                  onChange={(e) => setPeerCodeInput(e.target.value)}
+                  placeholder="Paste Peer Invitation or Answer code..."
+                  className="w-full h-16 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 placeholder-zinc-650 resize-none outline-none focus:border-zinc-700/80 transition-all duration-300 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
+                  aria-label="Peer invite code input"
+                />
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => handleAcceptOffer(peerCodeInput)}
+                    className="flex-1 py-2 px-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700/80 hover:bg-zinc-800/50 hover:text-zinc-100 active:scale-[0.98] text-zinc-300 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
+                  >
+                    Generate Answer
+                  </button>
+                  <button 
+                    onClick={() => handleCompleteConnection(peerCodeInput)}
+                    className="flex-1 py-2 px-3 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600/80 hover:bg-zinc-700/50 hover:text-white active:scale-[0.98] text-zinc-200 font-mono text-xs cursor-pointer transition-all duration-200 ease-out focus-visible:ring-1 focus-visible:ring-zinc-700 focus:outline-none"
+                  >
+                    Complete Link
+                  </button>
+                </div>
+
+                {answerCode && (
+                  <div className="flex flex-col gap-2 mt-2">
+                    <span className="text-emerald-450 uppercase font-mono tracking-wider font-bold">Answer Code Generated:</span>
+                    <div className="flex gap-2">
+                      <input 
+                        readOnly 
+                        value={answerCode} 
+                        className="flex-1 px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-900 font-mono text-xs text-zinc-200 select-all outline-none focus:border-zinc-750 shadow-[inset_0_1px_2px_rgba(0,0,0,0.4)]"
+                        aria-label="Answer code output"
+                      />
+                      <button 
+                        onClick={() => copyToClipboard(answerCode, "answer")}
+                        className="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200"
+                        aria-label="Copy answer code"
+                      >
+                        {copied === "answer" ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )
         ) : (
           <div className="flex flex-col gap-2 text-[10px]">
             <span className="text-emerald-400 font-mono font-medium">✓ Secure Channel Established.</span>
@@ -256,6 +360,12 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                 <Send className="w-3.5 h-3.5" />
               </button>
             </div>
+            <button 
+              onClick={handleCancelZKSignaling}
+              className="w-full py-1.5 px-3 rounded-xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:text-zinc-200 text-zinc-400 font-mono text-[10px] mt-1 transition-colors"
+            >
+              Disconnect Peer
+            </button>
           </div>
         )}
       </GlassCard>
