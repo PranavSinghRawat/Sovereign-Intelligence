@@ -156,7 +156,7 @@ RULES:
       //    (Do NOT rely on the 1B model to classify — it will hallucinate)
       const lastUserMsg = [...guardedMessages].reverse().find(m => m.role === "user");
       let matchedType: "medical" | "food" | "financial" | null = null;
-      let matchedLocation = "Seattle";
+      let matchedLocation: string | null = null;
       let isGreeting = false;
       let isWeather = false;
 
@@ -179,15 +179,63 @@ RULES:
           matchedType = "financial";
         }
 
-        // Extract location
+        // Extract location using location-specific patterns
         const locationPatterns = [
-          /(?:in|near|around|at)\s+([a-zA-Z][a-zA-Z\s]{1,30}?)(?:\.|,|\?|!|$)/i,
+          /(?:in|near|around|at)\s+([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
+          /(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)\s+(?:for|in|at|near|around)?\s*([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
+          /([a-zA-Z][a-zA-Z\s,]{1,30}?)\s+(?:weather|forecast|temperature|resources|clinic|clinics|food bank|food banks|financial aid)/i,
         ];
         for (const pat of locationPatterns) {
           const match = normalized.match(pat);
           if (match && match[1]) {
             matchedLocation = match[1].trim();
             break;
+          }
+        }
+
+        // Check history for location clarification context if no location was matched
+        let prevAssistantMessage: string | null = null;
+        for (let i = messages.length - 2; i >= 0; i--) {
+          if (messages[i].role === "assistant") {
+            prevAssistantMessage = messages[i].content as string;
+            break;
+          }
+        }
+
+        if (prevAssistantMessage) {
+          const prevNormalized = prevAssistantMessage.toLowerCase();
+          const isReplyingToWeather = prevNormalized.includes("which city or location would you like to check the weather for?");
+          const isReplyingToFood = prevNormalized.includes("which city or area do you need food resources for?");
+          const isReplyingToMedical = prevNormalized.includes("which city or area do you need medical resources for?");
+          const isReplyingToFinancial = prevNormalized.includes("which city or area do you need financial resources for?");
+
+          if (isReplyingToWeather || isReplyingToFood || isReplyingToMedical || isReplyingToFinancial) {
+            const conversationalBlockers = ["write", "code", "explain", "joke", "story", "nevermind", "cancel", "forget", "chat", "talk"];
+            const words = normalized.split(/\s+/);
+            const containsBlocker = words.some(w => conversationalBlockers.includes(w));
+            const hasNewIntent = isGreeting || isWeather || matchedType !== null || containsBlocker;
+
+            if (!hasNewIntent) {
+              let cleanLoc = normalized.replace(/[.?!!]/g, "").trim();
+              const prefixesToStrip = [/^(?:what about|how about|for|in|near|around|at|to)\s+/i];
+              for (const pref of prefixesToStrip) {
+                cleanLoc = cleanLoc.replace(pref, "");
+              }
+              cleanLoc = cleanLoc.trim();
+
+              if (cleanLoc.length > 0 && cleanLoc.length < 50) {
+                matchedLocation = cleanLoc;
+                if (isReplyingToWeather) {
+                  isWeather = true;
+                } else if (isReplyingToFood) {
+                  matchedType = "food";
+                } else if (isReplyingToMedical) {
+                  matchedType = "medical";
+                } else if (isReplyingToFinancial) {
+                  matchedType = "financial";
+                }
+              }
+            }
           }
         }
       }
@@ -203,6 +251,14 @@ RULES:
 
       // 5a. Weather query flow (determinisitc weather fetch + LLM response formatting)
       if (isWeather) {
+        if (!matchedLocation) {
+          const clarification = "Which city or location would you like to check the weather for?";
+          if (onStream) onStream(clarification);
+          const defaultCamp: CAMPResult = this.lastCAMPResult || { processedText: "", cpeScore: 0, pruned: false, fragmentsDetected: [] };
+          metricsCapture.update(0, clarification.length, defaultCamp);
+          return { text: clarification, camp: defaultCamp };
+        }
+
         if (onToolStart) onToolStart("get_current_weather");
         if (onStepChange) onStepChange(`Fetching current weather for ${matchedLocation}...`);
         
@@ -253,6 +309,14 @@ Summarize the weather data above. Mention that it is retrieved dynamically and p
 
       // 5b. Resource query flow (deterministic resource search + LLM matching)
       if (matchedType) {
+        if (!matchedLocation) {
+          const clarification = `Which city or area do you need ${matchedType} resources for?`;
+          if (onStream) onStream(clarification);
+          const defaultCamp: CAMPResult = this.lastCAMPResult || { processedText: "", cpeScore: 0, pruned: false, fragmentsDetected: [] };
+          metricsCapture.update(0, clarification.length, defaultCamp);
+          return { text: clarification, camp: defaultCamp };
+        }
+
         if (onToolStart) onToolStart("search_community_resources");
         if (onStepChange) onStepChange(`Searching ${matchedType} resources in ${matchedLocation}...`);
         const results = await searchCommunityResources({ type: matchedType, location: matchedLocation });
