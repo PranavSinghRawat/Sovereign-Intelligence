@@ -8,6 +8,7 @@ export class SqliteDatabase {
   private db: unknown = null;
   private ready: Promise<void>;
   private isOpfs = false;
+  private writeQueue: Promise<unknown> = Promise.resolve();
 
   private constructor() {
     this.ready = this.init();
@@ -79,11 +80,20 @@ export class SqliteDatabase {
     }
   }
 
-  async exec(sql: string, params: unknown[] = []) {
+  async exec(sql: string, params: unknown[] = []): Promise<any[]> {
     await this.ready;
-    if (!this.db) throw new Error("Database not initialized");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (this.db as any).exec(sql, { bind: params, returnValue: "resultRows" });
+    if (!this.db) {
+      if (typeof window === "undefined" && typeof importScripts === "undefined") {
+        return [];
+      }
+      throw new Error("Database not initialized");
+    }
+    const resultPromise = this.writeQueue.then(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (this.db as any).exec(sql, { bind: params, returnValue: "resultRows" });
+    });
+    this.writeQueue = resultPromise.catch(() => {});
+    return resultPromise as Promise<any[]>;
   }
 
   async getDb() {
