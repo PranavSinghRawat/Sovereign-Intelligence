@@ -28,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sansFont.variable} ${monoFont.variable} h-full`} suppressHydrationWarning>
-      <body className="antialiased bg-radial-gradient text-foreground h-full overflow-hidden font-sans" suppressHydrationWarning>
+    <html lang="en" className={`${sansFont.variable} ${monoFont.variable} min-h-screen`} suppressHydrationWarning>
+      <body className="antialiased bg-radial-gradient text-foreground min-h-screen font-sans" suppressHydrationWarning>
         <CanvasProvider>
           <BackgroundCanvas />
           {children}
