@@ -13,18 +13,22 @@ test.describe("Sovereign Intelligence Layer - Landing Page E2E Suite", () => {
   });
 
   test("should render the P2P secure connections widget inside the sidebar", async ({ page }) => {
-    // Check if the P2P secure connection header and buttons exist
-    const p2pHeader = page.locator("text=P2P Secure Connection");
-    const generateBtn = page.locator("text=Generate Invite Code");
-    
-    // We expect the P2P elements to be present in the sidebar
+    // Click the P2P tab to make it visible
+    await page.locator("text=P2P Link").click();
+
+    // Check if the P2P secure connection header exists
+    const p2pHeader = page.locator("text=P2P Secure Channel");
     await expect(p2pHeader).toBeVisible();
+
+    // Click Manual Link to show generate button
+    await page.locator("text=Manual Link").click();
+    const generateBtn = page.locator("text=Generate Invite Code");
     await expect(generateBtn).toBeVisible();
   });
 
   test("should render the anonymous diagnostics toggle and allow clicking", async ({ page }) => {
-    const telemetryLabel = page.locator("text=Anonymous Diagnostics");
-    const toggleBtn = page.locator("button:has-div").first(); // Get the custom toggle button
+    const telemetryLabel = page.locator("text=Diagnostics Uplink");
+    const toggleBtn = page.locator("button[role='switch']").first(); // Get the custom toggle button
     
     await expect(telemetryLabel).toBeVisible();
     await expect(toggleBtn).toBeVisible();
@@ -34,8 +38,9 @@ test.describe("Sovereign Intelligence Layer - Landing Page E2E Suite", () => {
   });
 
   test("should render the local database stats in research metrics sidebar", async ({ page }) => {
-    const latencyLabel = page.locator("text=Inference Latency");
-    const privacyLabel = page.locator("text=Resilience-Privacy Index");
+    // The Metrics tab is active by default
+    const latencyLabel = page.locator("text=Inference Speed");
+    const privacyLabel = page.locator("text=Resilience Factor");
     
     await expect(latencyLabel).toBeVisible();
     await expect(privacyLabel).toBeVisible();
