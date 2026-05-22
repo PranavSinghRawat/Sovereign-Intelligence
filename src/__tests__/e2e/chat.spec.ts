@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Sovereign Intelligence Layer - Landing Page E2E Suite", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to local server
-    await page.goto("/");
+    await page.goto("/chat");
   });
 
   test("should display main branding and loading state or chat layout", async ({ page }) => {
