@@ -30,7 +30,7 @@ Call log:
     - generic [ref=e4]:
       - img [ref=e7]
       - heading "Sovereign Intelligence" [level=1] [ref=e10]
-      - paragraph [ref=e11]: Start to fetch params
+      - paragraph [ref=e11]: "Fetching param cache[4/22]: 73MB fetched. 10% completed, 17 secs elapsed. It can take a while when we first visit this page to populate the cache. Later refreshes will become faster."
   - alert [ref=e14]
 ```
 

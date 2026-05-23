@@ -75,6 +75,27 @@ export class SqliteDatabase {
           FOREIGN KEY(document_name) REFERENCES documents(name) ON DELETE CASCADE
         );
       `);
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS peers (
+          uri TEXT PRIMARY KEY,
+          capabilities_json TEXT NOT NULL,
+          latency INTEGER NOT NULL,
+          reputation INTEGER NOT NULL DEFAULT 100,
+          zk_identity_hash TEXT NOT NULL,
+          last_seen INTEGER NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS reputation_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          peer_uri TEXT NOT NULL,
+          success BOOLEAN NOT NULL,
+          score_change INTEGER NOT NULL,
+          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY(peer_uri) REFERENCES peers(uri) ON DELETE CASCADE
+        );
+      `);
     } catch (err) {
       console.error("[SQLite] Failed to initialize database:", err);
     }
