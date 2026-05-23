@@ -35,6 +35,7 @@ interface MetricsSidebarProps {
   handleCancelZKSignaling: () => void;
   localPubKey?: string;
   peerPubKey?: string;
+  isFirewallBlocked?: boolean;
 }
 
 export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({ 
@@ -59,7 +60,8 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   handleJoinZKSignaling,
   handleCancelZKSignaling,
   localPubKey,
-  peerPubKey
+  peerPubKey,
+  isFirewallBlocked
 }) => {
   const [optIn, setOptIn] = useState(telemetry.getOptInStatus());
   const [copied, setCopied] = useState("");
@@ -280,6 +282,18 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                             {copied === "peerpub" ? <Check className="w-2.5 h-2.5 text-emerald-455" /> : <Copy className="w-2.5 h-2.5" />}
                           </button>
                         </div>
+                      </div>
+                    )}
+
+                    {isFirewallBlocked && (
+                      <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-900/50 text-[10px] text-amber-300 font-sans leading-relaxed space-y-1 mt-1">
+                        <div className="font-bold flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-amber-200">
+                          <Shield className="w-3.5 h-3.5 text-amber-400" />
+                          NAT Firewall Detected
+                        </div>
+                        <p className="text-[10px] font-sans leading-tight">
+                          Direct P2P link blocked by a Symmetric NAT firewall. Configure a custom TURN server in your environment to bypass this block.
+                        </p>
                       </div>
                     )}
 

@@ -1,6 +1,7 @@
 /**
  * Agent Cryptographic Identity & Authentication Layer
  * Uses Ed25519 keypairs for verifiable, signed signaling.
+ * Stores keys securely in IndexedDB as non-extractable CryptoKeys to prevent XSS extraction.
  */
 
 let localPrivateKey: CryptoKey | null = null;
@@ -26,9 +27,48 @@ export function bytesToHex(bytes: Uint8Array): string {
     .join("");
 }
 
+// IndexedDB Helper Functions
+function openDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    if (typeof indexedDB === "undefined") {
+      reject(new Error("IndexedDB is not supported in this environment"));
+      return;
+    }
+    const request = indexedDB.open("sovereign_identity_db", 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains("keys")) {
+        db.createObjectStore("keys");
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function getStoredKey(db: IDBDatabase, name: string): Promise<CryptoKey | null> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("keys", "readonly");
+    const store = tx.objectStore("keys");
+    const request = store.get(name);
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function setStoredKey(db: IDBDatabase, name: string, key: CryptoKey): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("keys", "readwrite");
+    const store = tx.objectStore("keys");
+    const request = store.put(key, name);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
 /**
  * Initializes the agent's unique identity.
- * Generates a persistent Ed25519 keypair stored in localStorage if not already present.
+ * Generates a persistent Ed25519 keypair stored in IndexedDB (non-extractable).
  */
 export async function initAgentIdentity(): Promise<string> {
   if (localPublicKeyHex) return localPublicKeyHex;
@@ -38,68 +78,53 @@ export async function initAgentIdentity(): Promise<string> {
     : (globalThis.crypto?.subtle);
 
   if (!cryptoSubtle) {
-    // Return a mock public key for tests running in restricted node environments
     console.warn("[Identity] Web Crypto Subtle API not available. Using fallback mock identity.");
     localPublicKeyHex = "mock_local_ed25519_identity_public_key_hex";
     return localPublicKeyHex;
   }
 
-  const storedPub = typeof localStorage !== "undefined" ? localStorage.getItem("sovereign_identity_pub") : null;
-  const storedPriv = typeof localStorage !== "undefined" ? localStorage.getItem("sovereign_identity_priv") : null;
+  // 1. Attempt to load from secure IndexedDB (Non-extractable key storage)
+  try {
+    const db = await openDB();
+    const pubKey = await getStoredKey(db, "pubKey");
+    const privKey = await getStoredKey(db, "privKey");
 
-  if (storedPub && storedPriv) {
-    try {
-      const pubBytes = hexToBytes(storedPub);
-      const privBytes = hexToBytes(storedPriv);
+    if (pubKey && privKey) {
+      localPublicKey = pubKey;
+      localPrivateKey = privKey;
 
-      localPublicKey = await cryptoSubtle.importKey(
-        "raw",
-        pubBytes,
-        { name: "Ed25519" },
-        true,
-        ["verify"]
-      );
-
-      localPrivateKey = await cryptoSubtle.importKey(
-        "pkcs8",
-        privBytes,
-        { name: "Ed25519" },
-        true,
-        ["sign"]
-      );
-
-      localPublicKeyHex = storedPub;
+      const rawPub = await cryptoSubtle.exportKey("raw", localPublicKey);
+      localPublicKeyHex = bytesToHex(new Uint8Array(rawPub));
       return localPublicKeyHex;
-    } catch (err) {
-      console.warn("[Identity] Failed to load stored identity keypair. Re-generating...", err);
     }
+  } catch (err) {
+    console.warn("[Identity] IndexedDB not available or failed. Falling back to memory storage.", err);
   }
 
+  // 2. Generate new Ed25519 Keypair (Private key generated as non-extractable for maximum sandbox safety)
   try {
-    // Generate new Ed25519 keypair
     const keyPair = await cryptoSubtle.generateKey(
       { name: "Ed25519" },
-      true,
+      false, // non-extractable private key (public key is extractable by default)
       ["sign", "verify"]
     );
-
     localPrivateKey = keyPair.privateKey;
     localPublicKey = keyPair.publicKey;
 
-    const rawPub = await cryptoSubtle.exportKey("raw", localPublicKey);
-    const pkcs8Priv = await cryptoSubtle.exportKey("pkcs8", localPrivateKey);
-
-    localPublicKeyHex = bytesToHex(new Uint8Array(rawPub));
-    const localPrivateKeyHex = bytesToHex(new Uint8Array(pkcs8Priv));
-
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem("sovereign_identity_pub", localPublicKeyHex);
-      localStorage.setItem("sovereign_identity_priv", localPrivateKeyHex);
+    // Save generated keys to IndexedDB
+    try {
+      const db = await openDB();
+      await setStoredKey(db, "pubKey", localPublicKey);
+      await setStoredKey(db, "privKey", localPrivateKey);
+    } catch (dbErr) {
+      console.warn("[Identity] Failed to store keys in IndexedDB:", dbErr);
     }
 
+    const rawPub = await cryptoSubtle.exportKey("raw", localPublicKey);
+    localPublicKeyHex = bytesToHex(new Uint8Array(rawPub));
     return localPublicKeyHex;
   } catch (err) {
-    console.warn("[Identity] Ed25519 generation failed (unsupported in this environment). Using mock fallback.", err);
+    console.warn("[Identity] Ed25519 generation failed (unsupported environment). Using mock fallback.", err);
     localPublicKeyHex = "mock_local_ed25519_identity_public_key_hex";
     return localPublicKeyHex;
   }
@@ -122,7 +147,6 @@ export async function signPayload(payload: string): Promise<string> {
     : (globalThis.crypto?.subtle);
 
   if (!localPrivateKey || !cryptoSubtle) {
-    // Fallback signature for mock/testing environments
     return "mock_signature_for_" + payload.substring(0, 10);
   }
 
@@ -144,7 +168,6 @@ export async function verifyPayload(
   signatureHex: string,
   pubKeyHex: string
 ): Promise<boolean> {
-  // Graceful fallback for mock keys
   if (pubKeyHex === "mock_local_ed25519_identity_public_key_hex" || signatureHex.startsWith("mock_signature_")) {
     return signatureHex === "mock_signature_for_" + payload.substring(0, 10);
   }

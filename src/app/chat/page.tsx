@@ -47,7 +47,8 @@ export default function ChatPage() {
     handleJoinZKSignaling,
     handleCancelZKSignaling,
     localPubKey,
-    peerPubKey
+    peerPubKey,
+    isFirewallBlocked
   } = useWebRTC(addExternalMessage);
   
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -122,6 +123,7 @@ export default function ChatPage() {
             handleCancelZKSignaling={handleCancelZKSignaling}
             localPubKey={localPubKey}
             peerPubKey={peerPubKey}
+            isFirewallBlocked={isFirewallBlocked}
           />
 
           <section className="flex-1 flex flex-col gap-6" aria-label="Secure Chat Area">

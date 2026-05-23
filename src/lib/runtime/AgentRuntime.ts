@@ -462,6 +462,36 @@ ${contextBlock}`;
     if (!this.engine) return null;
     return await this.engine.runtimeStatsText();
   }
+
+  /**
+   * Diagnostic checker to verify if WebGPU is supported on this browser and hardware.
+   */
+  async checkWebGPUSupport(): Promise<{ supported: boolean; reason?: string }> {
+    if (typeof window === "undefined") {
+      return { supported: false, reason: "Non-browser environment" };
+    }
+    if (typeof navigator === "undefined" || !navigator.gpu) {
+      return { 
+        supported: false, 
+        reason: "WebGPU is disabled or unsupported. Please use a compatible modern browser (Chrome 113+, Edge, or Safari 17+)." 
+      };
+    }
+    try {
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) {
+        return { 
+          supported: false, 
+          reason: "Compatible graphics hardware (GPU) not found. WebGPU is present but failed to acquire adapter." 
+        };
+      }
+      return { supported: true };
+    } catch (err: any) {
+      return { 
+        supported: false, 
+        reason: `Failed to initialize GPU context: ${err?.message || err}` 
+      };
+    }
+  }
 }
 
 export const sovereignRuntime = new AgentRuntime();

@@ -41,12 +41,19 @@ export function useSovereignAgent() {
     
     const init = async () => {
       try {
+        if (isMounted) setInitProgress("Validating hardware components...");
+        const gpuCheck = await sovereignRuntime.checkWebGPUSupport();
+        if (!gpuCheck.supported) {
+          if (isMounted) setInitProgress(`WebGPU Error: ${gpuCheck.reason}`);
+          return;
+        }
+
         await sovereignRuntime.initialize((report) => {
           if (isMounted) setInitProgress(report.text);
         });
         if (isMounted) setIsInitializing(false);
-      } catch {
-        if (isMounted) setInitProgress("WebGPU Error: Please use a compatible browser.");
+      } catch (err: any) {
+        if (isMounted) setInitProgress(`WebGPU Error: ${err?.message || "Please use a compatible browser."}`);
       }
     };
     init();

@@ -16,9 +16,11 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
   const [signalingLogs, setSignalingLogs] = useState<string[]>([]);
   const [localPubKey, setLocalPubKey] = useState("");
   const [peerPubKey, setPeerPubKey] = useState("");
+  const [isFirewallBlocked, setIsFirewallBlocked] = useState(false);
 
   const onReceiveRef = useRef(onReceiveMessage);
   const signalingChannelRef = useRef<ZKSignalingChannel | null>(null);
+  const connectionTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     initAgentIdentity()
@@ -36,10 +38,31 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     p2pNode.onStatusChange((status) => {
       if (isMounted) {
         setP2pStatus(status);
+
+        // Clear existing timeout
+        if (connectionTimeoutRef.current) {
+          clearTimeout(connectionTimeoutRef.current);
+          connectionTimeoutRef.current = null;
+        }
+
         if (status === "connected") {
-          // Connection established! Log but retain signaling for ICE restarts.
           setSignalingLogs((prev) => [...prev, "[System] WebRTC connected. Signaling channel retained for self-healing."]);
           setIsSignaling(false);
+          setIsFirewallBlocked(false);
+        } else if (status === "connecting") {
+          // Set a 15-second timer to detect Symmetric NAT blockage
+          connectionTimeoutRef.current = setTimeout(() => {
+            setP2pStatus((currentStatus) => {
+              if (currentStatus !== "connected") {
+                setIsFirewallBlocked(true);
+                setSignalingLogs((prev) => [...prev, "[Warning] Connection taking too long. Possible Symmetric NAT/firewall block detected."]);
+              }
+              return currentStatus;
+            });
+          }, 15000);
+        } else if (status === "failed") {
+          setIsFirewallBlocked(true);
+          setSignalingLogs((prev) => [...prev, "[Error] WebRTC link failed. Symmetric NAT blocking direct connection."]);
         }
       }
     });
@@ -87,6 +110,9 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       isMounted = false;
       if (signalingChannelRef.current) {
         signalingChannelRef.current.close();
+      }
+      if (connectionTimeoutRef.current) {
+        clearTimeout(connectionTimeoutRef.current);
       }
     };
   }, []);
@@ -253,6 +279,11 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     setIsSignaling(false);
     setSignalingLogs([]);
     setPeerPubKey("");
+    setIsFirewallBlocked(false);
+    if (connectionTimeoutRef.current) {
+      clearTimeout(connectionTimeoutRef.current);
+      connectionTimeoutRef.current = null;
+    }
     p2pNode.reset();
   };
 
@@ -276,6 +307,7 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     handleCancelZKSignaling,
     localPubKey,
     peerPubKey,
+    isFirewallBlocked,
   };
 }
 
