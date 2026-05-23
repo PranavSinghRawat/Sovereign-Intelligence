@@ -1,7 +1,7 @@
 import { encryptPayload, decryptPayload } from "./Encryption";
 
 export interface ZKSignalingMessage {
-  type: "ping" | "offer" | "answer";
+  type: "ping" | "offer" | "answer" | "ice-candidate";
   sender: string;
   room: string;
   payload?: string;
@@ -112,7 +112,7 @@ export class ZKSignalingChannel {
   /**
    * Encrypts and publishes a signaling message
    */
-  async send(type: "ping" | "offer" | "answer", plaintextPayload?: string) {
+  async send(type: "ping" | "offer" | "answer" | "ice-candidate", plaintextPayload?: string) {
     let encryptedPayload: string | undefined;
 
     if (plaintextPayload) {

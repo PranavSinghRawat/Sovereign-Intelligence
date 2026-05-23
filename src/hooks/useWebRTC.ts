@@ -35,6 +35,17 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       }
     });
 
+    p2pNode.onIceCandidate(async (candidate) => {
+      const channel = signalingChannelRef.current;
+      if (channel) {
+        try {
+          await channel.send("ice-candidate", candidate);
+        } catch (err) {
+          console.error("[WebRTC] Failed to send ICE candidate:", err);
+        }
+      }
+    });
+
     // Self-healing: when ICE restart is needed, re-use retained signaling channel
     p2pNode.onIceRestartNeeded(async () => {
       const channel = signalingChannelRef.current;
@@ -137,6 +148,13 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
             } catch (err) {
               log(`Error processing answer: ${err}`);
             }
+          } else if (msg.type === "ice-candidate" && msg.payload) {
+            try {
+              const candidate = await channel.decrypt(msg.payload);
+              await p2pNode.addIceCandidate(candidate);
+            } catch (err) {
+              log(`Error processing remote ICE candidate: ${err}`);
+            }
           }
         },
         log
@@ -188,6 +206,13 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
               log("Encrypted SDP Answer published. Awaiting connection...");
             } catch (err) {
               log(`Error processing offer: ${err}`);
+            }
+          } else if (msg.type === "ice-candidate" && msg.payload) {
+            try {
+              const candidate = await channel.decrypt(msg.payload);
+              await p2pNode.addIceCandidate(candidate);
+            } catch (err) {
+              log(`Error processing remote ICE candidate: ${err}`);
             }
           }
         },

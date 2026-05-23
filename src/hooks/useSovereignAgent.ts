@@ -1,27 +1,44 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { sovereignRuntime } from "@/lib/runtime/AgentRuntime";
-import { metricsCapture, SystemMetrics } from "@/lib/metrics/MetricsCapture";
-import { CAMPResult } from "@/lib/middleware/CAMP";
-import { SearchResult } from "@/lib/runtime/RAGManager";
-
-export type ExtendedChatMessage = ChatCompletionMessageParam & {
-  ragSources?: SearchResult[];
-};
+import { metricsCapture } from "@/lib/metrics/MetricsCapture";
+import { useAgentStore, ExtendedChatMessage } from "@/store/agentStore";
 
 export function useSovereignAgent() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ExtendedChatMessage[]>([]);
-  const [isInitializing, setIsInitializing] = useState(true);
-  const [isThinking, setIsThinking] = useState(false);
-  const [initProgress, setInitProgress] = useState("Waking up local engine...");
-  const [lastCamp, setLastCamp] = useState<CAMPResult | null>(null);
-  const [toolExecuting, setToolExecuting] = useState<string | null>(null);
-  const [thinkingStep, setThinkingStep] = useState<string | null>(null);
-  const [metrics, setMetrics] = useState<SystemMetrics>(metricsCapture.getMetrics());
+  
+  // Zustand store mappings
+  const messages = useAgentStore((state) => state.messages);
+  const setMessages = useAgentStore((state) => state.setMessages);
+  const addMessage = useAgentStore((state) => state.addMessage);
+  
+  const isInitializing = useAgentStore((state) => state.isInitializing);
+  const setIsInitializing = useAgentStore((state) => state.setIsInitializing);
+  
+  const isThinking = useAgentStore((state) => state.isThinking);
+  const setIsThinking = useAgentStore((state) => state.setIsThinking);
+  
+  const initProgress = useAgentStore((state) => state.initProgress);
+  const setInitProgress = useAgentStore((state) => state.setInitProgress);
+  
+  const lastCamp = useAgentStore((state) => state.lastCamp);
+  const setLastCamp = useAgentStore((state) => state.setLastCamp);
+  
+  const toolExecuting = useAgentStore((state) => state.toolExecuting);
+  const setToolExecuting = useAgentStore((state) => state.setToolExecuting);
+  
+  const thinkingStep = useAgentStore((state) => state.thinkingStep);
+  const setThinkingStep = useAgentStore((state) => state.setThinkingStep);
+  
+  const metrics = useAgentStore((state) => state.metrics);
+  const setMetrics = useAgentStore((state) => state.setMetrics);
 
   useEffect(() => {
     let isMounted = true;
+    
+    // Initial fetch to make sure metrics aren't null on first render
+    if (isMounted) setMetrics(metricsCapture.getMetrics());
+    
     const init = async () => {
       try {
         await sovereignRuntime.initialize((report) => {
@@ -42,13 +59,13 @@ export function useSovereignAgent() {
       clearInterval(interval);
       sovereignRuntime.destroy();
     };
-  }, []);
+  }, [setInitProgress, setIsInitializing, setMetrics]);
 
   const handleSend = async () => {
     if (!input.trim() || isThinking) return;
 
     const userMessage: ExtendedChatMessage = { role: "user", content: input };
-    setMessages(prev => [...prev, userMessage]);
+    addMessage(userMessage);
     setInput("");
     setIsThinking(true);
     setToolExecuting(null);
@@ -103,8 +120,8 @@ export function useSovereignAgent() {
   };
 
   const addExternalMessage = useCallback((msg: ChatCompletionMessageParam) => {
-    setMessages(prev => [...prev, msg]);
-  }, []);
+    addMessage(msg);
+  }, [addMessage]);
 
   return {
     input,
@@ -116,7 +133,7 @@ export function useSovereignAgent() {
     lastCamp,
     toolExecuting,
     thinkingStep,
-    metrics,
+    metrics: metrics || metricsCapture.getMetrics(), // Fallback if null
     handleSend,
     addExternalMessage
   };

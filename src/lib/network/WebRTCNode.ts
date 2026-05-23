@@ -11,6 +11,7 @@ export class WebRTCNode {
   private onMessageCallback: ((data: unknown) => void) | null = null;
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
   private onIceRestartNeededCallback: (() => void) | null = null;
+  private onIceCandidateCallback: ((candidate: string) => void) | null = null;
   private iceRestartAttempts = 0;
   private static MAX_ICE_RESTARTS = 3;
 
@@ -58,6 +59,13 @@ export class WebRTCNode {
       }
     };
 
+    // Trickle ICE: Emit candidates as they are discovered
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate && this.onIceCandidateCallback) {
+        this.onIceCandidateCallback(JSON.stringify(event.candidate));
+      }
+    };
+
     // Listen for incoming data channels (if we are the Answerer)
     this.peerConnection.ondatachannel = (event) => {
       this.dataChannel = event.channel;
@@ -96,20 +104,7 @@ export class WebRTCNode {
     const offer = await this.peerConnection.createOffer();
     await this.peerConnection.setLocalDescription(offer);
 
-    // Wait for ICE candidates to gather
-    const offerString = await new Promise<string>((resolve) => {
-      if (this.peerConnection.iceGatheringState === "complete") {
-        resolve(JSON.stringify(this.peerConnection.localDescription));
-      } else {
-        this.peerConnection.onicecandidate = (event) => {
-          if (event.candidate === null) {
-            resolve(JSON.stringify(this.peerConnection.localDescription));
-          }
-        };
-      }
-    });
-
-    return offerString;
+    return JSON.stringify(this.peerConnection.localDescription);
   }
 
   /**
@@ -122,17 +117,7 @@ export class WebRTCNode {
     const answer = await this.peerConnection.createAnswer();
     await this.peerConnection.setLocalDescription(answer);
 
-    return new Promise((resolve) => {
-      if (this.peerConnection.iceGatheringState === "complete") {
-        resolve(JSON.stringify(this.peerConnection.localDescription));
-      } else {
-        this.peerConnection.onicecandidate = (event) => {
-          if (event.candidate === null) {
-            resolve(JSON.stringify(this.peerConnection.localDescription));
-          }
-        };
-      }
-    });
+    return JSON.stringify(this.peerConnection.localDescription);
   }
 
   /**
@@ -141,6 +126,18 @@ export class WebRTCNode {
   async acceptAnswer(answerString: string): Promise<void> {
     const answer = JSON.parse(answerString);
     await this.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+  }
+
+  /**
+   * Receives and adds a remote ICE candidate (Trickle ICE)
+   */
+  async addIceCandidate(candidateString: string): Promise<void> {
+    try {
+      const candidate = JSON.parse(candidateString);
+      await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (err) {
+      console.error("[WebRTC] Error adding ICE candidate:", err);
+    }
   }
 
   /**
@@ -168,6 +165,10 @@ export class WebRTCNode {
     this.onIceRestartNeededCallback = callback;
   }
 
+  onIceCandidate(callback: (candidate: string) => void) {
+    this.onIceCandidateCallback = callback;
+  }
+
   /**
    * Performs an ICE restart by creating a new offer with iceRestart: true.
    * Returns the new SDP offer string for re-signaling.
@@ -179,17 +180,7 @@ export class WebRTCNode {
     const offer = await this.peerConnection.createOffer({ iceRestart: true });
     await this.peerConnection.setLocalDescription(offer);
 
-    return new Promise<string>((resolve) => {
-      if (this.peerConnection.iceGatheringState === "complete") {
-        resolve(JSON.stringify(this.peerConnection.localDescription));
-      } else {
-        this.peerConnection.onicecandidate = (event) => {
-          if (event.candidate === null) {
-            resolve(JSON.stringify(this.peerConnection.localDescription));
-          }
-        };
-      }
-    });
+    return JSON.stringify(this.peerConnection.localDescription);
   }
 
   private setupDataChannel() {
