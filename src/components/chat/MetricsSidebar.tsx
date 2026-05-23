@@ -9,6 +9,149 @@ import { telemetry } from "@/lib/metrics/Telemetry";
 import { cn } from "@/lib/utils";
 import { RAGSidebarTab } from "./RAGSidebarTab";
 
+// SVG P2P Network Topology Map Component
+const P2PTopologyVisualizer: React.FC<{ status: RTCPeerConnectionState; localKey?: string; peerKey?: string }> = ({ status, localKey, peerKey }) => {
+  const isConnected = status === "connected";
+  const isConnecting = status === "connecting";
+  const isFailed = status === "failed" || status === "closed";
+  
+  return (
+    <div className="w-full bg-zinc-950/80 border border-zinc-900 rounded-xl p-3 flex flex-col items-center justify-center relative overflow-hidden h-28 select-none">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:10px_10px] opacity-40" />
+      
+      <svg className="w-full h-12 relative z-10 overflow-visible" viewBox="0 0 280 40">
+        {/* Connection Line */}
+        {(isConnecting || isConnected) && (
+          <motion.line
+            x1="55"
+            y1="20"
+            x2="225"
+            y2="20"
+            stroke={isConnected ? "#10b981" : isConnecting ? "#f59e0b" : "#ef4444"}
+            strokeWidth="1.5"
+            strokeDasharray={isConnecting ? "4 4" : "0"}
+            animate={isConnecting ? { strokeDashoffset: [-20, 0] } : {}}
+            transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+          />
+        )}
+        
+        {/* Data Pulse traversal on active connection */}
+        {isConnected && (
+          <motion.circle
+            r="3"
+            fill="#34d399"
+            animate={{ cx: [55, 225, 55] }}
+            transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+            style={{ filter: "drop-shadow(0 0 4px #10b981)" }}
+          />
+        )}
+
+        {/* Local Node */}
+        <g transform="translate(55, 20)">
+          <circle r="12" className="fill-zinc-950 stroke-zinc-850" strokeWidth="1.5" />
+          <circle r="4" className="fill-emerald-500" />
+          <motion.circle
+            r="12"
+            className="fill-none stroke-emerald-500/20"
+            strokeWidth="1"
+            animate={{ scale: [1, 1.4, 1] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          />
+        </g>
+
+        {/* Remote Node */}
+        <g transform="translate(225, 20)">
+          <circle r="12" className="fill-zinc-950 stroke-zinc-855" strokeWidth="1.5" />
+          <circle 
+            r="4" 
+            className={cn(
+              isConnected ? "fill-purple-500" :
+              isConnecting ? "fill-amber-500" : "fill-zinc-800"
+            )} 
+          />
+          {(isConnected || isConnecting) && (
+            <motion.circle
+              r="12"
+              className={cn(
+                "fill-none",
+                isConnected ? "stroke-purple-500/20" : "stroke-amber-500/20"
+              )}
+              strokeWidth="1"
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.5 }}
+            />
+          )}
+        </g>
+
+        <text x="55" y="38" textAnchor="middle" className="text-[8px] font-mono fill-zinc-550 font-bold uppercase tracking-wider">Local</text>
+        <text x="225" y="38" textAnchor="middle" className="text-[8px] font-mono fill-zinc-550 font-bold uppercase tracking-wider">Peer</text>
+      </svg>
+      
+      <div className="text-[8.5px] font-mono mt-1.5 z-10 uppercase tracking-widest flex items-center gap-1.5">
+        {isConnected ? (
+          <span className="text-emerald-450 font-bold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Direct secure tunnel open
+          </span>
+        ) : isConnecting ? (
+          <span className="text-amber-400 font-bold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+            ICE exchange active
+          </span>
+        ) : isFailed ? (
+          <span className="text-red-400 font-bold">Traversal Blocked</span>
+        ) : (
+          <span className="text-zinc-550">Awaiting Handshake</span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Circular WebGPU Speedometer component
+const TokenSpeedometer: React.FC<{ speed: number }> = ({ speed }) => {
+  const maxSpeed = 35;
+  const percentage = Math.min(speed / maxSpeed, 1);
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  
+  return (
+    <div className="flex items-center gap-3.5 p-2.5 rounded-xl bg-zinc-950/40 border border-zinc-900/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] hover:border-zinc-800/40 transition-all duration-200">
+      <div className="relative w-10 h-10 shrink-0 flex items-center justify-center">
+        <svg className="w-full h-full transform -rotate-90 overflow-visible">
+          <circle
+            cx="20"
+            cy="20"
+            r={radius}
+            className="fill-none stroke-zinc-900"
+            strokeWidth="3.5"
+          />
+          {speed > 0 && (
+            <motion.circle
+              cx="20"
+              cy="20"
+              r={radius}
+              className="fill-none stroke-emerald-500"
+              strokeWidth="3.5"
+              strokeDasharray={circumference}
+              initial={{ strokeDashoffset: circumference }}
+              animate={{ strokeDashoffset: circumference * (1 - percentage) }}
+              transition={{ type: "spring", stiffness: 60, damping: 15 }}
+              strokeLinecap="round"
+              style={{ filter: "drop-shadow(0 0 3px rgba(16, 185, 129, 0.4))" }}
+            />
+          )}
+        </svg>
+        <span className="absolute text-[9px] font-mono font-bold text-zinc-150">{speed.toFixed(1)}</span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <span className="text-[9.5px] font-mono text-zinc-400 uppercase tracking-wider font-bold block">Inference Speed</span>
+        <span className="text-[8.5px] font-mono text-zinc-550 block leading-tight mt-0.5">Tokens generated per second locally on WebGPU.</span>
+      </div>
+    </div>
+  );
+};
+
 interface MetricsSidebarProps {
   metrics: SystemMetrics;
   lastCamp: CAMPResult | null;
@@ -130,23 +273,19 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                 </div>
               </div>
               <div className="space-y-3">
-                <MetricItem 
-                  icon={<Zap className="w-3.5 h-3.5"/>} 
-                  label="Inference Speed" 
-                  value={`${metrics.inferenceSpeed.toFixed(1)} tok/s`} 
-                  color="text-zinc-200" 
-                />
+                <TokenSpeedometer speed={metrics.inferenceSpeed} />
+                
                 <MetricItem 
                   icon={<Shield className="w-3.5 h-3.5"/>} 
                   label="Resilience Factor" 
                   value={`I_rp = ${metrics.irpIndex.toFixed(2)}`} 
-                  color="text-zinc-200" 
+                  strokeColor="text-zinc-200" 
                 />
                 <MetricItem 
                   icon={<Database className="w-3.5 h-3.5"/>} 
                   label="Pruned Fragments" 
                   value={metrics.totalPrunedFragments.toString()} 
-                  color="text-zinc-400" 
+                  strokeColor="text-zinc-400" 
                 />
 
                 {/* Benchmark Comparison Table */}
@@ -218,6 +357,9 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                   <span className="text-[10px] font-mono text-zinc-400 capitalize">{p2pStatus}</span>
                 </div>
               </div>
+
+              {/* Topology Map */}
+              <P2PTopologyVisualizer status={p2pStatus} localKey={localPubKey} peerKey={peerPubKey} />
 
               {/* Tab Selection */}
               <div className="flex bg-zinc-950 p-0.5 rounded-xl border border-zinc-900 text-[10px] font-mono">
@@ -516,14 +658,14 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   );
 };
 
-function MetricItem({ icon, label, value, color }: { icon: React.ReactNode, label: string, value: string, color: string }) {
+function MetricItem({ icon, label, value, strokeColor }: { icon: React.ReactNode, label: string, value: string, strokeColor: string }) {
   return (
     <div className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-950/40 border border-zinc-900/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] hover:border-zinc-800/40 transition-all duration-200">
       <div className="flex items-center gap-2">
         <div className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 shadow-sm">{icon}</div>
         <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">{label}</span>
       </div>
-      <span className={`text-[10px] font-mono font-bold tracking-tight ${color}`}>{value}</span>
+      <span className={`text-[10px] font-mono font-bold tracking-tight ${strokeColor}`}>{value}</span>
     </div>
   );
 }

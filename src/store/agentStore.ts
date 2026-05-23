@@ -17,6 +17,7 @@ interface AgentState {
   toolExecuting: string | null;
   thinkingStep: string | null;
   metrics: SystemMetrics | null;
+  isSimulationMode: boolean;
   
   // Actions
   setMessages: (messages: ExtendedChatMessage[] | ((prev: ExtendedChatMessage[]) => ExtendedChatMessage[])) => void;
@@ -28,6 +29,7 @@ interface AgentState {
   setToolExecuting: (tool: string | null) => void;
   setThinkingStep: (step: string | null) => void;
   setMetrics: (metrics: SystemMetrics) => void;
+  setIsSimulationMode: (isSim: boolean) => void;
 }
 
 export const useAgentStore = create<AgentState>((set) => ({
@@ -39,6 +41,7 @@ export const useAgentStore = create<AgentState>((set) => ({
   toolExecuting: null,
   thinkingStep: null,
   metrics: null,
+  isSimulationMode: false,
 
   setMessages: (updater) => set((state) => ({
     messages: typeof updater === 'function' ? updater(state.messages) : updater
@@ -53,4 +56,5 @@ export const useAgentStore = create<AgentState>((set) => ({
   setToolExecuting: (toolExecuting) => set({ toolExecuting }),
   setThinkingStep: (thinkingStep) => set({ thinkingStep }),
   setMetrics: (metrics) => set({ metrics }),
+  setIsSimulationMode: (isSimulationMode) => set({ isSimulationMode }),
 }));

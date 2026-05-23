@@ -187,7 +187,7 @@ export async function verifyPayload(
 
     const publicKey = await cryptoSubtle.importKey(
       "raw",
-      pubKeyBytes,
+      pubKeyBytes as any,
       { name: "Ed25519" },
       true,
       ["verify"]
@@ -196,7 +196,7 @@ export async function verifyPayload(
     return await cryptoSubtle.verify(
       { name: "Ed25519" },
       publicKey,
-      signatureBytes,
+      signatureBytes as any,
       encoder.encode(payload)
     );
   } catch (err) {

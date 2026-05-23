@@ -470,14 +470,15 @@ ${contextBlock}`;
     if (typeof window === "undefined") {
       return { supported: false, reason: "Non-browser environment" };
     }
-    if (typeof navigator === "undefined" || !navigator.gpu) {
+    const nav = navigator as any;
+    if (typeof navigator === "undefined" || !nav.gpu) {
       return { 
         supported: false, 
         reason: "WebGPU is disabled or unsupported. Please use a compatible modern browser (Chrome 113+, Edge, or Safari 17+)." 
       };
     }
     try {
-      const adapter = await navigator.gpu.requestAdapter();
+      const adapter = await nav.gpu.requestAdapter();
       if (!adapter) {
         return { 
           supported: false, 

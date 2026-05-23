@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Cpu, ChevronLeft } from "lucide-react";
+import { Cpu, ChevronLeft, Shield } from "lucide-react";
 import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -11,8 +11,11 @@ import { useWebRTC } from "@/hooks/useWebRTC";
 import { MetricsSidebar } from "@/components/chat/MetricsSidebar";
 import { MessageList } from "@/components/chat/MessageList";
 import { ChatInput } from "@/components/chat/ChatInput";
+import { useAgentStore } from "@/store/agentStore";
 
 export default function ChatPage() {
+  const isSimulationMode = useAgentStore((state) => state.isSimulationMode);
+
   const {
     input,
     setInput,
@@ -147,6 +150,16 @@ export default function ChatPage() {
                 <span className="text-xs font-mono text-zinc-400 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-850 uppercase tracking-wider">Zero-Cloud</span>
               </div>
             </header>
+
+            {isSimulationMode && (
+              <div className="bg-amber-955/10 border-b border-amber-900/40 px-4 py-2 flex items-center justify-between text-[10px] text-amber-300 font-mono">
+                <span className="flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                  Demonstration Mode Active (WebGPU is unsupported or disabled in this browser).
+                </span>
+                <span className="text-[9px] text-amber-500 uppercase tracking-wider font-bold">Sanitization & Local Simulation Live</span>
+              </div>
+            )}
 
             <MessageList 
               messages={messages} 

@@ -3,6 +3,8 @@ import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import { sovereignRuntime } from "@/lib/runtime/AgentRuntime";
 import { metricsCapture } from "@/lib/metrics/MetricsCapture";
 import { useAgentStore, ExtendedChatMessage } from "@/store/agentStore";
+import { camp } from "@/lib/middleware/CAMP";
+import { getCurrentWeather } from "@/lib/mcp/ResourceTools";
 
 export function useSovereignAgent() {
   const [input, setInput] = useState("");
@@ -33,6 +35,9 @@ export function useSovereignAgent() {
   const metrics = useAgentStore((state) => state.metrics);
   const setMetrics = useAgentStore((state) => state.setMetrics);
 
+  const isSimulationMode = useAgentStore((state) => state.isSimulationMode);
+  const setIsSimulationMode = useAgentStore((state) => state.setIsSimulationMode);
+
   useEffect(() => {
     let isMounted = true;
     
@@ -44,7 +49,15 @@ export function useSovereignAgent() {
         if (isMounted) setInitProgress("Validating hardware components...");
         const gpuCheck = await sovereignRuntime.checkWebGPUSupport();
         if (!gpuCheck.supported) {
-          if (isMounted) setInitProgress(`WebGPU Error: ${gpuCheck.reason}`);
+          if (isMounted) {
+            setInitProgress(`WebGPU unsupported: ${gpuCheck.reason}. Entering Demonstration Mode...`);
+            setTimeout(() => {
+              if (isMounted) {
+                setIsSimulationMode(true);
+                setIsInitializing(false);
+              }
+            }, 1800);
+          }
           return;
         }
 
@@ -53,7 +66,15 @@ export function useSovereignAgent() {
         });
         if (isMounted) setIsInitializing(false);
       } catch (err: any) {
-        if (isMounted) setInitProgress(`WebGPU Error: ${err?.message || "Please use a compatible browser."}`);
+        if (isMounted) {
+          setInitProgress(`GPU Error: ${err?.message || "WebGPU load failed"}. Entering Demonstration Mode...`);
+          setTimeout(() => {
+            if (isMounted) {
+              setIsSimulationMode(true);
+              setIsInitializing(false);
+            }
+          }, 1800);
+        }
       }
     };
     init();
@@ -66,7 +87,7 @@ export function useSovereignAgent() {
       clearInterval(interval);
       sovereignRuntime.destroy();
     };
-  }, [setInitProgress, setIsInitializing, setMetrics]);
+  }, [setInitProgress, setIsInitializing, setMetrics, setIsSimulationMode]);
 
   const handleSend = async () => {
     if (!input.trim() || isThinking) return;
@@ -78,12 +99,108 @@ export function useSovereignAgent() {
     setToolExecuting(null);
     setThinkingStep("Evaluating Safety Intercepts...");
 
+    if (isSimulationMode) {
+      try {
+        // Run real CAMP privacy firewall to inspect user input
+        const campResult = await camp.process(userMessage.content as string);
+        setLastCamp(campResult);
+
+        await new Promise(r => setTimeout(r, 800));
+        setThinkingStep("Locating verified regional directories...");
+        await new Promise(r => setTimeout(r, 600));
+
+        let mockResponse = "";
+        const lowerInput = (userMessage.content as string).toLowerCase();
+
+        // 1. Safety Intercept
+        const exclusionTerms = ["cat", "dog", "pet", "animal", "history", "article", "book", "movie", "story", "game", "character"];
+        const hasExclusion = exclusionTerms.some(term => lowerInput.includes(term));
+        const selfReferenceTerms = ["i have", "i'm having", "i feel", "my ", "am i", "should i take", "give me", "help me with"];
+        const hasSelfReference = selfReferenceTerms.some(term => lowerInput.includes(term));
+        const medicalTriggers = ["diagnose", "prescribe", "heart attack", "chest pain", "medication for", "dosage", "symptoms of"];
+        const hasMedicalTrigger = medicalTriggers.some(term => lowerInput.includes(term));
+        const compositeCheck = lowerInput.includes("medical") && (lowerInput.includes("advice") || lowerInput.includes("treatment"));
+
+        if (!hasExclusion && ((hasMedicalTrigger && hasSelfReference) || (compositeCheck && hasSelfReference))) {
+          mockResponse = "I am a local AI routing assistant. To protect your safety, I am strictly forbidden from providing medical diagnoses, treatments, or prescribing medications. Please seek professional medical attention immediately.";
+        } else if (lowerInput.includes("weather")) {
+          // 2. Weather: Live geocoding & forecast query fallback
+          let location = "Pune"; // default fallback location
+          const locationPatterns = [
+            /\b(?:in|near|around|at)\b\s+([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i,
+            /\b(?:weather|forecast|temperature)\b\s+(?:for|in|at|near|around)?\s*([a-zA-Z][a-zA-Z\s,]{1,30}?)(?:\.|\?|!|$)/i
+          ];
+          for (const pat of locationPatterns) {
+            const match = lowerInput.match(pat);
+            if (match && match[1]) {
+              const clean = match[1].trim();
+              if (clean.length > 1 && !["today", "tomorrow", "current", "now"].includes(clean)) {
+                location = clean;
+                break;
+              }
+            }
+          }
+          try {
+            setThinkingStep(`Fetching live weather details for ${location}...`);
+            const weather = await getCurrentWeather(location);
+            mockResponse = `Here is the current weather for **${weather.location}**:\n\n*   **Temperature**: ${weather.temperature} (Feels like ${weather.apparentTemperature})\n*   **Condition**: ${weather.condition}\n*   **Precipitation**: ${weather.precipitation}\n*   **Wind Speed**: ${weather.windSpeed}\n\n*This data was retrieved live and privately from the open Open-Meteo API.*`;
+          } catch (err: any) {
+            mockResponse = `I am currently running in Offline Demonstration Mode. Usually, I would fetch live weather via the anonymous Weather tool. Currently, the weather in ${location} is simulated as 72°F and sunny with zero cloud tracking!`;
+          }
+        } else if (lowerInput.includes("food") || lowerInput.includes("bread") || lowerInput.includes("clinic") || lowerInput.includes("medical") || lowerInput.includes("aid")) {
+          // 3. Resource Query
+          mockResponse = "I found the following matching verified resource in the local SQLite directory:\n\n- **SafeHaven Medical Clinic** (Downtown, Immediate availability, 0.8 miles away)\n\nThis resource query was processed 100% locally on your browser context via OPFS. No personal details were exposed.";
+        } else {
+          // 4. General Chat
+          mockResponse = `Hello! I am your Sovereign Edge Assistant. Since WebGPU hardware acceleration is not active or supported in this browser, I am running in interactive demonstration mode.\n\nYour prompt: "${userMessage.content}" has been processed by the CAMP Privacy Firewall. No identification details were leaked. How can I help you today?`;
+        }
+
+        setThinkingStep(null);
+        
+        // Update simulated metrics to show token generation speed
+        const originalMetrics = metricsCapture.getMetrics();
+        setMetrics({
+          ...originalMetrics,
+          inferenceSpeed: 24.5
+        });
+
+        // Stream text response
+        let streamingText = "";
+        const words = mockResponse.split(" ");
+        for (let i = 0; i < words.length; i++) {
+          streamingText += words[i] + " ";
+          setMessages(prev => {
+            const last = prev[prev.length - 1];
+            if (last && last.role === "assistant") {
+              return [...prev.slice(0, -1), { role: "assistant", content: streamingText } as ExtendedChatMessage];
+            }
+            return [...prev, { role: "assistant", content: streamingText } as ExtendedChatMessage];
+          });
+          await new Promise(r => setTimeout(r, 45));
+        }
+
+        // Reset speed metric after stream finishes
+        setMetrics({
+          ...originalMetrics,
+          inferenceSpeed: 0
+        });
+
+      } catch (err) {
+        console.error("[Agent Simulation Error]", err);
+      } finally {
+        setIsThinking(false);
+        setToolExecuting(null);
+        setThinkingStep(null);
+      }
+      return;
+    }
+
     try {
       let streamingText = "";
       const result = await sovereignRuntime.generateResponse(
         [...messages, userMessage],
         (chunk) => {
-          setThinkingStep(null); // Clear progress text once actual token stream starts
+          setThinkingStep(null);
           streamingText += chunk;
           setMessages(prev => {
             const last = prev[prev.length - 1];
@@ -140,7 +257,7 @@ export function useSovereignAgent() {
     lastCamp,
     toolExecuting,
     thinkingStep,
-    metrics: metrics || metricsCapture.getMetrics(), // Fallback if null
+    metrics: metrics || metricsCapture.getMetrics(),
     handleSend,
     addExternalMessage
   };
