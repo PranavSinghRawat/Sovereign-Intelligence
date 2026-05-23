@@ -6,7 +6,7 @@ import * as pdfjs from "pdfjs-dist";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 env.allowLocalModels = false;
-env.backends.onnx.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/';
+env.backends.onnx.wasm.wasmPaths = '/';
 
 let extractor: any = null;
 
