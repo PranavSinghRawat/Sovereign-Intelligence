@@ -6,6 +6,9 @@ import { SearchResult } from "@/lib/runtime/RAGManager";
 
 export type ExtendedChatMessage = ChatCompletionMessageParam & {
   ragSources?: SearchResult[];
+  campResult?: CAMPResult;
+  inferenceSpeed?: number;
+  isSimulated?: boolean;
 };
 
 interface AgentState {
