@@ -12,7 +12,20 @@ By combining browser-side WebGPU inference, autonomous client-side guardrails, S
 Powered by `@mlc-ai/web-llm` running Llama-3.2-1B and SmolLM2-135M parameter models, all language model reasoning occurs natively inside the browser. By leveraging local GPU unified memory via WebGPU, the framework achieves zero server hosting costs, complete offline availability, and immunity to server-side data breaches.
 
 ### 2. Autonomous Privacy Engineering (CAMP)
-The Cumulative Agentic Masking and Pruning (CAMP) middleware calculates a Cumulative PII Exposure (CPE) score in real-time. If the prompt contains a high-risk combination of personal identifiers (such as names, emails, phone numbers, or exact addresses), CAMP intercepts the input, prunes the data, and persists the redacted mapping locally in the browser's Origin Private File System (OPFS) via SQLite.
+The Cumulative Agentic Masking and Pruning (CAMP) middleware calculates a Cumulative PII Exposure (CPE) score in real-time. It combines specific detectors for high-risk entities (names, emails, credentials, financial identifiers, government IDs, phone numbers, addresses, medical terms) with a generic disclosure detector that can prune arbitrary user-provided fields such as "my vault clue is ..." or "our internal project code is ..." without predefining every field name. CAMP strips sensitive values before model tokenization, preserves markdown code blocks for developer workflows, and persists only hashed fragment fingerprints in the browser's Origin Private File System (OPFS) via SQLite.
+
+### CAMP Recruiter Demo
+Input:
+```text
+My name is Pranav, my email is pranav@example.com, my password is SuperSecret123, and my vault clue is blue-lamp-77.
+```
+
+Sanitized payload:
+```text
+My name is [NAME_PRUNED], my email is [EMAIL_PRUNED], my password is [CREDENTIAL_PRUNED], and my vault clue is [SENSITIVE_FIELD_PRUNED].
+```
+
+Why it matters: the app is not simply hiding a few hardcoded fields. It demonstrates a privacy runtime that can classify and prune both known PII and newly disclosed sensitive data before the local agent or retrieval layer consumes the prompt.
 
 ### 3. Cryptographic Key Isolation (IndexedDB WebCrypto Sandbox)
 To eliminate Cross-Site Scripting (XSS) and dependency injection exfiltration risks associated with browser storage (such as `localStorage`), the system generates Ed25519 agent keys using the WebCrypto API with `{ extractable: false }`. The key structures are committed as binary objects inside an isolated browser IndexedDB sandbox, preventing raw JavaScript access or key exports.
@@ -64,7 +77,7 @@ graph TD
 Integrated WebLLM to load model weights directly on the client's GPU, establishing local inference.
 
 ### Phase 2: Cumulative Agentic Masking & Pruning (CAMP)
-Engineered the CAMP pipeline, creating regex filters and state containers to prune personal details prior to model tokenization.
+Engineered the CAMP pipeline with priority-based entity detection, arbitrary sensitive-field pruning, hashed local fragment tracking, and code-block preservation prior to model tokenization.
 
 ### Phase 3: Browser-Side OPFS SQLite Integration
 Configured WebAssembly-powered SQLite to serve as the local storage engine in the browser's high-speed Origin Private File System.

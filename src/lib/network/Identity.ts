@@ -27,6 +27,12 @@ export function bytesToHex(bytes: Uint8Array): string {
     .join("");
 }
 
+function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+  const buffer = new ArrayBuffer(bytes.byteLength);
+  new Uint8Array(buffer).set(bytes);
+  return buffer;
+}
+
 // IndexedDB Helper Functions
 function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -187,7 +193,7 @@ export async function verifyPayload(
 
     const publicKey = await cryptoSubtle.importKey(
       "raw",
-      pubKeyBytes as any,
+      toArrayBuffer(pubKeyBytes),
       { name: "Ed25519" },
       true,
       ["verify"]
@@ -196,7 +202,7 @@ export async function verifyPayload(
     return await cryptoSubtle.verify(
       { name: "Ed25519" },
       publicKey,
-      signatureBytes as any,
+      toArrayBuffer(signatureBytes),
       encoder.encode(payload)
     );
   } catch (err) {

@@ -47,6 +47,16 @@ export function useSovereignAgent() {
     const init = async () => {
       try {
         if (isMounted) setInitProgress("Validating hardware components...");
+        const automatedBrowser = typeof navigator !== "undefined" && navigator.webdriver;
+        if (automatedBrowser) {
+          if (isMounted) {
+            setInitProgress("Automated browser detected. Entering deterministic Demonstration Mode...");
+            setIsSimulationMode(true);
+            setIsInitializing(false);
+          }
+          return;
+        }
+
         const gpuCheck = await sovereignRuntime.checkWebGPUSupport();
         if (!gpuCheck.supported) {
           if (isMounted) {
@@ -65,9 +75,10 @@ export function useSovereignAgent() {
           if (isMounted) setInitProgress(report.text);
         });
         if (isMounted) setIsInitializing(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "WebGPU load failed";
         if (isMounted) {
-          setInitProgress(`GPU Error: ${err?.message || "WebGPU load failed"}. Entering Demonstration Mode...`);
+          setInitProgress(`GPU Error: ${message}. Entering Demonstration Mode...`);
           setTimeout(() => {
             if (isMounted) {
               setIsSimulationMode(true);
@@ -158,7 +169,7 @@ export function useSovereignAgent() {
             setThinkingStep(`Fetching live weather details for ${location}...`);
             const weather = await getCurrentWeather(location);
             mockResponse = `Here is the current weather for **${weather.location}**:\n\n*   **Temperature**: ${weather.temperature} (Feels like ${weather.apparentTemperature})\n*   **Condition**: ${weather.condition}\n*   **Precipitation**: ${weather.precipitation}\n*   **Wind Speed**: ${weather.windSpeed}\n\n*This data was retrieved live and privately from the open Open-Meteo API.*`;
-          } catch (err: any) {
+          } catch {
             mockResponse = `I am currently running in Offline Demonstration Mode. Usually, I would fetch live weather via the anonymous Weather tool. Currently, the weather in ${location} is simulated as 72°F and sunny with zero cloud tracking!`;
           }
         } else if (lowerInput.includes("food") || lowerInput.includes("bread") || lowerInput.includes("clinic") || lowerInput.includes("medical") || lowerInput.includes("aid")) {

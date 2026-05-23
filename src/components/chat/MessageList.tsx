@@ -1,7 +1,6 @@
 import React, { RefObject, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot, FileText, X } from "lucide-react";
-import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 import dynamic from "next/dynamic";
 import { SearchResult } from "@/lib/runtime/RAGManager";
 

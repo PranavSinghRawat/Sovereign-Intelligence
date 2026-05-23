@@ -39,6 +39,70 @@ describe("CAMP Middleware (Privacy Firewall)", () => {
     expect(result.processedText).toContain("[MEDICAL_PRUNED]");
   });
 
+  it("should detect credentials as high-risk PII and prune only the secret value", async () => {
+    const input = "My name is Pranav and my email is pranav@example.com and my password is SuperSecret123.";
+
+    const result = await camp.process(input);
+
+    expect(result.cpeScore).toBeGreaterThanOrEqual(1.0);
+    expect(result.pruned).toBe(true);
+    expect(result.fragmentsDetected).toContain("CREDENTIAL: [REDACTED]");
+    expect(result.fragmentsDetected).not.toContain("CREDENTIAL: SuperSecret123");
+    expect(result.processedText).toContain("password is [CREDENTIAL_PRUNED]");
+    expect(result.processedText).not.toContain("SuperSecret123");
+    expect(result.processedText).toContain("[NAME_PRUNED]");
+    expect(result.processedText).toContain("[EMAIL_PRUNED]");
+  });
+
+  it("should prune arbitrary sensitive disclosure fields without predefining the field name", async () => {
+    const input = "My vault clue is blue-lamp-77 and our internal project code is ORION-42.";
+
+    const result = await camp.process(input);
+
+    expect(result.cpeScore).toBeGreaterThanOrEqual(1.0);
+    expect(result.pruned).toBe(true);
+    expect(result.fragmentsDetected).toContain("SENSITIVE_FIELD: [REDACTED]");
+    expect(result.processedText).toContain("My vault clue is [SENSITIVE_FIELD_PRUNED]");
+    expect(result.processedText).toContain("our internal project code is [SENSITIVE_FIELD_PRUNED]");
+    expect(result.processedText).not.toContain("blue-lamp-77");
+    expect(result.processedText).not.toContain("ORION-42");
+  });
+
+  it("should prioritize specific detectors over broad disclosure pruning", async () => {
+    const input = "My bank account is 123456789 and my backup label is silver-door.";
+
+    const result = await camp.process(input);
+
+    expect(result.pruned).toBe(true);
+    expect(result.fragmentsDetected).toContain("FINANCIAL: [REDACTED]");
+    expect(result.processedText).toContain("My bank account is [FINANCIAL_PRUNED]");
+    expect(result.processedText).toContain("my backup label is [SENSITIVE_FIELD_PRUNED]");
+    expect(result.processedText).not.toContain("123456789");
+    expect(result.processedText).not.toContain("silver-door");
+  });
+
+  it("should prune natural-language secret disclosures beyond direct field labels", async () => {
+    const input = "The thing I use to unlock my account is blue lamp seven seven.";
+
+    const result = await camp.process(input);
+
+    expect(result.pruned).toBe(true);
+    expect(result.fragmentsDetected).toContain("SENSITIVE_FIELD: [REDACTED]");
+    expect(result.processedText).toContain("The thing I use to unlock my account is [SENSITIVE_FIELD_PRUNED]");
+    expect(result.processedText).not.toContain("blue lamp seven seven");
+  });
+
+  it("should preserve sensitive-looking samples inside code while pruning surrounding prose", async () => {
+    const input = "Here is a fixture: `const password = \"SuperSecret123\"`. My recovery hint is north-window.";
+
+    const result = await camp.process(input);
+
+    expect(result.pruned).toBe(true);
+    expect(result.processedText).toContain("`const password = \"SuperSecret123\"`");
+    expect(result.processedText).toContain("My recovery hint is [SENSITIVE_FIELD_PRUNED]");
+    expect(result.processedText).not.toContain("north-window");
+  });
+
   it("should not prune low-risk generic queries", async () => {
     const input = "Where can I find a food bank in this city?";
     

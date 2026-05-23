@@ -20,7 +20,7 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
 
   const onReceiveRef = useRef(onReceiveMessage);
   const signalingChannelRef = useRef<ZKSignalingChannel | null>(null);
-  const connectionTimeoutRef = useRef<any>(null);
+  const connectionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     initAgentIdentity()
@@ -310,4 +310,3 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     isFirewallBlocked,
   };
 }
-

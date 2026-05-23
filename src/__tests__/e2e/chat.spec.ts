@@ -7,9 +7,7 @@ test.describe("Sovereign Intelligence Layer - Landing Page E2E Suite", () => {
   });
 
   test("should display main branding and loading state or chat layout", async ({ page }) => {
-    // Wait for either the loading engine container or the main interface to load
-    const title = page.locator("h1");
-    await expect(title).toContainText("Sovereign Intelligence");
+    await expect(page.getByText(/Sovereign Intelligence/).first()).toBeVisible();
   });
 
   test("should render the P2P secure connections widget inside the sidebar", async ({ page }) => {

@@ -13,23 +13,31 @@ import { db } from "../store/sqlite-db";
 export enum PIIType {
   NAME = "NAME",
   EMAIL = "EMAIL",
+  CREDENTIAL = "CREDENTIAL",
   PHONE = "PHONE",
+  ADDRESS = "ADDRESS",
   LOCATION = "LOCATION",
   PROFESSION = "PROFESSION",
   AGE = "AGE",
   ID = "ID",
+  FINANCIAL = "FINANCIAL",
   MEDICAL = "MEDICAL",
+  SENSITIVE_FIELD = "SENSITIVE_FIELD",
 }
 
 const PII_WEIGHTS: Record<PIIType, number> = {
   [PIIType.NAME]: 0.8,
   [PIIType.EMAIL]: 0.9,
+  [PIIType.CREDENTIAL]: 1.0,
   [PIIType.PHONE]: 0.8,
+  [PIIType.ADDRESS]: 0.8,
   [PIIType.LOCATION]: 0.3,
   [PIIType.PROFESSION]: 0.4,
   [PIIType.AGE]: 0.2,
   [PIIType.ID]: 0.9,
+  [PIIType.FINANCIAL]: 1.0,
   [PIIType.MEDICAL]: 0.7,
+  [PIIType.SENSITIVE_FIELD]: 1.0,
 };
 
 /**

@@ -4,8 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Activity, RefreshCw, Sparkles, Terminal, Lock, Share2, Shield,
-  Database, Cpu, CheckCircle2, Check, Copy, Zap, Key, ArrowRight,
-  BookOpen, Layers, Server
+  Database, Cpu, Check, Copy, Key, ArrowRight,
+  BookOpen, Layers
 } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Header } from "@/components/ui/Header";
@@ -786,7 +786,7 @@ const keyPair = await window.crypto.subtle.generateKey(
                         <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-zinc-200">2. MitM Proof ZK-Signaling</h3>
                       </div>
                       <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-                        WebRTC handshakes run through public, untrusted WebSockets signaling channels. To prevent Session Hijacking, signaling payloads are cryptographically signed using the agent's private key. Peers verify signatures using public key fingerprints, discarding packets outside a short timestamp threshold.
+                        WebRTC handshakes run through public, untrusted WebSockets signaling channels. To prevent Session Hijacking, signaling payloads are cryptographically signed using the agent&apos;s private key. Peers verify signatures using public key fingerprints, discarding packets outside a short timestamp threshold.
                       </p>
                     </div>
                     <div className="relative mt-2">

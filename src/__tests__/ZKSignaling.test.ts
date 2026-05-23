@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ZKSignalingChannel, ZKSignalingMessage } from "../lib/network/ZKSignaling";
-import { initAgentIdentity, signPayload, getLocalPublicKeyHex } from "../lib/network/Identity";
+import { signPayload, getLocalPublicKeyHex } from "../lib/network/Identity";
 
 // Mock WebSocket class for Node environment
 class MockWebSocket {

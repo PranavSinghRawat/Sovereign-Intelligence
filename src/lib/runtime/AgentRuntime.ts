@@ -470,7 +470,11 @@ ${contextBlock}`;
     if (typeof window === "undefined") {
       return { supported: false, reason: "Non-browser environment" };
     }
-    const nav = navigator as any;
+    const nav = navigator as Navigator & {
+      gpu?: {
+        requestAdapter: () => Promise<unknown>;
+      };
+    };
     if (typeof navigator === "undefined" || !nav.gpu) {
       return { 
         supported: false, 
@@ -486,10 +490,11 @@ ${contextBlock}`;
         };
       }
       return { supported: true };
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
       return { 
         supported: false, 
-        reason: `Failed to initialize GPU context: ${err?.message || err}` 
+        reason: `Failed to initialize GPU context: ${message}` 
       };
     }
   }

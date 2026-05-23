@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Activity, Zap, Shield, Database, Radio, Share2, Send, Check, Copy } from "lucide-react";
+import { Activity, Shield, Database, Radio, Share2, Send, Check, Copy } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PrivacyFirewall } from "@/components/agent/PrivacyFirewall";
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { RAGSidebarTab } from "./RAGSidebarTab";
 
 // SVG P2P Network Topology Map Component
-const P2PTopologyVisualizer: React.FC<{ status: RTCPeerConnectionState; localKey?: string; peerKey?: string }> = ({ status, localKey, peerKey }) => {
+const P2PTopologyVisualizer: React.FC<{ status: RTCPeerConnectionState; localKey?: string; peerKey?: string }> = ({ status }) => {
   const isConnected = status === "connected";
   const isConnecting = status === "connecting";
   const isFailed = status === "failed" || status === "closed";
