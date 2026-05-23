@@ -1,6 +1,7 @@
 /**
- * Application-level End-to-End Encryption (E2EE) helper for WebRTC data channels.
- * Uses Web Crypto API (AES-GCM-256) to encrypt and decrypt JSON payloads.
+ * Application-level End-to-End Encryption (E2EE) helper for signaling channels.
+ * Uses Web Crypto API (AES-GCM-256) to encrypt and decrypt JSON payloads using a shared passphrase.
+ * Do NOT use this for WebRTC Data Channels (which use native DTLS) or with public SDP seeds.
  */
 
 // Simple salt for PBKDF2 key derivation

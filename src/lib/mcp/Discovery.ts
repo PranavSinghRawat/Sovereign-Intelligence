@@ -13,7 +13,7 @@ export interface AgentNode {
   capabilities: string[]; // e.g. ["search_clinics", "local_rag"]
   latency: number; // in ms
   reputation: number; // 0 to 100
-  zkIdentityHash: string; // Zero-knowledge proof of node validity
+  identityHash: string; // Proof of node validity
   lastSeen: number; // Timestamp
 }
 
@@ -32,7 +32,7 @@ export class DiscoveryService {
     
     try {
       // 1. Hydrate state from SQLite
-      const rows = await db.exec(`SELECT * FROM peers`);
+      const rows = await db.exec(`SELECT uri, capabilities_json, latency, reputation, zk_identity_hash, last_seen FROM peers`);
       
       if (rows && rows.length > 0) {
         for (const row of rows) {
@@ -42,7 +42,7 @@ export class DiscoveryService {
             capabilities: JSON.parse(capabilities_json as string),
             latency: latency as number,
             reputation: reputation as number,
-            zkIdentityHash: zk_identity_hash as string,
+            identityHash: zk_identity_hash as string,
             lastSeen: last_seen as number
           });
         }
@@ -55,7 +55,7 @@ export class DiscoveryService {
           capabilities: ["search_clinics", "check_availability"],
           latency: 15,
           reputation: 100,
-          zkIdentityHash: "seed_med_01",
+          identityHash: "seed_med_01",
           lastSeen: Date.now()
         });
         await this.registerPeer({
@@ -63,7 +63,7 @@ export class DiscoveryService {
           capabilities: ["search_food_banks"],
           latency: 22,
           reputation: 100,
-          zkIdentityHash: "seed_food_01",
+          identityHash: "seed_food_01",
           lastSeen: Date.now()
         });
         await this.registerPeer({
@@ -71,7 +71,7 @@ export class DiscoveryService {
           capabilities: ["grant_search"],
           latency: 45,
           reputation: 100,
-          zkIdentityHash: "seed_fin_01",
+          identityHash: "seed_fin_01",
           lastSeen: Date.now()
         });
       }
@@ -82,9 +82,9 @@ export class DiscoveryService {
   }
 
   /**
-   * Generates a local ZK identity proof (SHA-256 hash of random seed)
+   * Generates a local identity commitment hash (SHA-256 hash of random seed)
    */
-  async generateZKIdentity(seed: string): Promise<string> {
+  async generateIdentityHash(seed: string): Promise<string> {
     if (typeof window === "undefined" || !window.crypto || !window.crypto.subtle) {
       return seed;
     }
@@ -100,6 +100,9 @@ export class DiscoveryService {
    * Persists to OPFS SQLite.
    */
   async registerPeer(node: AgentNode) {
+    await this.init(); // Ensure loaded
+
+    let evictedUri = "";
     if (this.peerNodes.size >= this.MAX_PEERS && !this.peerNodes.has(node.uri)) {
       // Evict lowest reputation node if full
       let lowestRepUri = "";
@@ -111,21 +114,26 @@ export class DiscoveryService {
         }
       }
       if (node.reputation > lowestRep) {
-        this.peerNodes.delete(lowestRepUri);
-        await db.exec(`DELETE FROM peers WHERE uri = ?`, [lowestRepUri]);
-        this.peerNodes.set(node.uri, node);
+        evictedUri = lowestRepUri;
       } else {
         return; // Rejected due to low reputation compared to mesh average
       }
-    } else {
-      this.peerNodes.set(node.uri, node);
     }
 
     try {
+      if (evictedUri) {
+        await db.exec(`DELETE FROM peers WHERE uri = ?`, [evictedUri]);
+      }
       await db.exec(
         `INSERT OR REPLACE INTO peers (uri, capabilities_json, latency, reputation, zk_identity_hash, last_seen) VALUES (?, ?, ?, ?, ?, ?)`,
-        [node.uri, JSON.stringify(node.capabilities), node.latency, node.reputation, node.zkIdentityHash, node.lastSeen]
+        [node.uri, JSON.stringify(node.capabilities), node.latency, node.reputation, node.identityHash, node.lastSeen]
       );
+      
+      // Update memory only if DB succeeded
+      if (evictedUri) {
+        this.peerNodes.delete(evictedUri);
+      }
+      this.peerNodes.set(node.uri, node);
       console.log(`[Mesh] Registered/Updated peer: ${node.uri} (Rep: ${node.reputation})`);
     } catch (err) {
       console.error(`[Mesh] Failed to persist peer ${node.uri}:`, err);
@@ -137,16 +145,13 @@ export class DiscoveryService {
    * Modifies peer reputation based on successful/failed interactions and logs to SQLite.
    */
   async updateReputation(uri: string, success: boolean) {
+    await this.init(); // Ensure loaded
     const node = this.peerNodes.get(uri);
     if (!node) return;
 
     const scoreChange = success ? 5 : -15;
     let newReputation = node.reputation + scoreChange;
     newReputation = Math.max(0, Math.min(100, newReputation)); // Clamp 0-100
-    
-    node.reputation = newReputation;
-    node.lastSeen = Date.now();
-    this.peerNodes.set(uri, node);
     
     try {
       // Log the interaction
@@ -155,16 +160,19 @@ export class DiscoveryService {
         [uri, success ? 1 : 0, scoreChange]
       );
 
-      if (node.reputation < this.REPUTATION_THRESHOLD) {
+      if (newReputation < this.REPUTATION_THRESHOLD) {
         console.warn(`[Mesh] Peer ${uri} dropped below reputation threshold. Evicting.`);
-        this.peerNodes.delete(uri);
         await db.exec(`DELETE FROM peers WHERE uri = ?`, [uri]);
+        this.peerNodes.delete(uri); // Update memory on success
       } else {
         // Update peer reputation
         await db.exec(
           `UPDATE peers SET reputation = ?, last_seen = ? WHERE uri = ?`,
-          [node.reputation, node.lastSeen, uri]
+          [newReputation, Date.now(), uri]
         );
+        node.reputation = newReputation;
+        node.lastSeen = Date.now();
+        this.peerNodes.set(uri, node); // Update memory on success
       }
     } catch (err) {
       console.error(`[Mesh] Failed to update reputation for ${uri}:`, err);
@@ -207,13 +215,11 @@ export class DiscoveryService {
     }
 
     console.log(`[Mesh] Dispatching federated query to ${targetNodes.length} peers...`);
-    // In a full implementation, this would use WebRTCNode to send the payload to each peer.
-    // For now, we simulate the federated aggregation.
+    // TODO: Wire into WebRTCNode to dispatch real payload
     
     const results = await Promise.all(targetNodes.map(async node => {
-      // Simulate interaction success tracking
-      await this.updateReputation(node.uri, true);
-      return { source: node.uri, data: "Federated result for " + capability };
+      // Avoid premature reputation reward without validation
+      return { source: node.uri, data: "Federated result placeholder for " + capability };
     }));
 
     return results;

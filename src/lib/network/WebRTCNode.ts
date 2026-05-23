@@ -5,12 +5,9 @@
  * Uses Google's free public STUN servers for NAT Traversal.
  */
 
-import { encryptPayload, decryptPayload } from "./Encryption";
-
 export class WebRTCNode {
   private peerConnection!: RTCPeerConnection;
   private dataChannel: RTCDataChannel | null = null;
-  private encryptionSeed: string | null = null;
   private onMessageCallback: ((data: unknown) => void) | null = null;
   private onStatusChangeCallback: ((status: RTCPeerConnectionState) => void) | null = null;
   private onIceRestartNeededCallback: (() => void) | null = null;
@@ -80,7 +77,6 @@ export class WebRTCNode {
       // Silently handle already-closed connections
     }
     this.dataChannel = null;
-    this.encryptionSeed = null;
     this.initPeerConnection();
     console.log("[WebRTC] Connection reset. Ready for new peer.");
     if (this.onStatusChangeCallback) {
@@ -113,7 +109,6 @@ export class WebRTCNode {
       }
     });
 
-    this.encryptionSeed = offerString;
     return offerString;
   }
 
@@ -121,7 +116,6 @@ export class WebRTCNode {
    * Receives an Offer and generates an Answer.
    */
   async acceptOffer(offerString: string): Promise<string> {
-    this.encryptionSeed = offerString;
     const offer = JSON.parse(offerString);
     await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
 
@@ -150,22 +144,13 @@ export class WebRTCNode {
   }
 
   /**
-   * Sends encrypted data directly to the peer.
+   * Sends encrypted data directly to the peer via native WebRTC DTLS.
    */
   async sendResourceData(data: Record<string, unknown>) {
     if (this.dataChannel && this.dataChannel.readyState === "open") {
       const plaintext = JSON.stringify(data);
-      if (this.encryptionSeed) {
-        try {
-          const cipherText = await encryptPayload(plaintext, this.encryptionSeed);
-          this.dataChannel.send(JSON.stringify({ encrypted: true, payload: cipherText }));
-          console.log("[WebRTC] Sent E2EE encrypted data peer-to-peer");
-        } catch {
-          this.dataChannel.send(plaintext);
-        }
-      } else {
-        this.dataChannel.send(plaintext);
-      }
+      this.dataChannel.send(plaintext);
+      console.log("[WebRTC] Sent data peer-to-peer (DTLS-SRTP encrypted)");
     } else {
       console.error("[WebRTC] Data channel is not open.");
     }
@@ -215,18 +200,9 @@ export class WebRTCNode {
       if (this.onMessageCallback) {
         try {
           const parsed = JSON.parse(event.data);
-          if (parsed && parsed.encrypted && parsed.payload && this.encryptionSeed) {
-            const decryptedPlaintext = await decryptPayload(parsed.payload, this.encryptionSeed);
-            this.onMessageCallback(JSON.parse(decryptedPlaintext));
-          } else {
-            this.onMessageCallback(parsed);
-          }
+          this.onMessageCallback(parsed);
         } catch {
-          try {
-            this.onMessageCallback(JSON.parse(event.data));
-          } catch {
-            this.onMessageCallback(event.data);
-          }
+          this.onMessageCallback(event.data);
         }
       }
     };

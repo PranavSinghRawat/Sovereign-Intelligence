@@ -30,7 +30,7 @@ import { db } from "../store/sqlite-db";
  * Only allows alphanumeric characters, spaces, hyphens, periods, and commas.
  */
 const sanitizeOverpassInput = (input: string): string => {
-  return input.replace(/[^a-zA-Z0-9\s\-.,]/g, "").trim().slice(0, 100);
+  return input.replace(/[^\p{L}\p{N}\s\-.,']/gu, "").trim().slice(0, 100);
 };
 
 /** TTL for API response cache: 1 hour in milliseconds */
