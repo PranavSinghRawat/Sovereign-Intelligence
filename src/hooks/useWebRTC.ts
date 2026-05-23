@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { p2pNode } from "@/lib/network/WebRTCNode";
 import { ZKSignalingChannel } from "@/lib/network/ZKSignaling";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
+import { initAgentIdentity } from "@/lib/network/Identity";
 
 export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) => void) {
   const [p2pStatus, setP2pStatus] = useState<RTCPeerConnectionState>("new");
@@ -13,9 +14,17 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
   const [roomPassphrase, setRoomPassphrase] = useState("");
   const [isSignaling, setIsSignaling] = useState(false);
   const [signalingLogs, setSignalingLogs] = useState<string[]>([]);
+  const [localPubKey, setLocalPubKey] = useState("");
+  const [peerPubKey, setPeerPubKey] = useState("");
 
   const onReceiveRef = useRef(onReceiveMessage);
   const signalingChannelRef = useRef<ZKSignalingChannel | null>(null);
+
+  useEffect(() => {
+    initAgentIdentity()
+      .then((key) => setLocalPubKey(key))
+      .catch((err) => console.error("[WebRTC] Identity initialization failed:", err));
+  }, []);
 
   useEffect(() => {
     onReceiveRef.current = onReceiveMessage;
@@ -134,6 +143,9 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       const channel = new ZKSignalingChannel(
         passphrase,
         async (msg) => {
+          if (msg.pubKey) {
+            setPeerPubKey(msg.pubKey);
+          }
           if (msg.type === "ping") {
             log("Peer ping received. Re-publishing encrypted Offer...");
             const currentOffer = await p2pNode.createOffer();
@@ -195,6 +207,9 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
       const channel = new ZKSignalingChannel(
         passphrase,
         async (msg) => {
+          if (msg.pubKey) {
+            setPeerPubKey(msg.pubKey);
+          }
           if (msg.type === "offer" && msg.payload) {
             log("Encrypted SDP Offer received from host.");
             try {
@@ -237,6 +252,7 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     }
     setIsSignaling(false);
     setSignalingLogs([]);
+    setPeerPubKey("");
     p2pNode.reset();
   };
 
@@ -258,6 +274,8 @@ export function useWebRTC(onReceiveMessage: (msg: ChatCompletionMessageParam) =>
     handleInitZKSignaling,
     handleJoinZKSignaling,
     handleCancelZKSignaling,
+    localPubKey,
+    peerPubKey,
   };
 }
 

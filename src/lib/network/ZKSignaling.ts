@@ -1,10 +1,14 @@
 import { encryptPayload, decryptPayload } from "./Encryption";
+import { initAgentIdentity, getLocalPublicKeyHex, signPayload, verifyPayload } from "./Identity";
 
 export interface ZKSignalingMessage {
   type: "ping" | "offer" | "answer" | "ice-candidate";
   sender: string;
   room: string;
   payload?: string;
+  pubKey?: string;
+  timestamp?: number;
+  signature?: string;
 }
 
 export class ZKSignalingChannel {
@@ -31,6 +35,14 @@ export class ZKSignalingChannel {
   }
 
   async initialize() {
+    this.onLogCallback("Initializing cryptographic local identity...");
+    try {
+      await initAgentIdentity();
+      this.onLogCallback(`Identity initialized: ${getLocalPublicKeyHex().substring(0, 12)}...`);
+    } catch (err) {
+      this.onLogCallback(`Warning: Identity initialization error: ${err}`);
+    }
+
     this.onLogCallback("Deriving cryptographic channel ID (SHA-256)...");
     this.passphraseHex = await this.hashPassphrase(this.passphraseRaw);
     this.onLogCallback(`Channel ID derived: ${this.passphraseHex.substring(0, 12)}...`);
@@ -92,7 +104,7 @@ export class ZKSignalingChannel {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  private handleIncomingRawMessage(data: string) {
+  private async handleIncomingRawMessage(data: string) {
     try {
       const parsed = JSON.parse(data) as ZKSignalingMessage;
       // Filter out messages that we sent ourselves
@@ -103,6 +115,27 @@ export class ZKSignalingChannel {
       if (parsed.room !== this.passphraseHex) {
         return;
       }
+
+      // Enforce cryptographic identity verification
+      if (!parsed.signature || !parsed.pubKey || !parsed.timestamp) {
+        this.onLogCallback("Unsigned or unauthenticated message received. Dropped.");
+        return;
+      }
+
+      // Replay attack check: allow a 2-minute window for clocks drift
+      if (Math.abs(Date.now() - parsed.timestamp) > 120000) {
+        this.onLogCallback("Received signaling message with expired timestamp. Dropped.");
+        return;
+      }
+
+      // Verify the signature
+      const verifyString = `${parsed.type}:${parsed.room}:${parsed.payload || ""}:${parsed.timestamp}`;
+      const isSignatureValid = await verifyPayload(verifyString, parsed.signature, parsed.pubKey);
+      if (!isSignatureValid) {
+        this.onLogCallback(`Signature verification failed for Peer: ${parsed.pubKey.substring(0, 12)}... Dropped.`);
+        return;
+      }
+
       this.onMessageCallback(parsed);
     } catch {
       // Silently ignore non-JSON or malformed messages
@@ -120,11 +153,19 @@ export class ZKSignalingChannel {
       encryptedPayload = await encryptPayload(plaintextPayload, this.passphraseRaw);
     }
 
+    const timestamp = Date.now();
+    const signPayloadStr = `${type}:${this.passphraseHex}:${encryptedPayload || ""}:${timestamp}`;
+    const signature = await signPayload(signPayloadStr);
+    const pubKey = getLocalPublicKeyHex();
+
     const msg: ZKSignalingMessage = {
       type,
       sender: this.clientId,
       room: this.passphraseHex,
-      payload: encryptedPayload
+      payload: encryptedPayload,
+      pubKey,
+      timestamp,
+      signature
     };
 
     const serialized = JSON.stringify(msg);

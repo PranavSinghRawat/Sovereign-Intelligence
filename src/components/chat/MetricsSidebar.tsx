@@ -33,6 +33,8 @@ interface MetricsSidebarProps {
   handleInitZKSignaling: (passphrase: string) => void;
   handleJoinZKSignaling: (passphrase: string) => void;
   handleCancelZKSignaling: () => void;
+  localPubKey?: string;
+  peerPubKey?: string;
 }
 
 export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({ 
@@ -55,7 +57,9 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
   signalingLogs,
   handleInitZKSignaling,
   handleJoinZKSignaling,
-  handleCancelZKSignaling
+  handleCancelZKSignaling,
+  localPubKey,
+  peerPubKey
 }) => {
   const [optIn, setOptIn] = useState(telemetry.getOptInStatus());
   const [copied, setCopied] = useState("");
@@ -239,6 +243,46 @@ export const MetricsSidebar: React.FC<MetricsSidebarProps> = ({
                 mode === "zk" ? (
                   /* ZK-Auto Mode Panel */
                   <div className="flex flex-col gap-3 text-[10px]">
+                    {localPubKey && (
+                      <div className="flex flex-col gap-1 p-2 rounded-xl bg-zinc-950/40 border border-zinc-900/50">
+                        <div className="flex justify-between items-center text-[9px] font-mono text-zinc-500">
+                          <span className="flex items-center gap-1">
+                            <Shield className="w-2.5 h-2.5 text-emerald-500/80" />
+                            My Agent Identity:
+                          </span>
+                          <span 
+                            onClick={() => copyToClipboard(localPubKey, "localpub")}
+                            className="text-zinc-400 hover:text-zinc-200 cursor-pointer flex items-center gap-1 select-all"
+                            title="Click to copy full public key fingerprint"
+                          >
+                            {localPubKey.substring(0, 10)}...
+                            {copied === "localpub" ? <Check className="w-2.5 h-2.5 text-emerald-450" /> : <Copy className="w-2.5 h-2.5" />}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {peerPubKey && (
+                      <div className="flex flex-col gap-1 p-2 rounded-xl bg-emerald-950/10 border border-emerald-900/30">
+                        <div className="flex justify-between items-center text-[9px] font-mono">
+                          <span className="text-zinc-500 font-semibold flex items-center gap-1">
+                            <Shield className="w-2.5 h-2.5 text-emerald-400" />
+                            Peer Identity:
+                          </span>
+                          <span className="text-emerald-455 font-bold uppercase tracking-wider text-[8px] px-1 rounded bg-emerald-950/60 border border-emerald-900/40">Verified</span>
+                        </div>
+                        <div className="flex justify-between items-center text-[9px] font-mono text-zinc-300 mt-0.5 select-all">
+                          <span>{peerPubKey.substring(0, 18)}...</span>
+                          <button 
+                            onClick={() => copyToClipboard(peerPubKey, "peerpub")}
+                            className="p-1 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors text-zinc-400 hover:text-zinc-200 cursor-pointer"
+                          >
+                            {copied === "peerpub" ? <Check className="w-2.5 h-2.5 text-emerald-455" /> : <Copy className="w-2.5 h-2.5" />}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="flex flex-col gap-2">
                       <span className="text-zinc-500 uppercase font-mono tracking-wider font-bold">1. Secure Passphrase</span>
                       <input 

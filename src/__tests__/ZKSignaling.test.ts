@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ZKSignalingChannel, ZKSignalingMessage } from "../lib/network/ZKSignaling";
+import { initAgentIdentity, signPayload, getLocalPublicKeyHex } from "../lib/network/Identity";
 
 // Mock WebSocket class for Node environment
 class MockWebSocket {
@@ -128,7 +129,7 @@ describe("ZK-Signaling Channel Protocol", () => {
 
     // Simulate receiving our own message
     const rawHandler = (channel as unknown as { handleIncomingRawMessage: (d: string) => void }).handleIncomingRawMessage.bind(channel);
-    rawHandler(JSON.stringify(sameClientMsg));
+    await rawHandler(JSON.stringify(sameClientMsg));
 
     expect(messageCallback).not.toHaveBeenCalled();
 
@@ -143,18 +144,77 @@ describe("ZK-Signaling Channel Protocol", () => {
     await channel.initialize();
     
     const room = (channel as unknown as { passphraseHex: string }).passphraseHex;
+    const timestamp = Date.now();
+    const signString = `ping:${room}::${timestamp}`;
+    const signature = await signPayload(signString);
+    const pubKey = getLocalPublicKeyHex();
 
     const peerMsg: ZKSignalingMessage = {
       type: "ping",
       sender: "external-peer",
       room,
+      pubKey,
+      timestamp,
+      signature
     };
 
     // Simulate receiving external message
     const rawHandler = (channel as unknown as { handleIncomingRawMessage: (d: string) => void }).handleIncomingRawMessage.bind(channel);
-    rawHandler(JSON.stringify(peerMsg));
+    await rawHandler(JSON.stringify(peerMsg));
 
     expect(messageCallback).toHaveBeenCalledWith(peerMsg);
+
+    channel.close();
+  });
+
+  it("should drop unsigned or tampered messages from external clients", async () => {
+    const passphrase = "test-room";
+    const messageCallback = vi.fn();
+    const channel = new ZKSignalingChannel(passphrase, messageCallback, logCallback);
+
+    await channel.initialize();
+    const room = (channel as unknown as { passphraseHex: string }).passphraseHex;
+
+    // 1. Fully unsigned message
+    const unsignedMsg: ZKSignalingMessage = {
+      type: "ping",
+      sender: "attacker",
+      room,
+    };
+
+    const rawHandler = (channel as unknown as { handleIncomingRawMessage: (d: string) => void }).handleIncomingRawMessage.bind(channel);
+    await rawHandler(JSON.stringify(unsignedMsg));
+    expect(messageCallback).not.toHaveBeenCalled();
+
+    // 2. Message with invalid signature
+    const invalidSigMsg: ZKSignalingMessage = {
+      type: "ping",
+      sender: "attacker",
+      room,
+      pubKey: getLocalPublicKeyHex(),
+      timestamp: Date.now(),
+      signature: "deadbeef"
+    };
+
+    await rawHandler(JSON.stringify(invalidSigMsg));
+    expect(messageCallback).not.toHaveBeenCalled();
+
+    // 3. Message with expired timestamp (replay attack)
+    const timestamp = Date.now() - 300000; // 5 minutes ago (expired)
+    const signString = `ping:${room}::${timestamp}`;
+    const signature = await signPayload(signString);
+
+    const expiredMsg: ZKSignalingMessage = {
+      type: "ping",
+      sender: "attacker",
+      room,
+      pubKey: getLocalPublicKeyHex(),
+      timestamp,
+      signature
+    };
+
+    await rawHandler(JSON.stringify(expiredMsg));
+    expect(messageCallback).not.toHaveBeenCalled();
 
     channel.close();
   });
