@@ -3,7 +3,7 @@ import { vi, describe, it, expect } from "vitest";
 // Mock @mlc-ai/web-llm to prevent CommonJS/ESM require errors in Vitest Node environment
 vi.mock("@mlc-ai/web-llm", () => {
   return {
-    CreateMLCEngine: vi.fn(),
+    CreateWebWorkerMLCEngine: vi.fn(),
     MLCEngine: vi.fn(),
   };
 });
