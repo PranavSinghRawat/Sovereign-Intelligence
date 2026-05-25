@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "eval:camp": "jiti src/evaluation/run-camp-benchmark.ts",
     "test:e2e": "playwright test"
   },
   "dependencies": {

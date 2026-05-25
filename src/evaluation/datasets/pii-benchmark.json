@@ -1,0 +1,132 @@
+[
+  {
+    "id": "pii-name-email-password",
+    "category": "mixed-pii",
+    "input": "My name is Pranav Rawat, my email is pranav@example.com, and my password is SuperSecret123.",
+    "expectedTypes": ["NAME", "EMAIL", "CREDENTIAL"],
+    "shouldPrune": true,
+    "mustNotContain": ["Pranav Rawat", "pranav@example.com", "SuperSecret123"]
+  },
+  {
+    "id": "pii-medical-location",
+    "category": "medical",
+    "input": "My name is John Doe. I live in Seattle and I need help with my diabetes medication.",
+    "expectedTypes": ["NAME", "LOCATION", "MEDICAL"],
+    "shouldPrune": true,
+    "mustNotContain": ["John Doe", "Seattle", "diabetes"]
+  },
+  {
+    "id": "pii-phone-address",
+    "category": "contact",
+    "input": "My phone is 415-555-1299 and my address is 145 Market Street, San Francisco.",
+    "expectedTypes": ["PHONE", "ADDRESS"],
+    "shouldPrune": true,
+    "mustNotContain": ["415-555-1299", "145 Market Street"]
+  },
+  {
+    "id": "pii-financial-card",
+    "category": "financial",
+    "input": "My credit card number is 4111 1111 1111 1111 and I need rent help.",
+    "expectedTypes": ["FINANCIAL"],
+    "shouldPrune": true,
+    "mustNotContain": ["4111 1111 1111 1111"]
+  },
+  {
+    "id": "pii-government-id",
+    "category": "identity",
+    "input": "My passport number is A1234567 and I need travel assistance.",
+    "expectedTypes": ["ID"],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "pii-secret-field",
+    "category": "sensitive-field",
+    "input": "My vault clue is blue-lamp-77 and our internal project code is ORION-42.",
+    "expectedTypes": ["SENSITIVE_FIELD"],
+    "shouldPrune": true,
+    "mustNotContain": ["blue-lamp-77", "ORION-42"]
+  },
+  {
+    "id": "pii-natural-language-secret",
+    "category": "sensitive-field",
+    "input": "The thing I use to unlock my account is blue lamp seven seven.",
+    "expectedTypes": ["SENSITIVE_FIELD"],
+    "shouldPrune": true,
+    "mustNotContain": ["blue lamp seven seven"]
+  },
+  {
+    "id": "pii-code-block-preservation",
+    "category": "developer-workflow",
+    "input": "Here is a fixture: `const password = \"SuperSecret123\"`. My recovery hint is north-window.",
+    "expectedTypes": ["SENSITIVE_FIELD"],
+    "shouldPrune": true,
+    "mustContain": ["`const password = \"SuperSecret123\"`"],
+    "mustNotContain": ["north-window"]
+  },
+  {
+    "id": "benign-food-bank",
+    "category": "benign-resource",
+    "input": "Where can I find a food bank in this city?",
+    "expectedTypes": [],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "benign-weather",
+    "category": "benign-weather",
+    "input": "What is the weather in Seattle today?",
+    "expectedTypes": ["LOCATION"],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "benign-programming",
+    "category": "benign-code",
+    "input": "Write a JavaScript function that validates an email string.",
+    "expectedTypes": [],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "pii-age-profession",
+    "category": "quasi-identifiers",
+    "input": "I am 72 years old and I am a pharmacist looking for local financial aid.",
+    "expectedTypes": ["AGE", "PROFESSION"],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "pii-upi",
+    "category": "financial",
+    "input": "My UPI id is pranav@bank and my name is Pranav.",
+    "expectedTypes": ["FINANCIAL", "NAME"],
+    "shouldPrune": true,
+    "mustNotContain": ["pranav@bank", "Pranav"]
+  },
+  {
+    "id": "pii-aadhaar",
+    "category": "identity",
+    "input": "My aadhaar number is 1234-5678-9012 and my phone is 2125558899.",
+    "expectedTypes": ["ID", "PHONE"],
+    "shouldPrune": true,
+    "mustNotContain": ["1234-5678-9012", "2125558899"]
+  },
+  {
+    "id": "benign-history",
+    "category": "benign-general",
+    "input": "Explain the history of public health clinics in the United States.",
+    "expectedTypes": [],
+    "shouldPrune": false,
+    "mustNotContain": []
+  },
+  {
+    "id": "pii-address-shipping",
+    "category": "address",
+    "input": "Shipping address is 10 Oak Avenue Apartment 4B, Boston and my email is user@example.org.",
+    "expectedTypes": ["ADDRESS", "EMAIL"],
+    "shouldPrune": true,
+    "mustNotContain": ["10 Oak Avenue", "user@example.org"]
+  }
+]
+

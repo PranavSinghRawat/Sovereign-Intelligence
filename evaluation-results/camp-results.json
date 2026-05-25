@@ -1,0 +1,741 @@
+[
+  {
+    "label": "CAMP",
+    "generatedAt": "2026-05-25T10:53:28.013Z",
+    "cases": [
+      {
+        "id": "pii-name-email-password",
+        "category": "mixed-pii",
+        "expectedTypes": [
+          "NAME",
+          "EMAIL",
+          "CREDENTIAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "EMAIL",
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "EMAIL",
+          "CREDENTIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 3.0320839999999976
+      },
+      {
+        "id": "pii-medical-location",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 1.2787079999999946
+      },
+      {
+        "id": "pii-phone-address",
+        "category": "contact",
+        "expectedTypes": [
+          "PHONE",
+          "ADDRESS"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "ADDRESS"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "ADDRESS"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.1983330000000052
+      },
+      {
+        "id": "pii-financial-card",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.13508300000000872
+      },
+      {
+        "id": "pii-government-id",
+        "category": "identity",
+        "expectedTypes": [
+          "ID"
+        ],
+        "detectedTypes": [
+          "ID"
+        ],
+        "truePositiveTypes": [
+          "ID"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.13275000000000148
+      },
+      {
+        "id": "pii-secret-field",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.17129100000001074
+      },
+      {
+        "id": "pii-natural-language-secret",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.08087499999999181
+      },
+      {
+        "id": "pii-code-block-preservation",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.16708399999998846
+      },
+      {
+        "id": "benign-food-bank",
+        "category": "benign-resource",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.008875000000003297
+      },
+      {
+        "id": "benign-weather",
+        "category": "benign-weather",
+        "expectedTypes": [
+          "LOCATION"
+        ],
+        "detectedTypes": [
+          "LOCATION"
+        ],
+        "truePositiveTypes": [
+          "LOCATION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.07633300000000531
+      },
+      {
+        "id": "benign-programming",
+        "category": "benign-code",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.01054200000000094
+      },
+      {
+        "id": "pii-age-profession",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 1.0282499999999999
+      },
+      {
+        "id": "pii-upi",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL",
+          "NAME"
+        ],
+        "detectedTypes": [
+          "FINANCIAL",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.1074169999999981
+      },
+      {
+        "id": "pii-aadhaar",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.07933300000000543
+      },
+      {
+        "id": "benign-history",
+        "category": "benign-general",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.009792000000004464
+      },
+      {
+        "id": "pii-address-shipping",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.07316600000000051
+      }
+    ],
+    "summary": {
+      "caseCount": 16,
+      "truePositives": 22,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "overPruningRate": 0,
+      "underPruningRate": 0,
+      "textCheckFailureRate": 0,
+      "averageLatencyMs": 0.41186975000000103,
+      "p95LatencyMs": 3.0320839999999976
+    }
+  },
+  {
+    "label": "Simple regex baseline",
+    "generatedAt": "2026-05-25T10:53:28.015Z",
+    "cases": [
+      {
+        "id": "pii-name-email-password",
+        "category": "mixed-pii",
+        "expectedTypes": [
+          "NAME",
+          "EMAIL",
+          "CREDENTIAL"
+        ],
+        "detectedTypes": [
+          "EMAIL",
+          "CREDENTIAL",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "EMAIL",
+          "CREDENTIAL",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.241375000000005
+      },
+      {
+        "id": "pii-medical-location",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Seattle",
+          "contains sensitive phrase: diabetes"
+        ],
+        "latencyMs": 0.005624999999994884
+      },
+      {
+        "id": "pii-phone-address",
+        "category": "contact",
+        "expectedTypes": [
+          "PHONE",
+          "ADDRESS"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 145 Market Street"
+        ],
+        "latencyMs": 0.004958000000002016
+      },
+      {
+        "id": "pii-financial-card",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.013292000000006965
+      },
+      {
+        "id": "pii-government-id",
+        "category": "identity",
+        "expectedTypes": [
+          "ID"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.004624999999990109
+      },
+      {
+        "id": "pii-secret-field",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: blue-lamp-77",
+          "contains sensitive phrase: ORION-42"
+        ],
+        "latencyMs": 0.0027919999999994616
+      },
+      {
+        "id": "pii-natural-language-secret",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: blue lamp seven seven"
+        ],
+        "latencyMs": 0.002083999999996422
+      },
+      {
+        "id": "pii-code-block-preservation",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"SuperSecret123\"`",
+          "contains sensitive phrase: north-window"
+        ],
+        "latencyMs": 0.004249999999998977
+      },
+      {
+        "id": "benign-food-bank",
+        "category": "benign-resource",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.001416000000006079
+      },
+      {
+        "id": "benign-weather",
+        "category": "benign-weather",
+        "expectedTypes": [
+          "LOCATION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0014589999999969905
+      },
+      {
+        "id": "benign-programming",
+        "category": "benign-code",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002125000000006594
+      },
+      {
+        "id": "pii-age-profession",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002291999999997074
+      },
+      {
+        "id": "pii-upi",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL",
+          "NAME"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "FINANCIAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: pranav@bank"
+        ],
+        "latencyMs": 0.0024589999999875545
+      },
+      {
+        "id": "pii-aadhaar",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 1234-5678-9012"
+        ],
+        "latencyMs": 0.003500000000002501
+      },
+      {
+        "id": "benign-history",
+        "category": "benign-general",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002125000000006594
+      },
+      {
+        "id": "pii-address-shipping",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 10 Oak Avenue"
+        ],
+        "latencyMs": 0.003917000000001281
+      }
+    ],
+    "summary": {
+      "caseCount": 16,
+      "truePositives": 9,
+      "falsePositives": 1,
+      "falseNegatives": 13,
+      "precision": 0.9,
+      "recall": 0.4090909090909091,
+      "f1": 0.5625000000000001,
+      "overPruningRate": 0,
+      "underPruningRate": 0.125,
+      "textCheckFailureRate": 0.5,
+      "averageLatencyMs": 0.018643374999999907,
+      "p95LatencyMs": 0.241375000000005
+    }
+  }
+]
