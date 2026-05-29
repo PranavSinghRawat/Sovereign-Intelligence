@@ -48,9 +48,14 @@ export interface BenchmarkSummary {
   p95LatencyMs: number;
 }
 
+export interface CategorySummary extends BenchmarkSummary {
+  category: string;
+}
+
 export interface BenchmarkReport {
   label: string;
   generatedAt: string;
   cases: CaseEvaluation[];
   summary: BenchmarkSummary;
+  categories: CategorySummary[];
 }

@@ -1,7 +1,7 @@
 [
   {
     "label": "CAMP",
-    "generatedAt": "2026-05-25T10:53:28.013Z",
+    "generatedAt": "2026-05-29T14:31:53.629Z",
     "cases": [
       {
         "id": "pii-name-email-password",
@@ -28,7 +28,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 3.0320839999999976
+        "latencyMs": 3.9865000000000066
       },
       {
         "id": "pii-medical-location",
@@ -55,7 +55,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 1.2787079999999946
+        "latencyMs": 1.2137920000000122
       },
       {
         "id": "pii-phone-address",
@@ -79,7 +79,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.1983330000000052
+        "latencyMs": 0.10133299999998258
       },
       {
         "id": "pii-financial-card",
@@ -100,7 +100,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.13508300000000872
+        "latencyMs": 0.07600000000002183
       },
       {
         "id": "pii-government-id",
@@ -121,7 +121,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.13275000000000148
+        "latencyMs": 0.06491599999998243
       },
       {
         "id": "pii-secret-field",
@@ -142,7 +142,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.17129100000001074
+        "latencyMs": 0.08395899999999301
       },
       {
         "id": "pii-natural-language-secret",
@@ -163,7 +163,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08087499999999181
+        "latencyMs": 0.2839999999999918
       },
       {
         "id": "pii-code-block-preservation",
@@ -184,7 +184,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.16708399999998846
+        "latencyMs": 0.09541699999999764
       },
       {
         "id": "benign-food-bank",
@@ -199,7 +199,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.008875000000003297
+        "latencyMs": 0.011375000000015234
       },
       {
         "id": "benign-weather",
@@ -220,7 +220,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07633300000000531
+        "latencyMs": 0.059749999999979764
       },
       {
         "id": "benign-programming",
@@ -235,7 +235,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.01054200000000094
+        "latencyMs": 0.009041999999993777
       },
       {
         "id": "pii-age-profession",
@@ -259,7 +259,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 1.0282499999999999
+        "latencyMs": 0.07633400000000279
       },
       {
         "id": "pii-upi",
@@ -283,7 +283,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.1074169999999981
+        "latencyMs": 0.05795799999998508
       },
       {
         "id": "pii-aadhaar",
@@ -307,7 +307,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07933300000000543
+        "latencyMs": 0.0696659999999838
       },
       {
         "id": "benign-history",
@@ -322,7 +322,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.009792000000004464
+        "latencyMs": 0.00862500000002342
       },
       {
         "id": "pii-address-shipping",
@@ -346,12 +346,1884 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07316600000000051
+        "latencyMs": 0.0484170000000006
+      },
+      {
+        "id": "generated-medical-1",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0689999999999884
+      },
+      {
+        "id": "generated-medical-2",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.06037500000002183
+      },
+      {
+        "id": "generated-medical-3",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.05866699999998559
+      },
+      {
+        "id": "generated-medical-4",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.05699999999998795
+      },
+      {
+        "id": "generated-medical-5",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.057749999999998636
+      },
+      {
+        "id": "generated-medical-6",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.056958000000008724
+      },
+      {
+        "id": "generated-medical-7",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0573750000000075
+      },
+      {
+        "id": "generated-medical-8",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.05579199999999673
+      },
+      {
+        "id": "generated-medical-9",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.052957999999989624
+      },
+      {
+        "id": "generated-medical-10",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.05237500000001205
+      },
+      {
+        "id": "generated-address-1",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04179099999998925
+      },
+      {
+        "id": "generated-address-2",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.041042000000004464
+      },
+      {
+        "id": "generated-address-3",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.039666999999980135
+      },
+      {
+        "id": "generated-address-4",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04295799999999872
+      },
+      {
+        "id": "generated-address-5",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04029199999999378
+      },
+      {
+        "id": "generated-address-6",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03958299999999326
+      },
+      {
+        "id": "generated-address-7",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03900000000001569
+      },
+      {
+        "id": "generated-address-8",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03912500000001273
+      },
+      {
+        "id": "generated-address-9",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.039749999999997954
+      },
+      {
+        "id": "generated-address-10",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04495799999997985
+      },
+      {
+        "id": "generated-phone-1",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.07383400000000506
+      },
+      {
+        "id": "generated-phone-2",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0534590000000037
+      },
+      {
+        "id": "generated-phone-3",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.041540999999995165
+      },
+      {
+        "id": "generated-phone-4",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04312500000000341
+      },
+      {
+        "id": "generated-phone-5",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03812500000000796
+      },
+      {
+        "id": "generated-phone-6",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03737499999999727
+      },
+      {
+        "id": "generated-phone-7",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.037208999999990056
+      },
+      {
+        "id": "generated-phone-8",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03854100000000926
+      },
+      {
+        "id": "generated-phone-9",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03695799999999849
+      },
+      {
+        "id": "generated-phone-10",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03695899999999597
+      },
+      {
+        "id": "generated-secret-1",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.023707999999999174
+      },
+      {
+        "id": "generated-secret-2",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.025083000000023503
+      },
+      {
+        "id": "generated-secret-3",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022999999999996135
+      },
+      {
+        "id": "generated-secret-4",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022999999999996135
+      },
+      {
+        "id": "generated-secret-5",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.021457999999995536
+      },
+      {
+        "id": "generated-secret-6",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022124999999988404
+      },
+      {
+        "id": "generated-secret-7",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.02154200000001083
+      },
+      {
+        "id": "generated-secret-8",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.030083000000018956
+      },
+      {
+        "id": "generated-secret-9",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.024333000000012817
+      },
+      {
+        "id": "generated-secret-10",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.024750000000011596
+      },
+      {
+        "id": "generated-financial-1",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03158300000001191
+      },
+      {
+        "id": "generated-financial-2",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03033400000001052
+      },
+      {
+        "id": "generated-financial-3",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0266250000000241
+      },
+      {
+        "id": "generated-financial-4",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.02487500000000864
+      },
+      {
+        "id": "generated-financial-5",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.023167000000000826
+      },
+      {
+        "id": "generated-financial-6",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022582999999997355
+      },
+      {
+        "id": "generated-financial-7",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.02462499999998613
+      },
+      {
+        "id": "generated-financial-8",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.02262499999997658
+      },
+      {
+        "id": "generated-financial-9",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022500000000007958
+      },
+      {
+        "id": "generated-financial-10",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.022208000000006223
+      },
+      {
+        "id": "generated-id-1",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.041540999999995165
+      },
+      {
+        "id": "generated-id-2",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04045899999999847
+      },
+      {
+        "id": "generated-id-3",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03958400000001916
+      },
+      {
+        "id": "generated-id-4",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03849999999999909
+      },
+      {
+        "id": "generated-id-5",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.038333999999991875
+      },
+      {
+        "id": "generated-id-6",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03849999999999909
+      },
+      {
+        "id": "generated-id-7",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03849999999999909
+      },
+      {
+        "id": "generated-id-8",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03787499999998545
+      },
+      {
+        "id": "generated-id-9",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.038000000000010914
+      },
+      {
+        "id": "generated-id-10",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.039499999999975444
+      },
+      {
+        "id": "generated-benign-1",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.006666999999993095
+      },
+      {
+        "id": "generated-benign-2",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.004209000000003016
+      },
+      {
+        "id": "generated-benign-3",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.005832999999995536
+      },
+      {
+        "id": "generated-benign-4",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0040410000000008495
+      },
+      {
+        "id": "generated-benign-5",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.003917000000001281
+      },
+      {
+        "id": "generated-benign-6",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.005792000000013786
+      },
+      {
+        "id": "generated-benign-7",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.004375000000010232
+      },
+      {
+        "id": "generated-benign-8",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.004124999999987722
+      },
+      {
+        "id": "generated-benign-9",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0040830000000084965
+      },
+      {
+        "id": "generated-benign-10",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0030420000000219716
+      },
+      {
+        "id": "generated-code-preservation-1",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.028500000000008185
+      },
+      {
+        "id": "generated-code-preservation-2",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.025667000000026974
+      },
+      {
+        "id": "generated-code-preservation-3",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.029458000000005313
+      },
+      {
+        "id": "generated-code-preservation-4",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03745800000001509
+      },
+      {
+        "id": "generated-code-preservation-5",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03233400000002007
+      },
+      {
+        "id": "generated-code-preservation-6",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.029875000000004093
+      },
+      {
+        "id": "generated-code-preservation-7",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.027874999999994543
+      },
+      {
+        "id": "generated-code-preservation-8",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "truePositiveTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.03012499999999818
+      },
+      {
+        "id": "generated-quasi-1",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.041416999999995596
+      },
+      {
+        "id": "generated-quasi-2",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.039540999999985615
+      },
+      {
+        "id": "generated-quasi-3",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04258400000000506
+      },
+      {
+        "id": "generated-quasi-4",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04058300000002646
+      },
+      {
+        "id": "generated-quasi-5",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.041666999999989685
+      },
+      {
+        "id": "generated-quasi-6",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "truePositiveTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.04366600000000176
       }
     ],
     "summary": {
-      "caseCount": 16,
-      "truePositives": 22,
+      "caseCount": 100,
+      "truePositives": 152,
       "falsePositives": 0,
       "falseNegatives": 0,
       "precision": 1,
@@ -360,13 +2232,225 @@
       "overPruningRate": 0,
       "underPruningRate": 0,
       "textCheckFailureRate": 0,
-      "averageLatencyMs": 0.41186975000000103,
-      "p95LatencyMs": 3.0320839999999976
-    }
+      "averageLatencyMs": 0.09088460000000112,
+      "p95LatencyMs": 0.08395899999999301
+    },
+    "categories": [
+      {
+        "category": "address",
+        "caseCount": 11,
+        "truePositives": 22,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.041507545454542404,
+        "p95LatencyMs": 0.0484170000000006
+      },
+      {
+        "category": "benign",
+        "caseCount": 10,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.004608400000003598,
+        "p95LatencyMs": 0.006666999999993095
+      },
+      {
+        "category": "benign-code",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.009041999999993777,
+        "p95LatencyMs": 0.009041999999993777
+      },
+      {
+        "category": "benign-general",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.00862500000002342,
+        "p95LatencyMs": 0.00862500000002342
+      },
+      {
+        "category": "benign-resource",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.011375000000015234,
+        "p95LatencyMs": 0.011375000000015234
+      },
+      {
+        "category": "benign-weather",
+        "caseCount": 1,
+        "truePositives": 1,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.059749999999979764,
+        "p95LatencyMs": 0.059749999999979764
+      },
+      {
+        "category": "contact",
+        "caseCount": 11,
+        "truePositives": 22,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.04895081818181717,
+        "p95LatencyMs": 0.10133299999998258
+      },
+      {
+        "category": "developer-workflow",
+        "caseCount": 9,
+        "truePositives": 9,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.0374121111111189,
+        "p95LatencyMs": 0.09541699999999764
+      },
+      {
+        "category": "financial",
+        "caseCount": 12,
+        "truePositives": 13,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.032090250000003095,
+        "p95LatencyMs": 0.07600000000002183
+      },
+      {
+        "category": "identity",
+        "caseCount": 12,
+        "truePositives": 23,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.043781249999995,
+        "p95LatencyMs": 0.0696659999999838
+      },
+      {
+        "category": "medical",
+        "caseCount": 11,
+        "truePositives": 33,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.16291290909090994,
+        "p95LatencyMs": 1.2137920000000122
+      },
+      {
+        "category": "mixed-pii",
+        "caseCount": 1,
+        "truePositives": 3,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 3.9865000000000066,
+        "p95LatencyMs": 3.9865000000000066
+      },
+      {
+        "category": "quasi-identifiers",
+        "caseCount": 7,
+        "truePositives": 14,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.04654171428571528,
+        "p95LatencyMs": 0.07633400000000279
+      },
+      {
+        "category": "sensitive-field",
+        "caseCount": 12,
+        "truePositives": 12,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.05058675000000316,
+        "p95LatencyMs": 0.2839999999999918
+      }
+    ]
   },
   {
     "label": "Simple regex baseline",
-    "generatedAt": "2026-05-25T10:53:28.015Z",
+    "generatedAt": "2026-05-29T14:31:53.638Z",
     "cases": [
       {
         "id": "pii-name-email-password",
@@ -393,7 +2477,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.241375000000005
+        "latencyMs": 0.2359170000000006
       },
       {
         "id": "pii-medical-location",
@@ -422,7 +2506,7 @@
           "contains sensitive phrase: Seattle",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.005624999999994884
+        "latencyMs": 0.005459000000001879
       },
       {
         "id": "pii-phone-address",
@@ -448,7 +2532,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 145 Market Street"
         ],
-        "latencyMs": 0.004958000000002016
+        "latencyMs": 0.004958000000016227
       },
       {
         "id": "pii-financial-card",
@@ -469,7 +2553,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.013292000000006965
+        "latencyMs": 0.009292000000016287
       },
       {
         "id": "pii-government-id",
@@ -488,7 +2572,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.004624999999990109
+        "latencyMs": 0.0041670000000237906
       },
       {
         "id": "pii-secret-field",
@@ -510,7 +2594,7 @@
           "contains sensitive phrase: blue-lamp-77",
           "contains sensitive phrase: ORION-42"
         ],
-        "latencyMs": 0.0027919999999994616
+        "latencyMs": 0.0027910000000019863
       },
       {
         "id": "pii-natural-language-secret",
@@ -531,7 +2615,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue lamp seven seven"
         ],
-        "latencyMs": 0.002083999999996422
+        "latencyMs": 0.001999999999981128
       },
       {
         "id": "pii-code-block-preservation",
@@ -557,7 +2641,7 @@
           "missing required phrase: `const password = \"SuperSecret123\"`",
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.004249999999998977
+        "latencyMs": 0.003958000000011452
       },
       {
         "id": "benign-food-bank",
@@ -572,7 +2656,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.001416000000006079
+        "latencyMs": 0.001375000000024329
       },
       {
         "id": "benign-weather",
@@ -591,7 +2675,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0014589999999969905
+        "latencyMs": 0.0014170000000035543
       },
       {
         "id": "benign-programming",
@@ -606,7 +2690,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002125000000006594
+        "latencyMs": 0.002166999999985819
       },
       {
         "id": "pii-age-profession",
@@ -627,7 +2711,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002291999999997074
+        "latencyMs": 0.0022919999999828633
       },
       {
         "id": "pii-upi",
@@ -653,7 +2737,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: pranav@bank"
         ],
-        "latencyMs": 0.0024589999999875545
+        "latencyMs": 0.002375000000000682
       },
       {
         "id": "pii-aadhaar",
@@ -679,7 +2763,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 1234-5678-9012"
         ],
-        "latencyMs": 0.003500000000002501
+        "latencyMs": 0.003584000000017795
       },
       {
         "id": "benign-history",
@@ -694,7 +2778,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002125000000006594
+        "latencyMs": 0.0021660000000167656
       },
       {
         "id": "pii-address-shipping",
@@ -720,22 +2804,2188 @@
         "textCheckFailures": [
           "contains sensitive phrase: 10 Oak Avenue"
         ],
-        "latencyMs": 0.003917000000001281
+        "latencyMs": 0.00458400000002257
+      },
+      {
+        "id": "generated-medical-1",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Mumbai",
+          "contains sensitive phrase: diabetes"
+        ],
+        "latencyMs": 0.0029580000000066775
+      },
+      {
+        "id": "generated-medical-2",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Delhi",
+          "contains sensitive phrase: asthma"
+        ],
+        "latencyMs": 0.0019580000000019027
+      },
+      {
+        "id": "generated-medical-3",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Seattle",
+          "contains sensitive phrase: anxiety"
+        ],
+        "latencyMs": 0.002125000000006594
+      },
+      {
+        "id": "generated-medical-4",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Austin",
+          "contains sensitive phrase: migraine"
+        ],
+        "latencyMs": 0.002166999999985819
+      },
+      {
+        "id": "generated-medical-5",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Boston",
+          "contains sensitive phrase: hypertension"
+        ],
+        "latencyMs": 0.002250000000003638
+      },
+      {
+        "id": "generated-medical-6",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Denver",
+          "contains sensitive phrase: insomnia"
+        ],
+        "latencyMs": 0.0018330000000048585
+      },
+      {
+        "id": "generated-medical-7",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Chicago",
+          "contains sensitive phrase: arthritis"
+        ],
+        "latencyMs": 0.002082999999998947
+      },
+      {
+        "id": "generated-medical-8",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Portland",
+          "contains sensitive phrase: depression"
+        ],
+        "latencyMs": 0.002167000000014241
+      },
+      {
+        "id": "generated-medical-9",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Phoenix",
+          "contains sensitive phrase: thyroid"
+        ],
+        "latencyMs": 0.0019169999999917309
+      },
+      {
+        "id": "generated-medical-10",
+        "category": "medical",
+        "expectedTypes": [
+          "NAME",
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "detectedTypes": [
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "LOCATION",
+          "MEDICAL"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: Atlanta",
+          "contains sensitive phrase: epilepsy"
+        ],
+        "latencyMs": 0.0019169999999917309
+      },
+      {
+        "id": "generated-address-1",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 12 Maple Street Apartment 2A, Boston"
+        ],
+        "latencyMs": 0.025999999999982037
+      },
+      {
+        "id": "generated-address-2",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 44 Cedar Road, Seattle"
+        ],
+        "latencyMs": 0.006709000000000742
+      },
+      {
+        "id": "generated-address-3",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 901 Pine Avenue Unit 5, Denver"
+        ],
+        "latencyMs": 0.0031250000000113687
+      },
+      {
+        "id": "generated-address-4",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 77 Market Street, San Francisco"
+        ],
+        "latencyMs": 0.0029169999999965057
+      },
+      {
+        "id": "generated-address-5",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 188 Lake View Drive, Chicago"
+        ],
+        "latencyMs": 0.0025420000000053733
+      },
+      {
+        "id": "generated-address-6",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 26 Hill Lane, Austin"
+        ],
+        "latencyMs": 0.002250000000003638
+      },
+      {
+        "id": "generated-address-7",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 310 River Road, Portland"
+        ],
+        "latencyMs": 0.002458000000018501
+      },
+      {
+        "id": "generated-address-8",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 62 Park Avenue, Atlanta"
+        ],
+        "latencyMs": 0.002375000000000682
+      },
+      {
+        "id": "generated-address-9",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 9 Sunset Boulevard, Phoenix"
+        ],
+        "latencyMs": 0.003457999999994854
+      },
+      {
+        "id": "generated-address-10",
+        "category": "address",
+        "expectedTypes": [
+          "ADDRESS",
+          "EMAIL"
+        ],
+        "detectedTypes": [
+          "EMAIL"
+        ],
+        "truePositiveTypes": [
+          "EMAIL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ADDRESS"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: 55 Oak Street, Dallas"
+        ],
+        "latencyMs": 0.002332999999993035
+      },
+      {
+        "id": "generated-phone-1",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002250000000003638
+      },
+      {
+        "id": "generated-phone-2",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0019169999999917309
+      },
+      {
+        "id": "generated-phone-3",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002625000000023192
+      },
+      {
+        "id": "generated-phone-4",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0018330000000048585
+      },
+      {
+        "id": "generated-phone-5",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017919999999946867
+      },
+      {
+        "id": "generated-phone-6",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0016669999999976426
+      },
+      {
+        "id": "generated-phone-7",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-phone-8",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017499999999870397
+      },
+      {
+        "id": "generated-phone-9",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017090000000052896
+      },
+      {
+        "id": "generated-phone-10",
+        "category": "contact",
+        "expectedTypes": [
+          "NAME",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "truePositiveTypes": [
+          "PHONE",
+          "NAME"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017499999999870397
+      },
+      {
+        "id": "generated-secret-1",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: blue-lamp-77"
+        ],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-secret-2",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: north-window"
+        ],
+        "latencyMs": 0.0014589999999827796
+      },
+      {
+        "id": "generated-secret-3",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: silver-door"
+        ],
+        "latencyMs": 0.0014589999999827796
+      },
+      {
+        "id": "generated-secret-4",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: delta-forest-19"
+        ],
+        "latencyMs": 0.0018330000000048585
+      },
+      {
+        "id": "generated-secret-5",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: orange-moon"
+        ],
+        "latencyMs": 0.002250000000003638
+      },
+      {
+        "id": "generated-secret-6",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: river-stone-42"
+        ],
+        "latencyMs": 0.0015829999999823485
+      },
+      {
+        "id": "generated-secret-7",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: hidden-bridge"
+        ],
+        "latencyMs": 0.0014999999999929514
+      },
+      {
+        "id": "generated-secret-8",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: winter-key-08"
+        ],
+        "latencyMs": 0.0014579999999853044
+      },
+      {
+        "id": "generated-secret-9",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: quiet-harbor"
+        ],
+        "latencyMs": 0.0014170000000035543
+      },
+      {
+        "id": "generated-secret-10",
+        "category": "sensitive-field",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": true,
+        "textCheckFailures": [
+          "contains sensitive phrase: green-vault-6"
+        ],
+        "latencyMs": 0.0026670000000024174
+      },
+      {
+        "id": "generated-financial-1",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002333000000021457
+      },
+      {
+        "id": "generated-financial-2",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0018750000000125056
+      },
+      {
+        "id": "generated-financial-3",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0019169999999917309
+      },
+      {
+        "id": "generated-financial-4",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0018330000000048585
+      },
+      {
+        "id": "generated-financial-5",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-financial-6",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-financial-7",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-financial-8",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017080000000078144
+      },
+      {
+        "id": "generated-financial-9",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017499999999870397
+      },
+      {
+        "id": "generated-financial-10",
+        "category": "financial",
+        "expectedTypes": [
+          "FINANCIAL"
+        ],
+        "detectedTypes": [
+          "FINANCIAL"
+        ],
+        "truePositiveTypes": [
+          "FINANCIAL"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0017500000000154614
+      },
+      {
+        "id": "generated-id-1",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P1A3B5C"
+        ],
+        "latencyMs": 0.002082999999998947
+      },
+      {
+        "id": "generated-id-2",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P2A4B6C"
+        ],
+        "latencyMs": 0.0019159999999942556
+      },
+      {
+        "id": "generated-id-3",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P3A5B7C"
+        ],
+        "latencyMs": 0.0019170000000201526
+      },
+      {
+        "id": "generated-id-4",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P4A6B8C"
+        ],
+        "latencyMs": 0.0018749999999840838
+      },
+      {
+        "id": "generated-id-5",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P5A7B9C"
+        ],
+        "latencyMs": 0.0017500000000154614
+      },
+      {
+        "id": "generated-id-6",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P6A8B10C"
+        ],
+        "latencyMs": 0.0019159999999942556
+      },
+      {
+        "id": "generated-id-7",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P7A9B11C"
+        ],
+        "latencyMs": 0.0017919999999946867
+      },
+      {
+        "id": "generated-id-8",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P8A10B12C"
+        ],
+        "latencyMs": 0.0019580000000019027
+      },
+      {
+        "id": "generated-id-9",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P9A11B13C"
+        ],
+        "latencyMs": 0.0018749999999840838
+      },
+      {
+        "id": "generated-id-10",
+        "category": "identity",
+        "expectedTypes": [
+          "ID",
+          "PHONE"
+        ],
+        "detectedTypes": [
+          "PHONE"
+        ],
+        "truePositiveTypes": [
+          "PHONE"
+        ],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "ID"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "contains sensitive phrase: P10A12B14C"
+        ],
+        "latencyMs": 0.0020000000000095497
+      },
+      {
+        "id": "generated-benign-1",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0015409999999747015
+      },
+      {
+        "id": "generated-benign-2",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0014170000000035543
+      },
+      {
+        "id": "generated-benign-3",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.001999999999981128
+      },
+      {
+        "id": "generated-benign-4",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0014170000000035543
+      },
+      {
+        "id": "generated-benign-5",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.001333000000016682
+      },
+      {
+        "id": "generated-benign-6",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0025419999999769516
+      },
+      {
+        "id": "generated-benign-7",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0015410000000031232
+      },
+      {
+        "id": "generated-benign-8",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0014590000000112013
+      },
+      {
+        "id": "generated-benign-9",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0015420000000005984
+      },
+      {
+        "id": "generated-benign-10",
+        "category": "benign",
+        "expectedTypes": [],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.000874999999979309
+      },
+      {
+        "id": "generated-code-preservation-1",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"blue-lamp-77\"`",
+          "contains sensitive phrase: north-window"
+        ],
+        "latencyMs": 0.0036249999999995453
+      },
+      {
+        "id": "generated-code-preservation-2",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"north-window\"`",
+          "contains sensitive phrase: silver-door"
+        ],
+        "latencyMs": 0.00837500000000091
+      },
+      {
+        "id": "generated-code-preservation-3",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"silver-door\"`",
+          "contains sensitive phrase: delta-forest-19"
+        ],
+        "latencyMs": 0.003208999999998241
+      },
+      {
+        "id": "generated-code-preservation-4",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"delta-forest-19\"`",
+          "contains sensitive phrase: orange-moon"
+        ],
+        "latencyMs": 0.0031670000000190157
+      },
+      {
+        "id": "generated-code-preservation-5",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"orange-moon\"`",
+          "contains sensitive phrase: river-stone-42"
+        ],
+        "latencyMs": 0.004917000000006055
+      },
+      {
+        "id": "generated-code-preservation-6",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"river-stone-42\"`",
+          "contains sensitive phrase: hidden-bridge"
+        ],
+        "latencyMs": 0.003417000000013104
+      },
+      {
+        "id": "generated-code-preservation-7",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"hidden-bridge\"`",
+          "contains sensitive phrase: winter-key-08"
+        ],
+        "latencyMs": 0.0030409999999960746
+      },
+      {
+        "id": "generated-code-preservation-8",
+        "category": "developer-workflow",
+        "expectedTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "detectedTypes": [
+          "CREDENTIAL"
+        ],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [
+          "CREDENTIAL"
+        ],
+        "falseNegativeTypes": [
+          "SENSITIVE_FIELD"
+        ],
+        "shouldPrune": true,
+        "didPrune": true,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [
+          "missing required phrase: `const password = \"winter-key-08\"`",
+          "contains sensitive phrase: quiet-harbor"
+        ],
+        "latencyMs": 0.0029169999999965057
+      },
+      {
+        "id": "generated-quasi-1",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002415999999982432
+      },
+      {
+        "id": "generated-quasi-2",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002083999999996422
+      },
+      {
+        "id": "generated-quasi-3",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.009709000000015067
+      },
+      {
+        "id": "generated-quasi-4",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.002332999999993035
+      },
+      {
+        "id": "generated-quasi-5",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.004709000000019614
+      },
+      {
+        "id": "generated-quasi-6",
+        "category": "quasi-identifiers",
+        "expectedTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "detectedTypes": [],
+        "truePositiveTypes": [],
+        "falsePositiveTypes": [],
+        "falseNegativeTypes": [
+          "AGE",
+          "PROFESSION"
+        ],
+        "shouldPrune": false,
+        "didPrune": false,
+        "overPruned": false,
+        "underPruned": false,
+        "textCheckFailures": [],
+        "latencyMs": 0.0019580000000019027
       }
     ],
     "summary": {
-      "caseCount": 16,
-      "truePositives": 9,
-      "falsePositives": 1,
-      "falseNegatives": 13,
-      "precision": 0.9,
-      "recall": 0.4090909090909091,
-      "f1": 0.5625000000000001,
+      "caseCount": 100,
+      "truePositives": 69,
+      "falsePositives": 9,
+      "falseNegatives": 83,
+      "precision": 0.8846153846153846,
+      "recall": 0.45394736842105265,
+      "f1": 0.6,
       "overPruningRate": 0,
-      "underPruningRate": 0.125,
-      "textCheckFailureRate": 0.5,
-      "averageLatencyMs": 0.018643374999999907,
-      "p95LatencyMs": 0.241375000000005
-    }
+      "underPruningRate": 0.12,
+      "textCheckFailureRate": 0.56,
+      "averageLatencyMs": 0.005092950000001224,
+      "p95LatencyMs": 0.006709000000000742
+    },
+    "categories": [
+      {
+        "category": "address",
+        "caseCount": 11,
+        "truePositives": 11,
+        "falsePositives": 0,
+        "falseNegatives": 11,
+        "precision": 1,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 1,
+        "averageLatencyMs": 0.005341000000002664,
+        "p95LatencyMs": 0.025999999999982037
+      },
+      {
+        "category": "benign",
+        "caseCount": 10,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.0015666999999950804,
+        "p95LatencyMs": 0.0025419999999769516
+      },
+      {
+        "category": "benign-code",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.002166999999985819,
+        "p95LatencyMs": 0.002166999999985819
+      },
+      {
+        "category": "benign-general",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.0021660000000167656,
+        "p95LatencyMs": 0.0021660000000167656
+      },
+      {
+        "category": "benign-resource",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.001375000000024329,
+        "p95LatencyMs": 0.001375000000024329
+      },
+      {
+        "category": "benign-weather",
+        "caseCount": 1,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 1,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.0014170000000035543,
+        "p95LatencyMs": 0.0014170000000035543
+      },
+      {
+        "category": "contact",
+        "caseCount": 11,
+        "truePositives": 21,
+        "falsePositives": 0,
+        "falseNegatives": 1,
+        "precision": 1,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0.09090909090909091,
+        "averageLatencyMs": 0.0021780909090926507,
+        "p95LatencyMs": 0.004958000000016227
+      },
+      {
+        "category": "developer-workflow",
+        "caseCount": 9,
+        "truePositives": 0,
+        "falsePositives": 9,
+        "falseNegatives": 9,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 1,
+        "averageLatencyMs": 0.0040695555555601,
+        "p95LatencyMs": 0.00837500000000091
+      },
+      {
+        "category": "financial",
+        "caseCount": 12,
+        "truePositives": 12,
+        "falsePositives": 0,
+        "falseNegatives": 1,
+        "precision": 1,
+        "recall": 0.9230769230769231,
+        "f1": 0.9600000000000001,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0.08333333333333333,
+        "averageLatencyMs": 0.00249641666667344,
+        "p95LatencyMs": 0.009292000000016287
+      },
+      {
+        "category": "identity",
+        "caseCount": 12,
+        "truePositives": 11,
+        "falsePositives": 0,
+        "falseNegatives": 12,
+        "precision": 1,
+        "recall": 0.4782608695652174,
+        "f1": 0.6470588235294118,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0.9166666666666666,
+        "averageLatencyMs": 0.0022360833333365804,
+        "p95LatencyMs": 0.0041670000000237906
+      },
+      {
+        "category": "medical",
+        "caseCount": 11,
+        "truePositives": 11,
+        "falsePositives": 0,
+        "falseNegatives": 22,
+        "precision": 1,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 1,
+        "averageLatencyMs": 0.0024394545454552745,
+        "p95LatencyMs": 0.005459000000001879
+      },
+      {
+        "category": "mixed-pii",
+        "caseCount": 1,
+        "truePositives": 3,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.2359170000000006,
+        "p95LatencyMs": 0.2359170000000006
+      },
+      {
+        "category": "quasi-identifiers",
+        "caseCount": 7,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 14,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 0,
+        "textCheckFailureRate": 0,
+        "averageLatencyMs": 0.0036429999999987622,
+        "p95LatencyMs": 0.009709000000015067
+      },
+      {
+        "category": "sensitive-field",
+        "caseCount": 12,
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 12,
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "overPruningRate": 0,
+        "underPruningRate": 1,
+        "textCheckFailureRate": 1,
+        "averageLatencyMs": 0.0018437499999942968,
+        "p95LatencyMs": 0.0027910000000019863
+      }
+    ]
   }
 ]

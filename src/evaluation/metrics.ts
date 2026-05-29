@@ -2,6 +2,7 @@ import { PIIType } from "../lib/middleware/PIIRegistry";
 import {
   BenchmarkReport,
   BenchmarkSummary,
+  CategorySummary,
   CaseEvaluation,
   PIIBenchmarkCase,
   RedactionResult,
@@ -74,6 +75,7 @@ export function createBenchmarkReport(label: string, cases: CaseEvaluation[]): B
     generatedAt: new Date().toISOString(),
     cases,
     summary: summarizeEvaluations(cases),
+    categories: summarizeByCategory(cases),
   };
 }
 
@@ -92,6 +94,19 @@ export function renderMarkdownReport(reports: BenchmarkReport[]): string {
     lines.push(
       `| ${report.label} | ${summary.caseCount} | ${formatRate(summary.precision)} | ${formatRate(summary.recall)} | ${formatRate(summary.f1)} | ${formatRate(summary.overPruningRate)} | ${formatRate(summary.underPruningRate)} | ${summary.averageLatencyMs.toFixed(2)} ms | ${summary.p95LatencyMs.toFixed(2)} ms | ${formatRate(summary.textCheckFailureRate)} |`
     );
+  }
+
+  lines.push("", "## Category Breakdown", "");
+  for (const report of reports) {
+    lines.push(`### ${report.label}`, "");
+    lines.push("| Category | Cases | Precision | Recall | F1 | Over-prune | Under-prune | Text failures |");
+    lines.push("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |");
+    for (const category of report.categories) {
+      lines.push(
+        `| ${category.category} | ${category.caseCount} | ${formatRate(category.precision)} | ${formatRate(category.recall)} | ${formatRate(category.f1)} | ${formatRate(category.overPruningRate)} | ${formatRate(category.underPruningRate)} | ${formatRate(category.textCheckFailureRate)} |`
+      );
+    }
+    lines.push("");
   }
 
   lines.push("", "## Failure Cases", "");
@@ -120,6 +135,20 @@ export function renderMarkdownReport(reports: BenchmarkReport[]): string {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+export function summarizeByCategory(cases: CaseEvaluation[]): CategorySummary[] {
+  const grouped = new Map<string, CaseEvaluation[]>();
+  for (const testCase of cases) {
+    grouped.set(testCase.category, [...(grouped.get(testCase.category) ?? []), testCase]);
+  }
+
+  return Array.from(grouped.entries())
+    .sort(([categoryA], [categoryB]) => categoryA.localeCompare(categoryB))
+    .map(([category, categoryCases]) => ({
+      category,
+      ...summarizeEvaluations(categoryCases),
+    }));
 }
 
 function collectTextCheckFailures(testCase: PIIBenchmarkCase, processedText: string): string[] {

@@ -1,6 +1,6 @@
 import { camp } from "../lib/middleware/CAMP";
 import { sessionPII } from "../lib/middleware/PIIRegistry";
-import benchmarkCases from "./datasets/pii-benchmark.json";
+import { piiBenchmarkCases } from "./datasets/piiBenchmarkCases";
 import { runSimpleRegexBaseline } from "./baselines/simpleRegexRedactor";
 import {
   createBenchmarkReport,
@@ -8,11 +8,8 @@ import {
 } from "./metrics";
 import {
   BenchmarkReport,
-  PIIBenchmarkCase,
   RedactionResult,
 } from "./types";
-
-export const piiBenchmarkCases = benchmarkCases as PIIBenchmarkCase[];
 
 export async function runCampBenchmark(): Promise<BenchmarkReport> {
   const evaluations = [];

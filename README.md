@@ -1,15 +1,31 @@
 # Sovereign Intelligence Layer
 
-The Sovereign Intelligence Layer is a privacy-first, edge-native agentic framework designed to provide secure access to sensitive aid directories (such as medical, housing, and food resources) without transmitting personally identifying information (PII) to cloud networks.
+The Sovereign Intelligence Layer is a privacy-first, browser-local agentic prototype designed to evaluate sensitive assistance workflows such as medical, housing, food, and financial resource routing.
 
-By combining browser-side WebGPU inference, autonomous client-side guardrails, SQLite-backed caching, and end-to-end encrypted WebRTC peer-to-peer (P2P) networking, it establishes a zero-cloud application infrastructure model where data privacy is enforced at the compilation and network layer.
+By combining browser-side WebGPU inference, deterministic client-side privacy filtering, SQLite-backed local persistence, and signed encrypted WebRTC signaling, it studies how much sensitive prompt exposure can be reduced before model inference and tool routing. Optional integrations such as weather APIs, geocoding, telemetry, and signaling relays can still introduce external metadata exposure, so this repository frames the system as browser-local by default rather than as a complete anonymity or zero-cloud guarantee.
 
 ---
 
-## Technical Innovations and Security Moats
+## Research Positioning
 
-### 1. Edge Sovereignty (Zero-Cloud Inference)
-Powered by `@mlc-ai/web-llm` running Llama-3.2-1B and SmolLM2-135M parameter models, all language model reasoning occurs natively inside the browser. By leveraging local GPU unified memory via WebGPU, the framework achieves zero server hosting costs, complete offline availability, and immunity to server-side data breaches.
+This repository is being prepared as an applied systems and privacy-engineering research artifact. The current paper framing is:
+
+> Evaluating Browser-Local Privacy Filtering for Sensitive AI Assistance Workflows
+
+The central claim is intentionally narrow: deterministic pre-tokenization pruning can reduce sensitive prompt exposure in constrained browser-local assistance workflows, but it is not a formal anonymity system, zero-knowledge protocol, or differential privacy mechanism.
+
+Research materials:
+*   **Scope**: `docs/research-scope.md`
+*   **Threat Model**: `docs/threat-model.md`
+*   **Paper Draft Scaffold**: `paper/`
+*   **Evaluation Output**: `evaluation-results/camp-summary.md`
+
+---
+
+## Technical Components
+
+### 1. Browser-Local Inference
+Powered by `@mlc-ai/web-llm` running Llama-3.2-1B and SmolLM2-135M parameter models, language-model reasoning can run natively inside the browser. By leveraging local GPU unified memory via WebGPU, the framework reduces dependency on server-side inference for supported devices and workflows.
 
 ### 2. Autonomous Privacy Engineering (CAMP)
 The Cumulative Agentic Masking and Pruning (CAMP) middleware calculates a Cumulative PII Exposure (CPE) score in real-time. It combines specific detectors for high-risk entities (names, emails, credentials, financial identifiers, government IDs, phone numbers, addresses, medical terms) with a generic disclosure detector that can prune arbitrary user-provided fields such as "my vault clue is ..." or "our internal project code is ..." without predefining every field name. CAMP strips sensitive values before model tokenization, preserves markdown code blocks for developer workflows, and persists only hashed fragment fingerprints in the browser's Origin Private File System (OPFS) via SQLite.
@@ -30,14 +46,14 @@ Why it matters: the app is not simply hiding a few hardcoded fields. It demonstr
 ### 3. Cryptographic Key Isolation (IndexedDB WebCrypto Sandbox)
 To eliminate Cross-Site Scripting (XSS) and dependency injection exfiltration risks associated with browser storage (such as `localStorage`), the system generates Ed25519 agent keys using the WebCrypto API with `{ extractable: false }`. The key structures are committed as binary objects inside an isolated browser IndexedDB sandbox, preventing raw JavaScript access or key exports.
 
-### 4. MitM-Resilient P2P WebRTC Signaling
+### 4. Signed Encrypted P2P WebRTC Signaling
 Direct browser-to-browser WebRTC database queries resolve resources dynamically via peer-to-peer tunnels. To protect the signaling phase from hijacking over untrusted WebSocket servers, all SDP offers and answers are cryptographically signed with the agent's private key. Peer keys are verified against public fingerprints, and payloads are timestamp-bound to prevent replay attacks.
 
 ### 5. Multi-Threaded Engine Offloading
 Heavy shader compilation and token generation routines are offloaded to background Web Worker threads. By isolating MLC engine processes from the main browser thread, the application keeps UI rendering at a steady 60 FPS during text generation.
 
-### 6. Mathematical Resilience Index (I_rp)
-The framework defines a real-time Resilience-Privacy Index to validate edge performance metrics:
+### 6. Resilience-Privacy Index (I_rp)
+The framework tracks a real-time Resilience-Privacy Index as an exploratory engineering metric:
 
 $$I_{rp} = \text{Edge Speed (tokens/sec)} \times (1 + \text{Privacy Efficacy})$$
 
@@ -55,6 +71,26 @@ Where:
 *   **Local Storage**: WebAssembly SQLite (`wa-sqlite`) in the browser's Origin Private File System (OPFS) and IndexedDB for cryptographic key storage.
 *   **P2P Transport**: WebRTC DataChannels (`RTCPeerConnection`) with WebSocket signaling.
 *   **Cryptography**: Ed25519 signing and verification via native `window.crypto.subtle` API.
+
+---
+
+## Reproducible Evaluation
+
+CAMP is evaluated with a deterministic 100-case benchmark covering mixed PII, contact data, addresses, medical disclosures, financial identifiers, government identifiers, arbitrary secret disclosures, benign prompts, developer code snippets, and quasi-identifiers.
+
+Run the benchmark:
+```bash
+npm run eval:camp
+```
+
+Current generated headline result:
+
+| Variant | Cases | Precision | Recall | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| CAMP | 100 | 100.0% | 100.0% | 100.0% |
+| Simple regex baseline | 100 | 88.5% | 45.4% | 60.0% |
+
+These numbers are a synthetic feasibility measurement, not a universal guarantee. The benchmark is deterministic, English-centered, and partially aligned with the current detector design. The next evaluation target is a larger adversarial and multilingual split.
 
 ---
 
@@ -97,7 +133,7 @@ Replaced local storage key arrays with non-extractable Ed25519 WebCrypto keys st
 ### Phase 8: Production CI/CD, Fallbacks & Showcase Cockpit
 *   **WASM & WebGPU Fallbacks**: Implemented an interactive Demonstration Mode that automatically runs if WebGPU is missing. This mode runs the real CAMP firewall and pulls live geocoded Open-Meteo weather details using browser fetches.
 *   **Showcase Cockpit (/simulator)**: Built an interactive sandbox detailing SVG network connection steps, active packet transfer animations, and architectural code blueprints.
-*   **CI/CD Automation**: Integrated a GitHub Actions workflow validating code compilation, ESLint compliance, and Vitest execution (all 28 unit tests passing).
+*   **CI/CD Automation**: Integrated validation for code compilation, ESLint compliance, and Vitest execution.
 
 ---
 
@@ -132,4 +168,7 @@ npm run lint
 
 # Validate TypeScript type-safety
 npx tsc --noEmit
+
+# Run the reproducible CAMP benchmark
+npm run eval:camp
 ```
