@@ -87,10 +87,12 @@ Current generated headline result:
 
 | Variant | Cases | Precision | Recall | F1 |
 | --- | ---: | ---: | ---: | ---: |
-| CAMP | 100 | 100.0% | 100.0% | 100.0% |
-| Simple regex baseline | 100 | 88.5% | 45.4% | 60.0% |
+| CAMP clean synthetic | 100 | 100.0% | 100.0% | 100.0% |
+| Simple regex baseline clean synthetic | 100 | 88.5% | 45.4% | 60.0% |
+| CAMP adversarial/noisy | 100 | 100.0% | 100.0% | 100.0% |
+| Simple regex baseline adversarial/noisy | 100 | 95.2% | 19.3% | 32.1% |
 
-These numbers are a synthetic feasibility measurement, not a universal guarantee. The benchmark is deterministic, English-centered, and partially aligned with the current detector design. The next evaluation target is a larger adversarial and multilingual split.
+These numbers are a feasibility measurement, not a universal guarantee. CAMP performs well on the clean deterministic suite and the current adversarial/noisy suite, but both suites remain synthetic and detector-aware. The next strongest external-validity step is testing prompts collected or written independently from the detector implementation.
 
 ---
 

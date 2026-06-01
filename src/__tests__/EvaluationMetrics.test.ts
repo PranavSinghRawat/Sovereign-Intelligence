@@ -4,10 +4,12 @@ import {
   evaluateCase,
   extractDetectedTypes,
   renderMarkdownReport,
+  renderSummaryCsv,
   summarizeEvaluations,
 } from "../evaluation/metrics";
 import { createBenchmarkReport } from "../evaluation/metrics";
 import { PIIBenchmarkCase, RedactionResult } from "../evaluation/types";
+import { adversarialBenchmarkCases } from "../evaluation/datasets/adversarialBenchmarkCases";
 
 describe("Evaluation metrics", () => {
   it("extracts PII types from CAMP fragment labels", () => {
@@ -73,5 +75,34 @@ describe("Evaluation metrics", () => {
     expect(markdown).toContain("leak: false positives [none], false negatives [CREDENTIAL]");
     expect(markdown).toContain("under-pruned true");
   });
-});
 
+  it("renders CSV summary rows for paper figures", () => {
+    const report = createBenchmarkReport("Unit redactor", [
+      evaluateCase(
+        {
+          id: "email",
+          category: "unit",
+          input: "My email is user@example.com.",
+          expectedTypes: [PIIType.EMAIL],
+          shouldPrune: true,
+        },
+        {
+          processedText: "My email is [EMAIL_PRUNED].",
+          pruned: true,
+          fragmentsDetected: ["EMAIL: user@example.com"],
+          latencyMs: 1.25,
+        }
+      ),
+    ]);
+
+    const csv = renderSummaryCsv([report]);
+
+    expect(csv).toContain("variant,cases,precision,recall,f1");
+    expect(csv).toContain("Unit redactor,1,1.0000,1.0000,1.0000");
+  });
+
+  it("keeps the adversarial benchmark at publication scale", () => {
+    expect(adversarialBenchmarkCases).toHaveLength(100);
+    expect(new Set(adversarialBenchmarkCases.map((testCase) => testCase.id)).size).toBe(100);
+  });
+});

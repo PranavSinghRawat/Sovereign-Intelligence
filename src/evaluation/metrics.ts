@@ -64,8 +64,11 @@ export function summarizeEvaluations(cases: CaseEvaluation[]): BenchmarkSummary 
       cases.filter((testCase) => testCase.textCheckFailures.length > 0).length,
       cases.length
     ),
+    minLatencyMs: latencies[0] ?? 0,
+    p50LatencyMs: percentile(latencies, 0.5),
     averageLatencyMs: safeDivide(sum(latencies), latencies.length),
     p95LatencyMs: percentile(latencies, 0.95),
+    maxLatencyMs: latencies[latencies.length - 1] ?? 0,
   };
 }
 
@@ -85,14 +88,14 @@ export function renderMarkdownReport(reports: BenchmarkReport[]): string {
     "",
     `Generated: ${new Date().toISOString()}`,
     "",
-    "| Variant | Cases | Precision | Recall | F1 | Over-prune | Under-prune | Avg latency | p95 latency | Text failures |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    "| Variant | Cases | Precision | Recall | F1 | Over-prune | Under-prune | p50 latency | Avg latency | p95 latency | Text failures |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
   ];
 
   for (const report of reports) {
     const summary = report.summary;
     lines.push(
-      `| ${report.label} | ${summary.caseCount} | ${formatRate(summary.precision)} | ${formatRate(summary.recall)} | ${formatRate(summary.f1)} | ${formatRate(summary.overPruningRate)} | ${formatRate(summary.underPruningRate)} | ${summary.averageLatencyMs.toFixed(2)} ms | ${summary.p95LatencyMs.toFixed(2)} ms | ${formatRate(summary.textCheckFailureRate)} |`
+      `| ${report.label} | ${summary.caseCount} | ${formatRate(summary.precision)} | ${formatRate(summary.recall)} | ${formatRate(summary.f1)} | ${formatRate(summary.overPruningRate)} | ${formatRate(summary.underPruningRate)} | ${summary.p50LatencyMs.toFixed(2)} ms | ${summary.averageLatencyMs.toFixed(2)} ms | ${summary.p95LatencyMs.toFixed(2)} ms | ${formatRate(summary.textCheckFailureRate)} |`
     );
   }
 
@@ -135,6 +138,43 @@ export function renderMarkdownReport(reports: BenchmarkReport[]): string {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+export function renderSummaryCsv(reports: BenchmarkReport[]): string {
+  const rows = [
+    [
+      "variant",
+      "cases",
+      "precision",
+      "recall",
+      "f1",
+      "over_pruning_rate",
+      "under_pruning_rate",
+      "p50_latency_ms",
+      "average_latency_ms",
+      "p95_latency_ms",
+      "text_check_failure_rate",
+    ],
+  ];
+
+  for (const report of reports) {
+    const summary = report.summary;
+    rows.push([
+      report.label,
+      String(summary.caseCount),
+      summary.precision.toFixed(4),
+      summary.recall.toFixed(4),
+      summary.f1.toFixed(4),
+      summary.overPruningRate.toFixed(4),
+      summary.underPruningRate.toFixed(4),
+      summary.p50LatencyMs.toFixed(4),
+      summary.averageLatencyMs.toFixed(4),
+      summary.p95LatencyMs.toFixed(4),
+      summary.textCheckFailureRate.toFixed(4),
+    ]);
+  }
+
+  return `${rows.map((row) => row.map(escapeCsvCell).join(",")).join("\n")}\n`;
 }
 
 export function summarizeByCategory(cases: CaseEvaluation[]): CategorySummary[] {
@@ -189,4 +229,9 @@ function percentile(values: number[], percentileRank: number): number {
 
 function formatRate(value: number): string {
   return `${(value * 100).toFixed(1)}%`;
+}
+
+function escapeCsvCell(value: string): string {
+  if (!/[",\n]/.test(value)) return value;
+  return `"${value.replace(/"/g, '""')}"`;
 }

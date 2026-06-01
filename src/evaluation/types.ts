@@ -44,8 +44,11 @@ export interface BenchmarkSummary {
   overPruningRate: number;
   underPruningRate: number;
   textCheckFailureRate: number;
+  minLatencyMs: number;
+  p50LatencyMs: number;
   averageLatencyMs: number;
   p95LatencyMs: number;
+  maxLatencyMs: number;
 }
 
 export interface CategorySummary extends BenchmarkSummary {

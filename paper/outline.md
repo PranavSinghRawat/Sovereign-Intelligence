@@ -37,7 +37,8 @@ Evaluating Browser-Local Privacy Filtering for Sensitive AI Assistance Workflows
 
 ## 5. Evaluation Method
 
-- Deterministic 100-case synthetic benchmark.
+- Deterministic 100-case clean synthetic benchmark.
+- Separate 100-case adversarial/noisy split.
 - Case categories: mixed PII, contact data, address, medical, financial, identity, arbitrary secret fields, benign prompts, developer workflow prompts, quasi-identifiers.
 - Baselines: no filtering as conceptual baseline, simple regex redactor as implemented baseline, CAMP as proposed middleware.
 - Metrics: precision, recall, F1, over-pruning, under-pruning, text-check failure rate, average latency, p95 latency.
@@ -45,9 +46,10 @@ Evaluating Browser-Local Privacy Filtering for Sensitive AI Assistance Workflows
 ## 6. Results
 
 - Use `evaluation-results/camp-summary.md` as the source table.
-- Report headline comparison between CAMP and the simple regex baseline.
+- Report headline comparison between CAMP and the simple regex baseline on the clean split and adversarial/noisy split.
 - Include category breakdown to avoid hiding weak classes.
 - Report latency as local benchmark overhead, not a universal browser performance guarantee.
+- Highlight that the current adversarial split is detector-aware and should be followed by independently authored prompts.
 
 ## 7. Security and Privacy Analysis
 
@@ -61,6 +63,8 @@ Evaluating Browser-Local Privacy Filtering for Sensitive AI Assistance Workflows
 - Synthetic benchmark.
 - English-centered prompts.
 - Pattern-aligned test distribution.
+- Current adversarial split is still synthetic and detector-aware.
+- Current benchmark does not prove performance on independently authored or real-world prompts.
 - No formal anonymity proof.
 - No formal differential privacy mechanism.
 - Browser/runtime compromise remains out of scope.
@@ -79,4 +83,3 @@ Evaluating Browser-Local Privacy Filtering for Sensitive AI Assistance Workflows
 - Browser-local privacy filtering is feasible for constrained sensitive-assistance workflows.
 - CAMP improves coverage over a simple regex baseline in the current synthetic benchmark.
 - Stronger claims require larger real-world datasets, adversarial testing, multilingual coverage, and formal privacy mechanisms.
-
