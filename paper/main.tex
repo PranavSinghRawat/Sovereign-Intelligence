@@ -6,8 +6,17 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{microtype}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue
+}
 
 \begin{document}
 
@@ -58,9 +67,9 @@ The Sovereign Intelligence Layer isolates user data within the browser runtime. 
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
-    node distance = 1.0cm and 0.8cm,
-    block/.style = {rectangle, draw, fill=blue!10, text width=6.5em, text centered, rounded corners, minimum height=2.5em},
-    database/.style = {cylinder, draw, fill=gray!10, shape border rotate=90, text width=5.5em, text centered, minimum height=2.5em}
+    node distance = 0.9cm and 0.6cm,
+    block/.style = {rectangle, draw=blue!50!black, fill=blue!5, text width=6.5em, text centered, rounded corners, minimum height=2.2em, drop shadow={opacity=0.15, shadow xshift=0.07cm, shadow yshift=-0.07cm}},
+    database/.style = {cylinder, draw=gray!50!black, fill=gray!10, shape border rotate=90, text width=5.5em, text centered, minimum height=2.2em, drop shadow={opacity=0.15, shadow xshift=0.07cm, shadow yshift=-0.07cm}}
 ]
     \node [block] (user) {User Prompt};
     \node [block, below=of user] (camp) {CAMP Sanitizer};
@@ -70,12 +79,12 @@ The Sovereign Intelligence Layer isolates user data within the browser runtime. 
     \node [block, below=of worker] (mcp) {MCP Router};
     \node [block, right=of mcp] (crypto) {IndexedDB Sandbox};
     
-    \path [draw, -{Latex}] (user) -- (camp);
-    \path [draw, <->] (camp) -- (registry);
-    \path [draw, -{Latex}] (camp) -- (worker);
-    \path [draw, <->] (worker) -- (gpu);
-    \path [draw, -{Latex}] (worker) -- (mcp);
-    \path [draw, <->] (mcp) -- (crypto);
+    \path [draw, -{Latex[scale=1.1]}] (user) -- (camp);
+    \path [draw, <->, >=Latex] (camp) -- (registry);
+    \path [draw, -{Latex[scale=1.1]}] (camp) -- (worker);
+    \path [draw, <->, >=Latex] (worker) -- (gpu);
+    \path [draw, -{Latex[scale=1.1]}] (worker) -- (mcp);
+    \path [draw, <->, >=Latex] (mcp) -- (crypto);
 \end{tikzpicture}
 \caption{Sovereign Intelligence Layer System Architecture.}
 \label{fig:architecture}
@@ -93,22 +102,6 @@ Local retrieval cache and PII hashes are persisted in the browser's Origin Priva
 \subsection{Signed P2P WebRTC Signaling}
 Peer connections are established directly using WebRTC DataChannels. Because signaling requires broker servers (such as WebSockets) that could capture metadata or alter handshakes, all Session Description Protocol (SDP) offers and answers are cryptographically signed by the agent's private key and verified against public fingerprints \cite{webrtcsec}.
 
-\begin{table*}[htbp]
-\caption{Efficacy and Latency Benchmark Results}
-\label{tab:results}
-\centering
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
-\hline
-\textbf{Evaluation Variant} & \textbf{Cases} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Over-prune} & \textbf{Under-prune} & \textbf{Avg Latency} & \textbf{p95 Latency} & \textbf{Failures} \\
-\hline
-\textbf{CAMP (Clean)} & 100 & 100.0\% & 100.0\% & \textbf{100.0\%} & 0.0\% & 0.0\% & 0.11 ms & 0.08 ms & 0.0\% \\
-Baseline (Clean) & 100 & 88.5\% & 45.4\% & 60.0\% & 0.0\% & 12.0\% & 0.00 ms & 0.00 ms & 56.0\% \\
-\textbf{CAMP (Adversarial)} & 100 & 100.0\% & 100.0\% & \textbf{100.0\%} & 0.0\% & 0.0\% & 0.05 ms & 0.08 ms & 0.0\% \\
-Baseline (Adversarial) & 100 & 95.2\% & 19.3\% & 32.1\% & 1.0\% & 57.0\% & 0.00 ms & 0.00 ms & 98.0\% \\
-\hline
-\end{tabular}
-\end{table*}
-
 \section{The CAMP Algorithm}
 
 CAMP addresses the limitation of simple regex filters by modeling re-identification risk as a dynamic, stateful process. The algorithm separates sensitive text into two distinct classes:
@@ -118,10 +111,10 @@ CAMP addresses the limitation of simple regex filters by modeling re-identificat
 \end{itemize}
 
 \subsection{Cumulative PII Exposure (CPE) Formulation}
-Let $S$ represent the active session, and let $\mathcal{F}_S$ be the set of unique sensitive fragments detected during the session. Each entity type $t$ is mapped to a weight $w(t) \in [0, 1.0]$. The Cumulative PII Exposure (CPE) score of the session is defined as:
+Let $S$ represent the active session, and let $\mathcal{F}_S$ be the set of unique sensitive fragments detected during the session. Each entity type $t$ is mapped to a weight $w(t) \in [0, 1.0]$. The Cumulative PII Exposure ($\mathrm{CPE}$) score of the session is defined as:
 
 \begin{equation}
-CPE(S) = \sum_{f \in \mathcal{F}_S} w(\text{type}(f))
+\mathrm{CPE}(S) = \sum_{f \in \mathcal{F}_S} w(\text{type}(f))
 \end{equation}
 
 The weights reflect the re-identification risk of each type:
@@ -133,14 +126,14 @@ The weights reflect the re-identification risk of each type:
 Let $\tau$ be the re-identifiability threshold (set to $1.0$). A session is classified as re-identifiable if:
 
 \begin{equation}
-CPE(S) \geq \tau
+\mathrm{CPE}(S) \geq \tau
 \end{equation}
 
 \subsection{Dual-Route Pruning Rule}
 For any detected match $m$ in the user prompt, CAMP applies a dual-route decision process to determine if it should be replaced by a placeholder (e.g., \texttt{[EMAIL\_PRUNED]}):
 
 \begin{equation}
-\text{prune}(m) \iff (\text{type}(m) \in \mathcal{D}) \lor (CPE(S) \geq \tau)
+\text{prune}(m) \iff (\text{type}(m) \in \mathcal{D}) \lor (\mathrm{CPE}(S) \geq \tau)
 \end{equation}
 
 Under this rule, Direct Identifiers are redacted immediately, regardless of the session state. Quasi-identifiers remain unredacted to preserve prompt context and utility, but are immediately scrubbed if their aggregate weight crosses the threshold $\tau$.
@@ -165,9 +158,23 @@ We compared CAMP against a baseline regex redactor using two deterministic bench
 
 \subsection{Benchmark Results}
 
-Table \ref{tab:results} summarizes the performance of CAMP and the baseline model:
+\begin{table*}[htbp]
+\caption{Efficacy and Latency Benchmark Results}
+\label{tab:results}
+\centering
+\begin{tabular}{lccccccccc}
+\toprule
+\textbf{Evaluation Variant} & \textbf{Cases} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Over-prune} & \textbf{Under-prune} & \textbf{Avg Latency} & \textbf{p95 Latency} & \textbf{Failures} \\
+\midrule
+\textbf{CAMP (Clean)} & 100 & 100.0\% & 100.0\% & \textbf{100.0\%} & 0.0\% & 0.0\% & 0.11 ms & 0.08 ms & 0.0\% \\
+Baseline (Clean) & 100 & 88.5\% & 45.4\% & 60.0\% & 0.0\% & 12.0\% & 0.00 ms & 0.00 ms & 56.0\% \\
+\textbf{CAMP (Adversarial)} & 100 & 100.0\% & 100.0\% & \textbf{100.0\%} & 0.0\% & 0.0\% & 0.05 ms & 0.08 ms & 0.0\% \\
+Baseline (Adversarial) & 100 & 95.2\% & 19.3\% & 32.1\% & 1.0\% & 57.0\% & 0.00 ms & 0.00 ms & 98.0\% \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
-CAMP achieved 100.0\% Precision and Recall on both splits, with zero over-pruning on benign text. The baseline redactor failed significantly on adversarial inputs. CAMP's average execution latency remained below 0.12 ms, adding negligible overhead compared to LLM token generation (which typically requires 10--50 ms per token).
+Table \ref{tab:results} summarizes the performance of CAMP and the baseline model. CAMP achieved 100.0\% Precision and Recall on both splits, with zero over-pruning on benign text. The baseline redactor failed significantly on adversarial inputs. CAMP's average execution latency remained below 0.12 ms, adding negligible overhead compared to LLM token generation (which typically requires 10--50 ms per token).
 
 \section{Security \& Privacy Analysis}
 
