@@ -18,6 +18,12 @@
     urlcolor=blue
 }
 
+% Spacing adjustments to fit exactly on 3 pages
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\arraystretch}{0.95}
+
 \begin{document}
 
 \title{Evaluating Browser-Local Privacy Filtering for\\Sensitive AI Assistance Workflows}
@@ -67,9 +73,9 @@ The Sovereign Intelligence Layer isolates user data within the browser runtime. 
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
-    node distance = 0.9cm and 0.6cm,
-    block/.style = {rectangle, draw=blue!50!black, fill=blue!5, text width=6.5em, text centered, rounded corners, minimum height=2.2em, drop shadow={opacity=0.15, shadow xshift=0.07cm, shadow yshift=-0.07cm}},
-    database/.style = {cylinder, draw=gray!50!black, fill=gray!10, shape border rotate=90, text width=5.5em, text centered, minimum height=2.2em, drop shadow={opacity=0.15, shadow xshift=0.07cm, shadow yshift=-0.07cm}}
+    node distance = 0.7cm and 0.4cm,
+    block/.style = {rectangle, draw=blue!50!black, fill=blue!5, text width=6em, text centered, rounded corners, minimum height=2.0em, font=\small, drop shadow={opacity=0.15, shadow xshift=0.05cm, shadow yshift=-0.05cm}},
+    database/.style = {cylinder, draw=gray!50!black, fill=gray!10, shape border rotate=90, text width=5.2em, text centered, minimum height=2.0em, font=\small, drop shadow={opacity=0.15, shadow xshift=0.05cm, shadow yshift=-0.05cm}}
 ]
     \node [block] (user) {User Prompt};
     \node [block, below=of user] (camp) {CAMP Sanitizer};
