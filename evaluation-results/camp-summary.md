@@ -1,12 +1,12 @@
 # CAMP Benchmark Summary
 
-Generated: 2026-06-01T13:22:03.215Z
+Generated: 2026-06-01T13:37:33.996Z
 
 | Variant | Cases | Precision | Recall | F1 | Over-prune | Under-prune | p50 latency | Avg latency | p95 latency | Text failures |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| CAMP clean synthetic | 100 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.04 ms | 0.11 ms | 0.08 ms | 0.0% |
-| Simple regex baseline clean synthetic | 100 | 88.5% | 45.4% | 60.0% | 0.0% | 12.0% | 0.00 ms | 0.00 ms | 0.00 ms | 56.0% |
-| CAMP adversarial/noisy | 100 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.05 ms | 0.05 ms | 0.08 ms | 0.0% |
+| CAMP clean synthetic | 100 | 100.0% | 100.0% | 100.0% | 1.0% | 0.0% | 0.04 ms | 0.11 ms | 0.13 ms | 0.0% |
+| Simple regex baseline clean synthetic | 100 | 88.5% | 45.4% | 60.0% | 0.0% | 12.0% | 0.00 ms | 0.01 ms | 0.01 ms | 56.0% |
+| CAMP adversarial/noisy | 100 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.05 ms | 0.06 ms | 0.09 ms | 0.0% |
 | Simple regex baseline adversarial/noisy | 100 | 95.2% | 19.3% | 32.1% | 1.0% | 57.0% | 0.00 ms | 0.00 ms | 0.00 ms | 98.0% |
 
 ## Category Breakdown
@@ -24,7 +24,7 @@ Generated: 2026-06-01T13:22:03.215Z
 | contact | 11 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
 | developer-workflow | 9 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
 | financial | 12 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
-| identity | 12 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
+| identity | 12 | 100.0% | 100.0% | 100.0% | 8.3% | 0.0% | 0.0% |
 | medical | 11 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
 | mixed-pii | 1 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
 | quasi-identifiers | 7 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% |
@@ -90,7 +90,7 @@ Generated: 2026-06-01T13:22:03.215Z
 
 ### CAMP clean synthetic
 
-No failures detected.
+- pii-government-id: false positives [none], false negatives [none], over-pruned true, under-pruned false, text failures [none]
 
 ### Simple regex baseline clean synthetic
 

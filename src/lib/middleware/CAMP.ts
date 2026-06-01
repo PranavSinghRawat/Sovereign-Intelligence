@@ -122,16 +122,32 @@ export class CAMPMiddleware {
       detected.push(`${m.type}: ${displayValue}`);
     }
 
-    // 3. Check Re-identifiability
+    // 3. Check Re-identifiability and Pruning Requirements
+    const isReidentifiable = sessionPII.isReidentifiable();
     const currentCPE = sessionPII.getCPE();
+    
+    // Direct identifiers must be pruned unconditionally. Quasi-identifiers are pruned only when re-identifiable.
+    const matchesToPrune = nonOverlappingMatches.filter((m) => {
+      const isDirect = [
+        PIIType.EMAIL,
+        PIIType.CREDENTIAL,
+        PIIType.FINANCIAL,
+        PIIType.ID,
+        PIIType.PHONE,
+        PIIType.ADDRESS,
+        PIIType.SENSITIVE_FIELD,
+      ].includes(m.type);
+      return isDirect || isReidentifiable;
+    });
+
     let processedText = placeholderText;
 
-    if (sessionPII.isReidentifiable()) {
+    if (matchesToPrune.length > 0) {
       shouldPrune = true;
 
       // 4. Sort matches by start position DESCENDING so replacements
       //    don't shift the positions of earlier matches
-      const sorted = [...nonOverlappingMatches].sort((a, b) => b.start - a.start);
+      const sorted = [...matchesToPrune].sort((a, b) => b.start - a.start);
       for (const m of sorted) {
         const before = processedText.slice(0, m.start);
         const after = processedText.slice(m.end);
