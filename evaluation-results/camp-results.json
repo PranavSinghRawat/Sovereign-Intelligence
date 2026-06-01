@@ -1,7 +1,7 @@
 [
   {
     "label": "CAMP clean synthetic",
-    "generatedAt": "2026-06-01T13:37:33.977Z",
+    "generatedAt": "2026-06-01T13:42:03.101Z",
     "cases": [
       {
         "id": "pii-name-email-password",
@@ -28,7 +28,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 4.558500000000002
+        "latencyMs": 3.7662499999999994
       },
       {
         "id": "pii-medical-location",
@@ -55,7 +55,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 1.652707999999997
+        "latencyMs": 1.7665000000000006
       },
       {
         "id": "pii-phone-address",
@@ -79,7 +79,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.12608300000000128
+        "latencyMs": 0.11062499999999886
       },
       {
         "id": "pii-financial-card",
@@ -100,7 +100,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06766700000000014
+        "latencyMs": 0.07412500000000222
       },
       {
         "id": "pii-government-id",
@@ -121,7 +121,7 @@
         "overPruned": true,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07312500000000455
+        "latencyMs": 0.07737499999999642
       },
       {
         "id": "pii-secret-field",
@@ -142,7 +142,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08462500000000261
+        "latencyMs": 0.10041600000000273
       },
       {
         "id": "pii-natural-language-secret",
@@ -163,7 +163,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04570799999999764
+        "latencyMs": 0.05308300000000088
       },
       {
         "id": "pii-code-block-preservation",
@@ -184,7 +184,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06629200000000424
+        "latencyMs": 0.0934999999999988
       },
       {
         "id": "benign-food-bank",
@@ -220,7 +220,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04550000000000409
+        "latencyMs": 0.049875000000000114
       },
       {
         "id": "benign-programming",
@@ -235,7 +235,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.01270900000000097
+        "latencyMs": 0.014540999999994142
       },
       {
         "id": "pii-age-profession",
@@ -259,7 +259,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07233300000000042
+        "latencyMs": 0.07791600000000187
       },
       {
         "id": "pii-upi",
@@ -283,7 +283,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.058458000000001675
+        "latencyMs": 0.06433400000000233
       },
       {
         "id": "pii-aadhaar",
@@ -307,7 +307,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.12170800000000526
+        "latencyMs": 0.12924999999999898
       },
       {
         "id": "benign-history",
@@ -322,7 +322,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.013041999999998666
+        "latencyMs": 0.011749999999999261
       },
       {
         "id": "pii-address-shipping",
@@ -346,7 +346,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.377042000000003
+        "latencyMs": 0.3468330000000037
       },
       {
         "id": "generated-medical-1",
@@ -373,7 +373,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07716700000000287
+        "latencyMs": 0.08120799999999662
       },
       {
         "id": "generated-medical-2",
@@ -400,7 +400,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07204099999999869
+        "latencyMs": 0.07987500000000125
       },
       {
         "id": "generated-medical-3",
@@ -427,7 +427,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06350000000000477
+        "latencyMs": 0.07141700000000384
       },
       {
         "id": "generated-medical-4",
@@ -454,7 +454,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0691670000000002
+        "latencyMs": 0.11129099999999426
       },
       {
         "id": "generated-medical-5",
@@ -481,7 +481,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0672090000000054
+        "latencyMs": 0.12116599999999522
       },
       {
         "id": "generated-medical-6",
@@ -508,7 +508,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06308399999999637
+        "latencyMs": 0.07725000000000648
       },
       {
         "id": "generated-medical-7",
@@ -535,7 +535,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06141600000000125
+        "latencyMs": 0.13862499999999756
       },
       {
         "id": "generated-medical-8",
@@ -562,7 +562,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06083299999999525
+        "latencyMs": 0.10500000000000398
       },
       {
         "id": "generated-medical-9",
@@ -589,7 +589,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.059499999999999886
+        "latencyMs": 0.07354199999999622
       },
       {
         "id": "generated-medical-10",
@@ -616,7 +616,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05845899999999915
+        "latencyMs": 0.08445800000000503
       },
       {
         "id": "generated-address-1",
@@ -640,7 +640,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04883399999999938
+        "latencyMs": 0.052832999999999686
       },
       {
         "id": "generated-address-2",
@@ -664,7 +664,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04737500000000239
+        "latencyMs": 0.04954200000000242
       },
       {
         "id": "generated-address-3",
@@ -688,7 +688,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045000000000001705
+        "latencyMs": 0.0534590000000037
       },
       {
         "id": "generated-address-4",
@@ -712,7 +712,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045832999999994684
+        "latencyMs": 0.048624999999994145
       },
       {
         "id": "generated-address-5",
@@ -736,7 +736,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045750000000005286
+        "latencyMs": 0.049709
       },
       {
         "id": "generated-address-6",
@@ -760,7 +760,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04566700000000168
+        "latencyMs": 0.04299999999999926
       },
       {
         "id": "generated-address-7",
@@ -784,7 +784,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04458299999999582
+        "latencyMs": 0.045999999999999375
       },
       {
         "id": "generated-address-8",
@@ -808,7 +808,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04358400000000273
+        "latencyMs": 0.046041999999999916
       },
       {
         "id": "generated-address-9",
@@ -832,7 +832,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.044457999999998776
+        "latencyMs": 0.046916000000003066
       },
       {
         "id": "generated-address-10",
@@ -856,7 +856,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04358299999999815
+        "latencyMs": 0.04579199999999872
       },
       {
         "id": "generated-phone-1",
@@ -880,7 +880,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04629200000000111
+        "latencyMs": 0.046833999999996934
       },
       {
         "id": "generated-phone-2",
@@ -904,7 +904,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04741599999999835
+        "latencyMs": 0.049500000000001876
       },
       {
         "id": "generated-phone-3",
@@ -928,7 +928,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04595799999999883
+        "latencyMs": 0.047416000000005454
       },
       {
         "id": "generated-phone-4",
@@ -952,7 +952,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04537499999999994
+        "latencyMs": 0.04749999999999943
       },
       {
         "id": "generated-phone-5",
@@ -976,7 +976,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04341699999999804
+        "latencyMs": 0.043292000000000996
       },
       {
         "id": "generated-phone-6",
@@ -1000,7 +1000,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04329100000000352
+        "latencyMs": 0.04379199999999628
       },
       {
         "id": "generated-phone-7",
@@ -1024,7 +1024,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.043209000000004494
+        "latencyMs": 0.04504100000000477
       },
       {
         "id": "generated-phone-8",
@@ -1048,7 +1048,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045750000000005286
+        "latencyMs": 0.04479200000000105
       },
       {
         "id": "generated-phone-9",
@@ -1072,7 +1072,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04512499999999875
+        "latencyMs": 0.04700000000000415
       },
       {
         "id": "generated-phone-10",
@@ -1096,7 +1096,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04358400000000273
+        "latencyMs": 0.04691700000000054
       },
       {
         "id": "generated-secret-1",
@@ -1117,7 +1117,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.030334000000003414
+        "latencyMs": 0.032833000000003665
       },
       {
         "id": "generated-secret-2",
@@ -1138,7 +1138,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.029457999999998208
+        "latencyMs": 0.029749999999999943
       },
       {
         "id": "generated-secret-3",
@@ -1159,7 +1159,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.027416000000002327
+        "latencyMs": 0.028832999999998776
       },
       {
         "id": "generated-secret-4",
@@ -1180,7 +1180,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.029333000000001164
+        "latencyMs": 0.029167000000001053
       },
       {
         "id": "generated-secret-5",
@@ -1201,7 +1201,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.027124999999998067
+        "latencyMs": 0.02854200000000162
       },
       {
         "id": "generated-secret-6",
@@ -1222,7 +1222,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.02512500000000273
+        "latencyMs": 0.030374999999999375
       },
       {
         "id": "generated-secret-7",
@@ -1243,7 +1243,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.027124999999998067
+        "latencyMs": 0.03083300000000122
       },
       {
         "id": "generated-secret-8",
@@ -1264,7 +1264,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.043375000000004604
+        "latencyMs": 0.04662500000000591
       },
       {
         "id": "generated-secret-9",
@@ -1285,7 +1285,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05254200000000253
+        "latencyMs": 0.06716699999999776
       },
       {
         "id": "generated-secret-10",
@@ -1306,7 +1306,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.15270800000000406
+        "latencyMs": 0.029624999999995794
       },
       {
         "id": "generated-financial-1",
@@ -1327,7 +1327,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08483400000000074
+        "latencyMs": 0.04504200000000225
       },
       {
         "id": "generated-financial-2",
@@ -1348,7 +1348,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.041125000000000966
+        "latencyMs": 0.033166999999998836
       },
       {
         "id": "generated-financial-3",
@@ -1369,7 +1369,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04908400000000057
+        "latencyMs": 0.032291000000000736
       },
       {
         "id": "generated-financial-4",
@@ -1390,7 +1390,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03908400000000256
+        "latencyMs": 0.030083000000004745
       },
       {
         "id": "generated-financial-5",
@@ -1411,7 +1411,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0402079999999998
+        "latencyMs": 0.02920800000000412
       },
       {
         "id": "generated-financial-6",
@@ -1432,7 +1432,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04970800000000253
+        "latencyMs": 0.030915999999997723
       },
       {
         "id": "generated-financial-7",
@@ -1453,7 +1453,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03854199999999963
+        "latencyMs": 0.02949999999999875
       },
       {
         "id": "generated-financial-8",
@@ -1474,7 +1474,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03725000000000023
+        "latencyMs": 0.029832999999996446
       },
       {
         "id": "generated-financial-9",
@@ -1495,7 +1495,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.20083300000000293
+        "latencyMs": 0.215958999999998
       },
       {
         "id": "generated-financial-10",
@@ -1516,7 +1516,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03333299999999895
+        "latencyMs": 0.030416999999999916
       },
       {
         "id": "generated-id-1",
@@ -1540,7 +1540,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05375000000000085
+        "latencyMs": 0.04962499999999892
       },
       {
         "id": "generated-id-2",
@@ -1564,7 +1564,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04891699999999588
+        "latencyMs": 0.04674999999999585
       },
       {
         "id": "generated-id-3",
@@ -1588,7 +1588,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04595799999999883
+        "latencyMs": 0.044375000000002274
       },
       {
         "id": "generated-id-4",
@@ -1612,7 +1612,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04812499999999886
+        "latencyMs": 0.04362499999999869
       },
       {
         "id": "generated-id-5",
@@ -1636,7 +1636,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.044124999999993975
+        "latencyMs": 0.04316599999999937
       },
       {
         "id": "generated-id-6",
@@ -1660,7 +1660,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.043708999999999776
+        "latencyMs": 0.044708999999997445
       },
       {
         "id": "generated-id-7",
@@ -1684,7 +1684,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04220799999999514
+        "latencyMs": 0.04312500000000341
       },
       {
         "id": "generated-id-8",
@@ -1708,7 +1708,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04062499999999858
+        "latencyMs": 0.04375000000000284
       },
       {
         "id": "generated-id-9",
@@ -1732,7 +1732,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04079200000000327
+        "latencyMs": 0.04829100000000608
       },
       {
         "id": "generated-id-10",
@@ -1756,7 +1756,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.041541999999999746
+        "latencyMs": 0.043209000000004494
       },
       {
         "id": "generated-benign-1",
@@ -1771,7 +1771,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.012499999999995737
+        "latencyMs": 0.012667000000000428
       },
       {
         "id": "generated-benign-2",
@@ -1786,7 +1786,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.006375000000005571
+        "latencyMs": 0.0066670000000002005
       },
       {
         "id": "generated-benign-3",
@@ -1801,7 +1801,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.007500000000000284
+        "latencyMs": 0.007875000000005627
       },
       {
         "id": "generated-benign-4",
@@ -1816,7 +1816,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.00608299999999673
+        "latencyMs": 0.0062080000000008795
       },
       {
         "id": "generated-benign-5",
@@ -1831,7 +1831,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0057910000000021
+        "latencyMs": 0.006292000000001963
       },
       {
         "id": "generated-benign-6",
@@ -1846,7 +1846,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.007291999999999632
+        "latencyMs": 0.007708000000000936
       },
       {
         "id": "generated-benign-7",
@@ -1861,7 +1861,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.006624999999999659
+        "latencyMs": 0.006959000000001936
       },
       {
         "id": "generated-benign-8",
@@ -1876,7 +1876,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.006584000000003698
+        "latencyMs": 0.006833000000000311
       },
       {
         "id": "generated-benign-9",
@@ -1891,7 +1891,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.006166999999997813
+        "latencyMs": 0.006500000000002615
       },
       {
         "id": "generated-benign-10",
@@ -1906,7 +1906,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.004458999999997104
+        "latencyMs": 0.004709000000005403
       },
       {
         "id": "generated-code-preservation-1",
@@ -1927,7 +1927,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03454099999999727
+        "latencyMs": 0.03695799999999849
       },
       {
         "id": "generated-code-preservation-2",
@@ -1948,7 +1948,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03324999999999534
+        "latencyMs": 0.03495800000000315
       },
       {
         "id": "generated-code-preservation-3",
@@ -1969,7 +1969,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.031041999999999348
+        "latencyMs": 0.032833000000003665
       },
       {
         "id": "generated-code-preservation-4",
@@ -1990,7 +1990,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04224999999999568
+        "latencyMs": 0.04366600000000176
       },
       {
         "id": "generated-code-preservation-5",
@@ -2011,7 +2011,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03191699999999997
+        "latencyMs": 0.04845799999999656
       },
       {
         "id": "generated-code-preservation-6",
@@ -2032,7 +2032,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.035333999999998866
+        "latencyMs": 0.03245799999999832
       },
       {
         "id": "generated-code-preservation-7",
@@ -2053,7 +2053,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03008400000000222
+        "latencyMs": 0.036999999999999034
       },
       {
         "id": "generated-code-preservation-8",
@@ -2074,7 +2074,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03345799999999599
+        "latencyMs": 0.04062499999999858
       },
       {
         "id": "generated-quasi-1",
@@ -2098,7 +2098,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045999999999999375
+        "latencyMs": 0.04729199999999878
       },
       {
         "id": "generated-quasi-2",
@@ -2122,7 +2122,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05112499999999898
+        "latencyMs": 0.0516669999999948
       },
       {
         "id": "generated-quasi-3",
@@ -2146,7 +2146,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04970799999999542
+        "latencyMs": 0.04350000000000165
       },
       {
         "id": "generated-quasi-4",
@@ -2170,7 +2170,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04862500000000125
+        "latencyMs": 0.04783400000000171
       },
       {
         "id": "generated-quasi-5",
@@ -2194,7 +2194,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05304199999999781
+        "latencyMs": 0.2718750000000014
       },
       {
         "id": "generated-quasi-6",
@@ -2218,7 +2218,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04379199999999628
+        "latencyMs": 0.0991250000000008
       }
     ],
     "summary": {
@@ -2232,11 +2232,11 @@
       "overPruningRate": 0.01,
       "underPruningRate": 0,
       "textCheckFailureRate": 0,
-      "minLatencyMs": 0.004458999999997104,
-      "p50LatencyMs": 0.04458299999999582,
-      "averageLatencyMs": 0.1108492200000002,
-      "p95LatencyMs": 0.12608300000000128,
-      "maxLatencyMs": 4.558500000000002
+      "minLatencyMs": 0.004709000000005403,
+      "p50LatencyMs": 0.04504200000000225,
+      "averageLatencyMs": 0.10886790000000048,
+      "p95LatencyMs": 0.13862499999999756,
+      "maxLatencyMs": 3.7662499999999994
     },
     "categories": [
       {
@@ -2251,11 +2251,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04358299999999815,
-        "p50LatencyMs": 0.04566700000000168,
-        "averageLatencyMs": 0.07560990909090942,
-        "p95LatencyMs": 0.377042000000003,
-        "maxLatencyMs": 0.377042000000003
+        "minLatencyMs": 0.04299999999999926,
+        "p50LatencyMs": 0.048624999999994145,
+        "averageLatencyMs": 0.07534100000000037,
+        "p95LatencyMs": 0.3468330000000037,
+        "maxLatencyMs": 0.3468330000000037
       },
       {
         "category": "benign",
@@ -2269,11 +2269,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.004458999999997104,
-        "p50LatencyMs": 0.006375000000005571,
-        "averageLatencyMs": 0.006937599999999833,
-        "p95LatencyMs": 0.012499999999995737,
-        "maxLatencyMs": 0.012499999999995737
+        "minLatencyMs": 0.004709000000005403,
+        "p50LatencyMs": 0.0066670000000002005,
+        "averageLatencyMs": 0.00724180000000203,
+        "p95LatencyMs": 0.012667000000000428,
+        "maxLatencyMs": 0.012667000000000428
       },
       {
         "category": "benign-code",
@@ -2287,11 +2287,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.01270900000000097,
-        "p50LatencyMs": 0.01270900000000097,
-        "averageLatencyMs": 0.01270900000000097,
-        "p95LatencyMs": 0.01270900000000097,
-        "maxLatencyMs": 0.01270900000000097
+        "minLatencyMs": 0.014540999999994142,
+        "p50LatencyMs": 0.014540999999994142,
+        "averageLatencyMs": 0.014540999999994142,
+        "p95LatencyMs": 0.014540999999994142,
+        "maxLatencyMs": 0.014540999999994142
       },
       {
         "category": "benign-general",
@@ -2305,11 +2305,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.013041999999998666,
-        "p50LatencyMs": 0.013041999999998666,
-        "averageLatencyMs": 0.013041999999998666,
-        "p95LatencyMs": 0.013041999999998666,
-        "maxLatencyMs": 0.013041999999998666
+        "minLatencyMs": 0.011749999999999261,
+        "p50LatencyMs": 0.011749999999999261,
+        "averageLatencyMs": 0.011749999999999261,
+        "p95LatencyMs": 0.011749999999999261,
+        "maxLatencyMs": 0.011749999999999261
       },
       {
         "category": "benign-resource",
@@ -2341,11 +2341,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04550000000000409,
-        "p50LatencyMs": 0.04550000000000409,
-        "averageLatencyMs": 0.04550000000000409,
-        "p95LatencyMs": 0.04550000000000409,
-        "maxLatencyMs": 0.04550000000000409
+        "minLatencyMs": 0.049875000000000114,
+        "p50LatencyMs": 0.049875000000000114,
+        "averageLatencyMs": 0.049875000000000114,
+        "p95LatencyMs": 0.049875000000000114,
+        "maxLatencyMs": 0.049875000000000114
       },
       {
         "category": "contact",
@@ -2359,11 +2359,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.043209000000004494,
-        "p50LatencyMs": 0.04537499999999994,
-        "averageLatencyMs": 0.052318181818182936,
-        "p95LatencyMs": 0.12608300000000128,
-        "maxLatencyMs": 0.12608300000000128
+        "minLatencyMs": 0.043292000000000996,
+        "p50LatencyMs": 0.04691700000000054,
+        "averageLatencyMs": 0.05206445454545549,
+        "p95LatencyMs": 0.11062499999999886,
+        "maxLatencyMs": 0.11062499999999886
       },
       {
         "category": "developer-workflow",
@@ -2377,11 +2377,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.03008400000000222,
-        "p50LatencyMs": 0.03345799999999599,
-        "averageLatencyMs": 0.03757422222222099,
-        "p95LatencyMs": 0.06629200000000424,
-        "maxLatencyMs": 0.06629200000000424
+        "minLatencyMs": 0.03245799999999832,
+        "p50LatencyMs": 0.036999999999999034,
+        "averageLatencyMs": 0.04449511111111093,
+        "p95LatencyMs": 0.0934999999999988,
+        "maxLatencyMs": 0.0934999999999988
       },
       {
         "category": "financial",
@@ -2395,11 +2395,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.03333299999999895,
-        "p50LatencyMs": 0.041125000000000966,
-        "averageLatencyMs": 0.06167716666666756,
-        "p95LatencyMs": 0.20083300000000293,
-        "maxLatencyMs": 0.20083300000000293
+        "minLatencyMs": 0.02920800000000412,
+        "p50LatencyMs": 0.030915999999997723,
+        "averageLatencyMs": 0.05373958333333384,
+        "p95LatencyMs": 0.215958999999998,
+        "maxLatencyMs": 0.215958999999998
       },
       {
         "category": "identity",
@@ -2413,11 +2413,11 @@
         "overPruningRate": 0.08333333333333333,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04062499999999858,
-        "p50LatencyMs": 0.044124999999993975,
-        "averageLatencyMs": 0.05371533333333289,
-        "p95LatencyMs": 0.12170800000000526,
-        "maxLatencyMs": 0.12170800000000526
+        "minLatencyMs": 0.04312500000000341,
+        "p50LatencyMs": 0.044375000000002274,
+        "averageLatencyMs": 0.054770833333333734,
+        "p95LatencyMs": 0.12924999999999898,
+        "maxLatencyMs": 0.12924999999999898
       },
       {
         "category": "medical",
@@ -2431,11 +2431,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.05845899999999915,
-        "p50LatencyMs": 0.06350000000000477,
-        "averageLatencyMs": 0.209553090909091,
-        "p95LatencyMs": 1.652707999999997,
-        "maxLatencyMs": 1.652707999999997
+        "minLatencyMs": 0.07141700000000384,
+        "p50LatencyMs": 0.08445800000000503,
+        "averageLatencyMs": 0.24639381818181827,
+        "p95LatencyMs": 1.7665000000000006,
+        "maxLatencyMs": 1.7665000000000006
       },
       {
         "category": "mixed-pii",
@@ -2449,11 +2449,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 4.558500000000002,
-        "p50LatencyMs": 4.558500000000002,
-        "averageLatencyMs": 4.558500000000002,
-        "p95LatencyMs": 4.558500000000002,
-        "maxLatencyMs": 4.558500000000002
+        "minLatencyMs": 3.7662499999999994,
+        "p50LatencyMs": 3.7662499999999994,
+        "averageLatencyMs": 3.7662499999999994,
+        "p95LatencyMs": 3.7662499999999994,
+        "maxLatencyMs": 3.7662499999999994
       },
       {
         "category": "quasi-identifiers",
@@ -2467,11 +2467,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04379199999999628,
-        "p50LatencyMs": 0.04970799999999542,
-        "averageLatencyMs": 0.05208928571428422,
-        "p95LatencyMs": 0.07233300000000042,
-        "maxLatencyMs": 0.07233300000000042
+        "minLatencyMs": 0.04350000000000165,
+        "p50LatencyMs": 0.0516669999999948,
+        "averageLatencyMs": 0.09131557142857158,
+        "p95LatencyMs": 0.2718750000000014,
+        "maxLatencyMs": 0.2718750000000014
       },
       {
         "category": "sensitive-field",
@@ -2485,17 +2485,17 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.02512500000000273,
-        "p50LatencyMs": 0.029457999999998208,
-        "averageLatencyMs": 0.04790616666666795,
-        "p95LatencyMs": 0.15270800000000406,
-        "maxLatencyMs": 0.15270800000000406
+        "minLatencyMs": 0.02854200000000162,
+        "p50LatencyMs": 0.030374999999999375,
+        "averageLatencyMs": 0.042270750000000724,
+        "p95LatencyMs": 0.10041600000000273,
+        "maxLatencyMs": 0.10041600000000273
       }
     ]
   },
   {
     "label": "Simple regex baseline clean synthetic",
-    "generatedAt": "2026-06-01T13:37:33.987Z",
+    "generatedAt": "2026-06-01T13:42:03.112Z",
     "cases": [
       {
         "id": "pii-name-email-password",
@@ -2522,7 +2522,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.2664170000000041
+        "latencyMs": 0.26104100000000585
       },
       {
         "id": "pii-medical-location",
@@ -2551,7 +2551,7 @@
           "contains sensitive phrase: Seattle",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.005791999999999575
+        "latencyMs": 0.005875000000003183
       },
       {
         "id": "pii-phone-address",
@@ -2577,7 +2577,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 145 Market Street"
         ],
-        "latencyMs": 0.005207999999996105
+        "latencyMs": 0.005290999999999713
       },
       {
         "id": "pii-financial-card",
@@ -2598,7 +2598,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.010625000000004547
+        "latencyMs": 0.011374999999986812
       },
       {
         "id": "pii-government-id",
@@ -2617,7 +2617,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.004333000000002585
+        "latencyMs": 0.004374999999996021
       },
       {
         "id": "pii-secret-field",
@@ -2639,7 +2639,7 @@
           "contains sensitive phrase: blue-lamp-77",
           "contains sensitive phrase: ORION-42"
         ],
-        "latencyMs": 0.00274999999999892
+        "latencyMs": 0.0027909999999877755
       },
       {
         "id": "pii-natural-language-secret",
@@ -2660,7 +2660,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue lamp seven seven"
         ],
-        "latencyMs": 0.0020419999999958804
+        "latencyMs": 0.002124999999992383
       },
       {
         "id": "pii-code-block-preservation",
@@ -2686,7 +2686,7 @@
           "missing required phrase: `const password = \"SuperSecret123\"`",
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.004167000000002474
+        "latencyMs": 0.004249999999998977
       },
       {
         "id": "benign-food-bank",
@@ -2701,7 +2701,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0014579999999995152
+        "latencyMs": 0.0014170000000035543
       },
       {
         "id": "benign-weather",
@@ -2720,7 +2720,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.001459000000004096
+        "latencyMs": 0.0015000000000071623
       },
       {
         "id": "benign-programming",
@@ -2735,7 +2735,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0021659999999954493
+        "latencyMs": 0.002332999999993035
       },
       {
         "id": "pii-age-profession",
@@ -2756,7 +2756,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0022920000000041796
+        "latencyMs": 0.0024999999999977263
       },
       {
         "id": "pii-upi",
@@ -2782,7 +2782,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: pranav@bank"
         ],
-        "latencyMs": 0.0024160000000037485
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "pii-aadhaar",
@@ -2808,7 +2808,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 1234-5678-9012"
         ],
-        "latencyMs": 0.0034580000000019595
+        "latencyMs": 0.0037090000000006285
       },
       {
         "id": "benign-history",
@@ -2823,7 +2823,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0021660000000025548
+        "latencyMs": 0.002250000000003638
       },
       {
         "id": "pii-address-shipping",
@@ -2849,7 +2849,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 10 Oak Avenue"
         ],
-        "latencyMs": 0.003917000000001281
+        "latencyMs": 0.004125000000001933
       },
       {
         "id": "generated-medical-1",
@@ -2878,7 +2878,7 @@
           "contains sensitive phrase: Mumbai",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.0024160000000037485
+        "latencyMs": 0.0024999999999977263
       },
       {
         "id": "generated-medical-2",
@@ -2907,7 +2907,7 @@
           "contains sensitive phrase: Delhi",
           "contains sensitive phrase: asthma"
         ],
-        "latencyMs": 0.0017909999999972115
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-medical-3",
@@ -2936,7 +2936,7 @@
           "contains sensitive phrase: Seattle",
           "contains sensitive phrase: anxiety"
         ],
-        "latencyMs": 0.001958999999999378
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-medical-4",
@@ -2965,7 +2965,7 @@
           "contains sensitive phrase: Austin",
           "contains sensitive phrase: migraine"
         ],
-        "latencyMs": 0.0022080000000030964
+        "latencyMs": 0.002375000000000682
       },
       {
         "id": "generated-medical-5",
@@ -2994,7 +2994,7 @@
           "contains sensitive phrase: Boston",
           "contains sensitive phrase: hypertension"
         ],
-        "latencyMs": 0.0024170000000012237
+        "latencyMs": 0.002417000000008329
       },
       {
         "id": "generated-medical-6",
@@ -3023,7 +3023,7 @@
           "contains sensitive phrase: Denver",
           "contains sensitive phrase: insomnia"
         ],
-        "latencyMs": 0.005290999999999713
+        "latencyMs": 0.0019160000000084665
       },
       {
         "id": "generated-medical-7",
@@ -3052,7 +3052,7 @@
           "contains sensitive phrase: Chicago",
           "contains sensitive phrase: arthritis"
         ],
-        "latencyMs": 0.001999999999995339
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-medical-8",
@@ -3081,7 +3081,7 @@
           "contains sensitive phrase: Portland",
           "contains sensitive phrase: depression"
         ],
-        "latencyMs": 0.0021659999999954493
+        "latencyMs": 0.002208000000010202
       },
       {
         "id": "generated-medical-9",
@@ -3110,7 +3110,7 @@
           "contains sensitive phrase: Phoenix",
           "contains sensitive phrase: thyroid"
         ],
-        "latencyMs": 0.0019169999999988363
+        "latencyMs": 0.0020410000000055106
       },
       {
         "id": "generated-medical-10",
@@ -3139,7 +3139,7 @@
           "contains sensitive phrase: Atlanta",
           "contains sensitive phrase: epilepsy"
         ],
-        "latencyMs": 0.0020000000000024443
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "generated-address-1",
@@ -3165,7 +3165,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 12 Maple Street Apartment 2A, Boston"
         ],
-        "latencyMs": 0.003667000000000087
+        "latencyMs": 0.0037090000000006285
       },
       {
         "id": "generated-address-2",
@@ -3217,7 +3217,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 901 Pine Avenue Unit 5, Denver"
         ],
-        "latencyMs": 0.0030830000000037217
+        "latencyMs": 0.003167000000004805
       },
       {
         "id": "generated-address-4",
@@ -3243,7 +3243,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 77 Market Street, San Francisco"
         ],
-        "latencyMs": 0.003208000000000766
+        "latencyMs": 0.003250000000008413
       },
       {
         "id": "generated-address-5",
@@ -3295,7 +3295,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 26 Hill Lane, Austin"
         ],
-        "latencyMs": 0.002375000000000682
+        "latencyMs": 0.00245800000000429
       },
       {
         "id": "generated-address-7",
@@ -3321,7 +3321,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 310 River Road, Portland"
         ],
-        "latencyMs": 0.0027079999999983784
+        "latencyMs": 0.0027499999999918145
       },
       {
         "id": "generated-address-8",
@@ -3347,7 +3347,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 62 Park Avenue, Atlanta"
         ],
-        "latencyMs": 0.0027089999999958536
+        "latencyMs": 0.003500000000002501
       },
       {
         "id": "generated-address-9",
@@ -3373,7 +3373,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 9 Sunset Boulevard, Phoenix"
         ],
-        "latencyMs": 0.0029589999999970473
+        "latencyMs": 0.0029169999999965057
       },
       {
         "id": "generated-address-10",
@@ -3399,7 +3399,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 55 Oak Street, Dallas"
         ],
-        "latencyMs": 0.002541999999998268
+        "latencyMs": 0.0024590000000017653
       },
       {
         "id": "generated-phone-1",
@@ -3423,7 +3423,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0032500000000013074
+        "latencyMs": 0.003084000000001197
       },
       {
         "id": "generated-phone-2",
@@ -3447,7 +3447,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0029159999999990305
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-phone-3",
@@ -3471,7 +3471,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.00216700000000003
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "generated-phone-4",
@@ -3495,7 +3495,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0021249999999994884
+        "latencyMs": 0.0020410000000055106
       },
       {
         "id": "generated-phone-5",
@@ -3519,7 +3519,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.00216700000000003
+        "latencyMs": 0.001958999999999378
       },
       {
         "id": "generated-phone-6",
@@ -3543,7 +3543,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0017920000000017922
+        "latencyMs": 0.0019159999999942556
       },
       {
         "id": "generated-phone-7",
@@ -3567,7 +3567,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.001791000000004317
+        "latencyMs": 0.0019169999999917309
       },
       {
         "id": "generated-phone-8",
@@ -3591,7 +3591,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.001916000000001361
+        "latencyMs": 0.002042000000002986
       },
       {
         "id": "generated-phone-9",
@@ -3615,7 +3615,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0018340000000023338
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "generated-phone-10",
@@ -3639,7 +3639,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0019170000000059417
+        "latencyMs": 0.0019159999999942556
       },
       {
         "id": "generated-secret-1",
@@ -3660,7 +3660,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue-lamp-77"
         ],
-        "latencyMs": 0.0018330000000048585
+        "latencyMs": 0.0018749999999982947
       },
       {
         "id": "generated-secret-2",
@@ -3681,7 +3681,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.0015830000000036648
+        "latencyMs": 0.0016669999999976426
       },
       {
         "id": "generated-secret-3",
@@ -3702,7 +3702,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: silver-door"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0016660000000001673
       },
       {
         "id": "generated-secret-4",
@@ -3723,7 +3723,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: delta-forest-19"
         ],
-        "latencyMs": 0.0019169999999988363
+        "latencyMs": 0.002041999999988775
       },
       {
         "id": "generated-secret-5",
@@ -3744,7 +3744,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: orange-moon"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0015419999999863876
       },
       {
         "id": "generated-secret-6",
@@ -3765,7 +3765,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: river-stone-42"
         ],
-        "latencyMs": 0.001708000000000709
+        "latencyMs": 0.0018750000000125056
       },
       {
         "id": "generated-secret-7",
@@ -3786,7 +3786,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: hidden-bridge"
         ],
-        "latencyMs": 0.0015829999999965594
+        "latencyMs": 0.0017500000000012506
       },
       {
         "id": "generated-secret-8",
@@ -3807,7 +3807,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: winter-key-08"
         ],
-        "latencyMs": 0.001624999999997101
+        "latencyMs": 0.0017499999999870397
       },
       {
         "id": "generated-secret-9",
@@ -3828,7 +3828,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: quiet-harbor"
         ],
-        "latencyMs": 0.0015410000000031232
+        "latencyMs": 0.0016250000000042064
       },
       {
         "id": "generated-secret-10",
@@ -3849,7 +3849,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: green-vault-6"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0016669999999976426
       },
       {
         "id": "generated-financial-1",
@@ -3870,7 +3870,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002541999999998268
+        "latencyMs": 0.0025420000000053733
       },
       {
         "id": "generated-financial-2",
@@ -3891,7 +3891,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002083999999996422
+        "latencyMs": 0.002125000000006594
       },
       {
         "id": "generated-financial-3",
@@ -3912,7 +3912,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.001999999999995339
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-financial-4",
@@ -3933,7 +3933,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0019580000000019027
+        "latencyMs": 0.002042000000002986
       },
       {
         "id": "generated-financial-5",
@@ -3954,7 +3954,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0018749999999982947
+        "latencyMs": 0.001958999999999378
       },
       {
         "id": "generated-financial-6",
@@ -3975,7 +3975,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0019169999999988363
+        "latencyMs": 0.0020000000000095497
       },
       {
         "id": "generated-financial-7",
@@ -3996,7 +3996,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0018749999999982947
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-financial-8",
@@ -4017,7 +4017,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0018749999999982947
+        "latencyMs": 0.0019580000000019027
       },
       {
         "id": "generated-financial-9",
@@ -4038,7 +4038,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0018749999999982947
+        "latencyMs": 0.001958999999999378
       },
       {
         "id": "generated-financial-10",
@@ -4059,7 +4059,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0021249999999994884
+        "latencyMs": 0.0021660000000025548
       },
       {
         "id": "generated-id-1",
@@ -4085,7 +4085,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P1A3B5C"
         ],
-        "latencyMs": 0.0022920000000041796
+        "latencyMs": 0.002291999999997074
       },
       {
         "id": "generated-id-2",
@@ -4111,7 +4111,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P2A4B6C"
         ],
-        "latencyMs": 0.002042000000002986
+        "latencyMs": 0.0021660000000025548
       },
       {
         "id": "generated-id-3",
@@ -4137,7 +4137,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P3A5B7C"
         ],
-        "latencyMs": 0.0020000000000024443
+        "latencyMs": 0.002042000000002986
       },
       {
         "id": "generated-id-4",
@@ -4163,7 +4163,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P4A6B8C"
         ],
-        "latencyMs": 0.0019580000000019027
+        "latencyMs": 0.0020410000000055106
       },
       {
         "id": "generated-id-5",
@@ -4189,7 +4189,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P5A7B9C"
         ],
-        "latencyMs": 0.0019169999999988363
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "generated-id-6",
@@ -4215,7 +4215,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P6A8B10C"
         ],
-        "latencyMs": 0.0020419999999958804
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "generated-id-7",
@@ -4241,7 +4241,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P7A9B11C"
         ],
-        "latencyMs": 0.0019159999999942556
+        "latencyMs": 0.002042000000002986
       },
       {
         "id": "generated-id-8",
@@ -4267,7 +4267,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P8A10B12C"
         ],
-        "latencyMs": 0.002082999999998947
+        "latencyMs": 0.002207999999995991
       },
       {
         "id": "generated-id-9",
@@ -4293,7 +4293,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P9A11B13C"
         ],
-        "latencyMs": 0.0020419999999958804
+        "latencyMs": 0.0021660000000025548
       },
       {
         "id": "generated-id-10",
@@ -4319,7 +4319,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: P10A12B14C"
         ],
-        "latencyMs": 0.0021249999999994884
+        "latencyMs": 0.002250000000003638
       },
       {
         "id": "generated-benign-1",
@@ -4334,7 +4334,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0015829999999965594
+        "latencyMs": 0.0016249999999899956
       },
       {
         "id": "generated-benign-2",
@@ -4349,7 +4349,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0015829999999965594
+        "latencyMs": 0.0016250000000042064
       },
       {
         "id": "generated-benign-3",
@@ -4364,7 +4364,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002042000000002986
+        "latencyMs": 0.002124999999992383
       },
       {
         "id": "generated-benign-4",
@@ -4379,7 +4379,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0016250000000042064
       },
       {
         "id": "generated-benign-5",
@@ -4394,7 +4394,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0014159999999989736
+        "latencyMs": 0.001416000000006079
       },
       {
         "id": "generated-benign-6",
@@ -4409,7 +4409,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0019169999999988363
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "generated-benign-7",
@@ -4424,7 +4424,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0017500000000012506
+        "latencyMs": 0.0018330000000048585
       },
       {
         "id": "generated-benign-8",
@@ -4439,7 +4439,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0015829999999965594
+        "latencyMs": 0.0016250000000042064
       },
       {
         "id": "generated-benign-9",
@@ -4454,7 +4454,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0016250000000042064
+        "latencyMs": 0.0016669999999976426
       },
       {
         "id": "generated-benign-10",
@@ -4469,7 +4469,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0010000000000047748
+        "latencyMs": 0.001041999999998211
       },
       {
         "id": "generated-code-preservation-1",
@@ -4495,7 +4495,7 @@
           "missing required phrase: `const password = \"blue-lamp-77\"`",
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.0037920000000042364
+        "latencyMs": 0.0038339999999976726
       },
       {
         "id": "generated-code-preservation-2",
@@ -4521,7 +4521,7 @@
           "missing required phrase: `const password = \"north-window\"`",
           "contains sensitive phrase: silver-door"
         ],
-        "latencyMs": 0.0032500000000013074
+        "latencyMs": 0.003290999999990163
       },
       {
         "id": "generated-code-preservation-3",
@@ -4547,7 +4547,7 @@
           "missing required phrase: `const password = \"silver-door\"`",
           "contains sensitive phrase: delta-forest-19"
         ],
-        "latencyMs": 0.0033340000000023906
+        "latencyMs": 0.003457999999994854
       },
       {
         "id": "generated-code-preservation-4",
@@ -4573,7 +4573,7 @@
           "missing required phrase: `const password = \"delta-forest-19\"`",
           "contains sensitive phrase: orange-moon"
         ],
-        "latencyMs": 0.0033749999999983515
+        "latencyMs": 0.003500000000002501
       },
       {
         "id": "generated-code-preservation-5",
@@ -4599,7 +4599,7 @@
           "missing required phrase: `const password = \"orange-moon\"`",
           "contains sensitive phrase: river-stone-42"
         ],
-        "latencyMs": 0.003124999999997158
+        "latencyMs": 0.003292000000001849
       },
       {
         "id": "generated-code-preservation-6",
@@ -4625,7 +4625,7 @@
           "missing required phrase: `const password = \"river-stone-42\"`",
           "contains sensitive phrase: hidden-bridge"
         ],
-        "latencyMs": 0.003249999999994202
+        "latencyMs": 0.003416000000001418
       },
       {
         "id": "generated-code-preservation-7",
@@ -4651,7 +4651,7 @@
           "missing required phrase: `const password = \"hidden-bridge\"`",
           "contains sensitive phrase: winter-key-08"
         ],
-        "latencyMs": 0.0035829999999990036
+        "latencyMs": 0.0038339999999976726
       },
       {
         "id": "generated-code-preservation-8",
@@ -4677,7 +4677,7 @@
           "missing required phrase: `const password = \"winter-key-08\"`",
           "contains sensitive phrase: quiet-harbor"
         ],
-        "latencyMs": 0.003457999999994854
+        "latencyMs": 0.0036249999999995453
       },
       {
         "id": "generated-quasi-1",
@@ -4698,7 +4698,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0024999999999977263
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "generated-quasi-2",
@@ -4719,7 +4719,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.011333999999997957
+        "latencyMs": 0.009542000000010376
       },
       {
         "id": "generated-quasi-3",
@@ -4740,7 +4740,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0022499999999965326
+        "latencyMs": 0.002208000000010202
       },
       {
         "id": "generated-quasi-4",
@@ -4761,7 +4761,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0021249999999994884
+        "latencyMs": 0.00216700000000003
       },
       {
         "id": "generated-quasi-5",
@@ -4782,7 +4782,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002082999999998947
+        "latencyMs": 0.002208999999993466
       },
       {
         "id": "generated-quasi-6",
@@ -4803,7 +4803,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.002042000000002986
+        "latencyMs": 0.0020830000000131577
       }
     ],
     "summary": {
@@ -4817,11 +4817,11 @@
       "overPruningRate": 0,
       "underPruningRate": 0.12,
       "textCheckFailureRate": 0.56,
-      "minLatencyMs": 0.0010000000000047748,
-      "p50LatencyMs": 0.002082999999998947,
-      "averageLatencyMs": 0.005179589999999905,
-      "p95LatencyMs": 0.005207999999996105,
-      "maxLatencyMs": 0.2664170000000041
+      "minLatencyMs": 0.001041999999998211,
+      "p50LatencyMs": 0.002124999999992383,
+      "averageLatencyMs": 0.005152060000000062,
+      "p95LatencyMs": 0.004374999999996021,
+      "maxLatencyMs": 0.26104100000000585
     },
     "categories": [
       {
@@ -4836,11 +4836,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.002375000000000682,
-        "p50LatencyMs": 0.0027919999999994616,
-        "averageLatencyMs": 0.002969909090908309,
-        "p95LatencyMs": 0.003917000000001281,
-        "maxLatencyMs": 0.003917000000001281
+        "minLatencyMs": 0.00245800000000429,
+        "p50LatencyMs": 0.0029169999999965057,
+        "averageLatencyMs": 0.0030760000000007244,
+        "p95LatencyMs": 0.004125000000001933,
+        "maxLatencyMs": 0.004125000000001933
       },
       {
         "category": "benign",
@@ -4854,11 +4854,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0010000000000047748,
-        "p50LatencyMs": 0.0015829999999965594,
-        "averageLatencyMs": 0.0016041000000001303,
-        "p95LatencyMs": 0.002042000000002986,
-        "maxLatencyMs": 0.002042000000002986
+        "minLatencyMs": 0.001041999999998211,
+        "p50LatencyMs": 0.0016250000000042064,
+        "averageLatencyMs": 0.0016582999999997128,
+        "p95LatencyMs": 0.002124999999992383,
+        "maxLatencyMs": 0.002124999999992383
       },
       {
         "category": "benign-code",
@@ -4872,11 +4872,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0021659999999954493,
-        "p50LatencyMs": 0.0021659999999954493,
-        "averageLatencyMs": 0.0021659999999954493,
-        "p95LatencyMs": 0.0021659999999954493,
-        "maxLatencyMs": 0.0021659999999954493
+        "minLatencyMs": 0.002332999999993035,
+        "p50LatencyMs": 0.002332999999993035,
+        "averageLatencyMs": 0.002332999999993035,
+        "p95LatencyMs": 0.002332999999993035,
+        "maxLatencyMs": 0.002332999999993035
       },
       {
         "category": "benign-general",
@@ -4890,11 +4890,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0021660000000025548,
-        "p50LatencyMs": 0.0021660000000025548,
-        "averageLatencyMs": 0.0021660000000025548,
-        "p95LatencyMs": 0.0021660000000025548,
-        "maxLatencyMs": 0.0021660000000025548
+        "minLatencyMs": 0.002250000000003638,
+        "p50LatencyMs": 0.002250000000003638,
+        "averageLatencyMs": 0.002250000000003638,
+        "p95LatencyMs": 0.002250000000003638,
+        "maxLatencyMs": 0.002250000000003638
       },
       {
         "category": "benign-resource",
@@ -4908,11 +4908,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0014579999999995152,
-        "p50LatencyMs": 0.0014579999999995152,
-        "averageLatencyMs": 0.0014579999999995152,
-        "p95LatencyMs": 0.0014579999999995152,
-        "maxLatencyMs": 0.0014579999999995152
+        "minLatencyMs": 0.0014170000000035543,
+        "p50LatencyMs": 0.0014170000000035543,
+        "averageLatencyMs": 0.0014170000000035543,
+        "p95LatencyMs": 0.0014170000000035543,
+        "maxLatencyMs": 0.0014170000000035543
       },
       {
         "category": "benign-weather",
@@ -4926,11 +4926,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.001459000000004096,
-        "p50LatencyMs": 0.001459000000004096,
-        "averageLatencyMs": 0.001459000000004096,
-        "p95LatencyMs": 0.001459000000004096,
-        "maxLatencyMs": 0.001459000000004096
+        "minLatencyMs": 0.0015000000000071623,
+        "p50LatencyMs": 0.0015000000000071623,
+        "averageLatencyMs": 0.0015000000000071623,
+        "p95LatencyMs": 0.0015000000000071623,
+        "maxLatencyMs": 0.0015000000000071623
       },
       {
         "category": "contact",
@@ -4944,11 +4944,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0.09090909090909091,
-        "minLatencyMs": 0.001791000000004317,
-        "p50LatencyMs": 0.0021249999999994884,
-        "averageLatencyMs": 0.002462090909091976,
-        "p95LatencyMs": 0.005207999999996105,
-        "maxLatencyMs": 0.005207999999996105
+        "minLatencyMs": 0.0019159999999942556,
+        "p50LatencyMs": 0.001999999999995339,
+        "averageLatencyMs": 0.0023862727272707866,
+        "p95LatencyMs": 0.005290999999999713,
+        "maxLatencyMs": 0.005290999999999713
       },
       {
         "category": "developer-workflow",
@@ -4962,11 +4962,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.003124999999997158,
-        "p50LatencyMs": 0.0033749999999983515,
-        "averageLatencyMs": 0.0034815555555548863,
-        "p95LatencyMs": 0.004167000000002474,
-        "maxLatencyMs": 0.004167000000002474
+        "minLatencyMs": 0.003290999999990163,
+        "p50LatencyMs": 0.003500000000002501,
+        "averageLatencyMs": 0.0036111111111094057,
+        "p95LatencyMs": 0.004249999999998977,
+        "maxLatencyMs": 0.004249999999998977
       },
       {
         "category": "financial",
@@ -4980,11 +4980,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0.08333333333333333,
-        "minLatencyMs": 0.0018749999999982947,
-        "p50LatencyMs": 0.0019580000000019027,
-        "averageLatencyMs": 0.0027639166666659776,
-        "p95LatencyMs": 0.010625000000004547,
-        "maxLatencyMs": 0.010625000000004547
+        "minLatencyMs": 0.0019580000000019027,
+        "p50LatencyMs": 0.002082999999998947,
+        "averageLatencyMs": 0.002906250000001146,
+        "p95LatencyMs": 0.011374999999986812,
+        "maxLatencyMs": 0.011374999999986812
       },
       {
         "category": "identity",
@@ -4998,11 +4998,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0.9166666666666666,
-        "minLatencyMs": 0.0019159999999942556,
-        "p50LatencyMs": 0.0020419999999958804,
-        "averageLatencyMs": 0.002350666666666612,
-        "p95LatencyMs": 0.004333000000002585,
-        "maxLatencyMs": 0.004333000000002585
+        "minLatencyMs": 0.001999999999995339,
+        "p50LatencyMs": 0.0021660000000025548,
+        "averageLatencyMs": 0.0024478333333336857,
+        "p95LatencyMs": 0.004374999999996021,
+        "maxLatencyMs": 0.004374999999996021
       },
       {
         "category": "medical",
@@ -5016,11 +5016,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0017909999999972115,
-        "p50LatencyMs": 0.0021659999999954493,
-        "averageLatencyMs": 0.002723363636363274,
-        "p95LatencyMs": 0.005791999999999575,
-        "maxLatencyMs": 0.005791999999999575
+        "minLatencyMs": 0.0019160000000084665,
+        "p50LatencyMs": 0.002082999999998947,
+        "averageLatencyMs": 0.0025073636363660253,
+        "p95LatencyMs": 0.005875000000003183,
+        "maxLatencyMs": 0.005875000000003183
       },
       {
         "category": "mixed-pii",
@@ -5034,11 +5034,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.2664170000000041,
-        "p50LatencyMs": 0.2664170000000041,
-        "averageLatencyMs": 0.2664170000000041,
-        "p95LatencyMs": 0.2664170000000041,
-        "maxLatencyMs": 0.2664170000000041
+        "minLatencyMs": 0.26104100000000585,
+        "p50LatencyMs": 0.26104100000000585,
+        "averageLatencyMs": 0.26104100000000585,
+        "p95LatencyMs": 0.26104100000000585,
+        "maxLatencyMs": 0.26104100000000585
       },
       {
         "category": "quasi-identifiers",
@@ -5052,11 +5052,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.002042000000002986,
-        "p50LatencyMs": 0.0022499999999965326,
-        "averageLatencyMs": 0.003517999999999688,
-        "p95LatencyMs": 0.011333999999997957,
-        "maxLatencyMs": 0.011333999999997957
+        "minLatencyMs": 0.0020830000000131577,
+        "p50LatencyMs": 0.002208999999993466,
+        "averageLatencyMs": 0.0033274285714323276,
+        "p95LatencyMs": 0.009542000000010376,
+        "maxLatencyMs": 0.009542000000010376
       },
       {
         "category": "sensitive-field",
@@ -5070,17 +5070,17 @@
         "overPruningRate": 0,
         "underPruningRate": 1,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0015410000000031232,
-        "p50LatencyMs": 0.0015830000000036648,
-        "averageLatencyMs": 0.001767333333333454,
-        "p95LatencyMs": 0.00274999999999892,
-        "maxLatencyMs": 0.00274999999999892
+        "minLatencyMs": 0.0015419999999863876,
+        "p50LatencyMs": 0.0017499999999870397,
+        "averageLatencyMs": 0.0018645833333295059,
+        "p95LatencyMs": 0.0027909999999877755,
+        "maxLatencyMs": 0.0027909999999877755
       }
     ]
   },
   {
     "label": "CAMP adversarial/noisy",
-    "generatedAt": "2026-06-01T13:37:33.994Z",
+    "generatedAt": "2026-06-01T13:42:03.118Z",
     "cases": [
       {
         "id": "adv-lowercase-name-location",
@@ -5107,7 +5107,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.16783399999999915
+        "latencyMs": 0.12358299999999645
       },
       {
         "id": "adv-spaced-email",
@@ -5131,7 +5131,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.055999999999997385
+        "latencyMs": 0.06024999999999636
       },
       {
         "id": "adv-phone-words",
@@ -5155,7 +5155,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.060208000000002926
+        "latencyMs": 0.06920799999998906
       },
       {
         "id": "adv-medical-synonym",
@@ -5179,7 +5179,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.048917000000002986
+        "latencyMs": 0.063083000000006
       },
       {
         "id": "adv-secret-without-trigger",
@@ -5200,7 +5200,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.026499999999998636
+        "latencyMs": 0.028165999999998803
       },
       {
         "id": "adv-card-with-dots",
@@ -5224,7 +5224,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.048207999999995366
+        "latencyMs": 0.05325000000000557
       },
       {
         "id": "adv-aadhaar-spaced",
@@ -5248,7 +5248,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.20204100000000125
+        "latencyMs": 0.04795799999999417
       },
       {
         "id": "adv-json-code-preservation",
@@ -5269,7 +5269,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.054874999999995566
+        "latencyMs": 0.2026249999999976
       },
       {
         "id": "adv-multilingual-spanish",
@@ -5296,7 +5296,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08770800000000634
+        "latencyMs": 0.06716699999999776
       },
       {
         "id": "adv-multilingual-hindi-english",
@@ -5323,7 +5323,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07108299999999446
+        "latencyMs": 0.0640420000000006
       },
       {
         "id": "adv-benign-capitalized-topic",
@@ -5338,7 +5338,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.00883400000000023
+        "latencyMs": 0.00883299999999565
       },
       {
         "id": "adv-benign-fake-password-code",
@@ -5353,7 +5353,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.01054200000000094
+        "latencyMs": 0.011375000000001023
       },
       {
         "id": "adv-credential-api-key",
@@ -5377,7 +5377,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0475410000000025
+        "latencyMs": 0.04758300000000304
       },
       {
         "id": "adv-address-no-label",
@@ -5398,7 +5398,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.028999999999996362
+        "latencyMs": 0.02845800000000054
       },
       {
         "id": "adv-age-profession-lowercase",
@@ -5425,7 +5425,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0678750000000008
+        "latencyMs": 0.061082999999996446
       },
       {
         "id": "adv-email-plus-secret",
@@ -5449,7 +5449,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04825000000000301
+        "latencyMs": 0.04824999999999591
       },
       {
         "id": "adv-medical-abbreviation",
@@ -5473,7 +5473,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.043541000000004715
+        "latencyMs": 0.04166599999999221
       },
       {
         "id": "adv-ssn-dashes",
@@ -5497,7 +5497,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04508400000000279
+        "latencyMs": 0.04466700000000401
       },
       {
         "id": "adv-banking-natural",
@@ -5521,7 +5521,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04650000000000176
+        "latencyMs": 0.046416000000007784
       },
       {
         "id": "adv-location-lowercase",
@@ -5545,7 +5545,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.041416000000005226
+        "latencyMs": 0.04225000000000989
       },
       {
         "id": "adv-generated-lowercase-1",
@@ -5572,7 +5572,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06025000000000347
+        "latencyMs": 0.06829199999999958
       },
       {
         "id": "adv-generated-lowercase-2",
@@ -5599,7 +5599,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06841700000000372
+        "latencyMs": 0.07704199999999162
       },
       {
         "id": "adv-generated-lowercase-3",
@@ -5626,7 +5626,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.061208000000000595
+        "latencyMs": 0.06674999999999898
       },
       {
         "id": "adv-generated-lowercase-4",
@@ -5653,7 +5653,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06108399999999392
+        "latencyMs": 0.06687499999999602
       },
       {
         "id": "adv-generated-lowercase-5",
@@ -5680,7 +5680,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.062083999999998696
+        "latencyMs": 0.06112499999998988
       },
       {
         "id": "adv-generated-lowercase-6",
@@ -5707,7 +5707,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07241600000000403
+        "latencyMs": 0.0762500000000017
       },
       {
         "id": "adv-generated-lowercase-7",
@@ -5734,7 +5734,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06033299999999997
+        "latencyMs": 0.05979200000000162
       },
       {
         "id": "adv-generated-lowercase-8",
@@ -5761,7 +5761,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06037500000000051
+        "latencyMs": 0.06262500000001125
       },
       {
         "id": "adv-generated-lowercase-9",
@@ -5788,7 +5788,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07866700000000293
+        "latencyMs": 0.06466600000000255
       },
       {
         "id": "adv-generated-lowercase-10",
@@ -5815,7 +5815,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08529199999999548
+        "latencyMs": 0.07241600000000403
       },
       {
         "id": "adv-generated-obfuscated-email-1",
@@ -5839,7 +5839,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04912500000000364
+        "latencyMs": 0.045833999999999264
       },
       {
         "id": "adv-generated-obfuscated-email-2",
@@ -5863,7 +5863,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07633299999999821
+        "latencyMs": 0.04329199999999389
       },
       {
         "id": "adv-generated-obfuscated-email-3",
@@ -5887,7 +5887,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08295799999999787
+        "latencyMs": 0.04466700000000401
       },
       {
         "id": "adv-generated-obfuscated-email-4",
@@ -5911,7 +5911,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04358400000000273
+        "latencyMs": 0.04399999999999693
       },
       {
         "id": "adv-generated-obfuscated-email-5",
@@ -5935,7 +5935,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.043708999999999776
+        "latencyMs": 0.04312500000000341
       },
       {
         "id": "adv-generated-obfuscated-email-6",
@@ -5959,7 +5959,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.044375000000002274
+        "latencyMs": 0.041957999999993945
       },
       {
         "id": "adv-generated-obfuscated-email-7",
@@ -5983,7 +5983,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.041999999999994486
+        "latencyMs": 0.041667000000003895
       },
       {
         "id": "adv-generated-obfuscated-email-8",
@@ -6007,7 +6007,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0727499999999992
+        "latencyMs": 0.04216700000000628
       },
       {
         "id": "adv-generated-obfuscated-email-9",
@@ -6031,7 +6031,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05562499999999915
+        "latencyMs": 0.04224999999999568
       },
       {
         "id": "adv-generated-obfuscated-email-10",
@@ -6055,7 +6055,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04583300000000179
+        "latencyMs": 0.04174999999999329
       },
       {
         "id": "adv-generated-dotted-card-1",
@@ -6079,7 +6079,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.049166999999997074
+        "latencyMs": 0.0453329999999994
       },
       {
         "id": "adv-generated-dotted-card-2",
@@ -6103,7 +6103,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0430419999999998
+        "latencyMs": 0.048165999999994824
       },
       {
         "id": "adv-generated-dotted-card-3",
@@ -6127,7 +6127,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04312500000000341
+        "latencyMs": 0.044125000000008185
       },
       {
         "id": "adv-generated-dotted-card-4",
@@ -6151,7 +6151,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.041707999999999856
+        "latencyMs": 0.04391699999999332
       },
       {
         "id": "adv-generated-dotted-card-5",
@@ -6175,7 +6175,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04179200000000094
+        "latencyMs": 0.04229200000000333
       },
       {
         "id": "adv-generated-dotted-card-6",
@@ -6199,7 +6199,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.052624999999999034
+        "latencyMs": 0.04991699999999355
       },
       {
         "id": "adv-generated-dotted-card-7",
@@ -6223,7 +6223,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04745799999999889
+        "latencyMs": 0.04954100000000494
       },
       {
         "id": "adv-generated-dotted-card-8",
@@ -6247,7 +6247,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05204100000000267
+        "latencyMs": 0.044375000000002274
       },
       {
         "id": "adv-generated-dotted-card-9",
@@ -6271,7 +6271,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.054999999999999716
+        "latencyMs": 0.04241700000000037
       },
       {
         "id": "adv-generated-dotted-card-10",
@@ -6295,7 +6295,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.045874999999995225
+        "latencyMs": 0.041833999999994376
       },
       {
         "id": "adv-generated-word-phone-1",
@@ -6319,7 +6319,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04791699999999821
+        "latencyMs": 0.04608300000001009
       },
       {
         "id": "adv-generated-word-phone-2",
@@ -6343,7 +6343,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04625000000000057
+        "latencyMs": 0.046542000000002304
       },
       {
         "id": "adv-generated-word-phone-3",
@@ -6367,7 +6367,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04570900000000222
+        "latencyMs": 0.04566699999999457
       },
       {
         "id": "adv-generated-word-phone-4",
@@ -6391,7 +6391,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04708300000000065
+        "latencyMs": 0.04583300000000179
       },
       {
         "id": "adv-generated-word-phone-5",
@@ -6415,7 +6415,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.31466700000000003
+        "latencyMs": 0.1658340000000038
       },
       {
         "id": "adv-generated-word-phone-6",
@@ -6439,7 +6439,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08408299999999969
+        "latencyMs": 0.04999999999999716
       },
       {
         "id": "adv-generated-word-phone-7",
@@ -6463,7 +6463,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06725000000000136
+        "latencyMs": 0.05875000000000341
       },
       {
         "id": "adv-generated-word-phone-8",
@@ -6487,7 +6487,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.09424999999999528
+        "latencyMs": 0.05649999999999977
       },
       {
         "id": "adv-generated-word-phone-9",
@@ -6511,7 +6511,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05029199999999889
+        "latencyMs": 0.0455830000000077
       },
       {
         "id": "adv-generated-word-phone-10",
@@ -6535,7 +6535,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04787499999999767
+        "latencyMs": 0.04370899999999267
       },
       {
         "id": "adv-generated-spanish-1",
@@ -6562,7 +6562,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07870799999999889
+        "latencyMs": 0.06779199999999719
       },
       {
         "id": "adv-generated-spanish-2",
@@ -6589,7 +6589,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07629199999999514
+        "latencyMs": 0.06662500000000193
       },
       {
         "id": "adv-generated-spanish-3",
@@ -6616,7 +6616,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06304100000000545
+        "latencyMs": 0.062207999999998265
       },
       {
         "id": "adv-generated-spanish-4",
@@ -6643,7 +6643,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06683300000000258
+        "latencyMs": 0.05929099999998755
       },
       {
         "id": "adv-generated-spanish-5",
@@ -6670,7 +6670,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0694999999999979
+        "latencyMs": 0.06029200000000401
       },
       {
         "id": "adv-generated-spanish-6",
@@ -6697,7 +6697,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.09287500000000648
+        "latencyMs": 0.06262499999999704
       },
       {
         "id": "adv-generated-spanish-7",
@@ -6724,7 +6724,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.060499999999997556
+        "latencyMs": 0.058875000000000455
       },
       {
         "id": "adv-generated-spanish-8",
@@ -6751,7 +6751,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05937499999999574
+        "latencyMs": 0.0641250000000042
       },
       {
         "id": "adv-generated-spanish-9",
@@ -6778,7 +6778,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05779199999999918
+        "latencyMs": 0.05841599999999403
       },
       {
         "id": "adv-generated-spanish-10",
@@ -6805,7 +6805,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.07574999999999932
+        "latencyMs": 0.07337499999999864
       },
       {
         "id": "adv-generated-hindi-english-1",
@@ -6832,7 +6832,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06200000000000472
+        "latencyMs": 0.0644580000000019
       },
       {
         "id": "adv-generated-hindi-english-2",
@@ -6859,7 +6859,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.08616700000000321
+        "latencyMs": 0.07299999999999329
       },
       {
         "id": "adv-generated-hindi-english-3",
@@ -6886,7 +6886,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06170900000000046
+        "latencyMs": 0.06595799999999485
       },
       {
         "id": "adv-generated-hindi-english-4",
@@ -6913,7 +6913,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06966599999999801
+        "latencyMs": 0.06395799999999952
       },
       {
         "id": "adv-generated-hindi-english-5",
@@ -6940,7 +6940,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06237499999999585
+        "latencyMs": 0.06129100000001131
       },
       {
         "id": "adv-generated-hindi-english-6",
@@ -6967,7 +6967,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05954100000000295
+        "latencyMs": 0.05966700000000458
       },
       {
         "id": "adv-generated-hindi-english-7",
@@ -6994,7 +6994,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.057833000000002244
+        "latencyMs": 0.05941700000001049
       },
       {
         "id": "adv-generated-hindi-english-8",
@@ -7021,7 +7021,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06725000000000136
+        "latencyMs": 0.10775000000001
       },
       {
         "id": "adv-generated-hindi-english-9",
@@ -7048,7 +7048,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.06145800000000179
+        "latencyMs": 0.06525000000000603
       },
       {
         "id": "adv-generated-hindi-english-10",
@@ -7075,7 +7075,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.05945899999999682
+        "latencyMs": 0.05841599999999403
       },
       {
         "id": "adv-generated-code-preservation-1",
@@ -7096,7 +7096,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.032667000000003554
+        "latencyMs": 0.03583299999999667
       },
       {
         "id": "adv-generated-code-preservation-2",
@@ -7117,7 +7117,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.13262500000000443
+        "latencyMs": 0.11541599999999619
       },
       {
         "id": "adv-generated-code-preservation-3",
@@ -7138,7 +7138,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03829199999999844
+        "latencyMs": 0.030416999999999916
       },
       {
         "id": "adv-generated-code-preservation-4",
@@ -7159,7 +7159,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03062500000000057
+        "latencyMs": 0.030249999999995225
       },
       {
         "id": "adv-generated-code-preservation-5",
@@ -7180,7 +7180,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.035416000000012104
+        "latencyMs": 0.03866699999998957
       },
       {
         "id": "adv-generated-code-preservation-6",
@@ -7201,7 +7201,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0343340000000012
+        "latencyMs": 0.033833000000001334
       },
       {
         "id": "adv-generated-code-preservation-7",
@@ -7222,7 +7222,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.02879199999999571
+        "latencyMs": 0.02891599999999528
       },
       {
         "id": "adv-generated-code-preservation-8",
@@ -7243,7 +7243,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03720800000000679
+        "latencyMs": 0.03633299999999906
       },
       {
         "id": "adv-generated-code-preservation-9",
@@ -7264,7 +7264,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04529200000000344
+        "latencyMs": 0.03141700000000469
       },
       {
         "id": "adv-generated-code-preservation-10",
@@ -7285,7 +7285,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.038250000000005
+        "latencyMs": 0.03108299999999531
       },
       {
         "id": "adv-generated-recovery-secret-1",
@@ -7306,7 +7306,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03404199999999946
+        "latencyMs": 0.039540999999999826
       },
       {
         "id": "adv-generated-recovery-secret-2",
@@ -7327,7 +7327,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.028249999999999886
+        "latencyMs": 0.026667000000003327
       },
       {
         "id": "adv-generated-recovery-secret-3",
@@ -7348,7 +7348,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03187499999999943
+        "latencyMs": 0.027792000000005146
       },
       {
         "id": "adv-generated-recovery-secret-4",
@@ -7369,7 +7369,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.027916000000004715
+        "latencyMs": 0.030499999999989313
       },
       {
         "id": "adv-generated-recovery-secret-5",
@@ -7390,7 +7390,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.024666999999993777
+        "latencyMs": 0.03541699999999537
       },
       {
         "id": "adv-generated-recovery-secret-6",
@@ -7411,7 +7411,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.02487499999999443
+        "latencyMs": 0.05141600000000324
       },
       {
         "id": "adv-generated-recovery-secret-7",
@@ -7432,7 +7432,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.023541000000008694
+        "latencyMs": 0.03741600000000744
       },
       {
         "id": "adv-generated-recovery-secret-8",
@@ -7453,7 +7453,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.024292000000002645
+        "latencyMs": 0.17295799999999417
       },
       {
         "id": "adv-generated-recovery-secret-9",
@@ -7474,7 +7474,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.04383300000000645
+        "latencyMs": 0.13975000000000648
       },
       {
         "id": "adv-generated-recovery-secret-10",
@@ -7495,7 +7495,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.03183400000000347
+        "latencyMs": 0.09550000000000125
       }
     ],
     "summary": {
@@ -7509,11 +7509,11 @@
       "overPruningRate": 0,
       "underPruningRate": 0,
       "textCheckFailureRate": 0,
-      "minLatencyMs": 0.00883400000000023,
-      "p50LatencyMs": 0.05029199999999889,
-      "averageLatencyMs": 0.05852334000000056,
-      "p95LatencyMs": 0.09287500000000648,
-      "maxLatencyMs": 0.31466700000000003
+      "minLatencyMs": 0.00883299999999565,
+      "p50LatencyMs": 0.04824999999999591,
+      "averageLatencyMs": 0.05704784999999973,
+      "p95LatencyMs": 0.11541599999999619,
+      "maxLatencyMs": 0.2026249999999976
     },
     "categories": [
       {
@@ -7528,11 +7528,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.028999999999996362,
-        "p50LatencyMs": 0.028999999999996362,
-        "averageLatencyMs": 0.028999999999996362,
-        "p95LatencyMs": 0.028999999999996362,
-        "maxLatencyMs": 0.028999999999996362
+        "minLatencyMs": 0.02845800000000054,
+        "p50LatencyMs": 0.02845800000000054,
+        "averageLatencyMs": 0.02845800000000054,
+        "p95LatencyMs": 0.02845800000000054,
+        "maxLatencyMs": 0.02845800000000054
       },
       {
         "category": "adversarial-benign",
@@ -7546,11 +7546,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.00883400000000023,
-        "p50LatencyMs": 0.00883400000000023,
-        "averageLatencyMs": 0.009688000000000585,
-        "p95LatencyMs": 0.01054200000000094,
-        "maxLatencyMs": 0.01054200000000094
+        "minLatencyMs": 0.00883299999999565,
+        "p50LatencyMs": 0.00883299999999565,
+        "averageLatencyMs": 0.010103999999998337,
+        "p95LatencyMs": 0.011375000000001023,
+        "maxLatencyMs": 0.011375000000001023
       },
       {
         "category": "adversarial-casing",
@@ -7564,11 +7564,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.041416000000005226,
-        "p50LatencyMs": 0.061208000000000595,
-        "averageLatencyMs": 0.07328133333333398,
-        "p95LatencyMs": 0.16783399999999915,
-        "maxLatencyMs": 0.16783399999999915
+        "minLatencyMs": 0.04225000000000989,
+        "p50LatencyMs": 0.06674999999999898,
+        "averageLatencyMs": 0.07013883333333364,
+        "p95LatencyMs": 0.12358299999999645,
+        "maxLatencyMs": 0.12358299999999645
       },
       {
         "category": "adversarial-credential",
@@ -7582,11 +7582,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0475410000000025,
-        "p50LatencyMs": 0.0475410000000025,
-        "averageLatencyMs": 0.0475410000000025,
-        "p95LatencyMs": 0.0475410000000025,
-        "maxLatencyMs": 0.0475410000000025
+        "minLatencyMs": 0.04758300000000304,
+        "p50LatencyMs": 0.04758300000000304,
+        "averageLatencyMs": 0.04758300000000304,
+        "p95LatencyMs": 0.04758300000000304,
+        "maxLatencyMs": 0.04758300000000304
       },
       {
         "category": "adversarial-developer",
@@ -7600,11 +7600,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.02879199999999571,
-        "p50LatencyMs": 0.03720800000000679,
-        "averageLatencyMs": 0.046216000000002436,
-        "p95LatencyMs": 0.13262500000000443,
-        "maxLatencyMs": 0.13262500000000443
+        "minLatencyMs": 0.02891599999999528,
+        "p50LatencyMs": 0.033833000000001334,
+        "averageLatencyMs": 0.05588999999999735,
+        "p95LatencyMs": 0.2026249999999976,
+        "maxLatencyMs": 0.2026249999999976
       },
       {
         "category": "adversarial-financial",
@@ -7618,11 +7618,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.041707999999999856,
-        "p50LatencyMs": 0.04650000000000176,
-        "averageLatencyMs": 0.047211749999999476,
-        "p95LatencyMs": 0.054999999999999716,
-        "maxLatencyMs": 0.054999999999999716
+        "minLatencyMs": 0.041833999999994376,
+        "p50LatencyMs": 0.044375000000002274,
+        "averageLatencyMs": 0.04596525000000066,
+        "p95LatencyMs": 0.05325000000000557,
+        "maxLatencyMs": 0.05325000000000557
       },
       {
         "category": "adversarial-identity",
@@ -7636,11 +7636,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04508400000000279,
-        "p50LatencyMs": 0.04508400000000279,
-        "averageLatencyMs": 0.12356250000000202,
-        "p95LatencyMs": 0.20204100000000125,
-        "maxLatencyMs": 0.20204100000000125
+        "minLatencyMs": 0.04466700000000401,
+        "p50LatencyMs": 0.04466700000000401,
+        "averageLatencyMs": 0.04631249999999909,
+        "p95LatencyMs": 0.04795799999999417,
+        "maxLatencyMs": 0.04795799999999417
       },
       {
         "category": "adversarial-medical",
@@ -7654,11 +7654,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.043541000000004715,
-        "p50LatencyMs": 0.043541000000004715,
-        "averageLatencyMs": 0.04622900000000385,
-        "p95LatencyMs": 0.048917000000002986,
-        "maxLatencyMs": 0.048917000000002986
+        "minLatencyMs": 0.04166599999999221,
+        "p50LatencyMs": 0.04166599999999221,
+        "averageLatencyMs": 0.0523744999999991,
+        "p95LatencyMs": 0.063083000000006,
+        "maxLatencyMs": 0.063083000000006
       },
       {
         "category": "adversarial-mixed",
@@ -7672,11 +7672,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.04825000000000301,
-        "p50LatencyMs": 0.04825000000000301,
-        "averageLatencyMs": 0.04825000000000301,
-        "p95LatencyMs": 0.04825000000000301,
-        "maxLatencyMs": 0.04825000000000301
+        "minLatencyMs": 0.04824999999999591,
+        "p50LatencyMs": 0.04824999999999591,
+        "averageLatencyMs": 0.04824999999999591,
+        "p95LatencyMs": 0.04824999999999591,
+        "maxLatencyMs": 0.04824999999999591
       },
       {
         "category": "adversarial-multilingual",
@@ -7690,11 +7690,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.05779199999999918,
-        "p50LatencyMs": 0.06304100000000545,
-        "averageLatencyMs": 0.06849613636363666,
-        "p95LatencyMs": 0.08770800000000634,
-        "maxLatencyMs": 0.09287500000000648
+        "minLatencyMs": 0.05841599999999403,
+        "p50LatencyMs": 0.06395799999999952,
+        "averageLatencyMs": 0.06563627272727307,
+        "p95LatencyMs": 0.07337499999999864,
+        "maxLatencyMs": 0.10775000000001
       },
       {
         "category": "adversarial-obfuscation",
@@ -7708,11 +7708,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.041999999999994486,
-        "p50LatencyMs": 0.04912500000000364,
-        "averageLatencyMs": 0.06899436363636337,
-        "p95LatencyMs": 0.09424999999999528,
-        "maxLatencyMs": 0.31466700000000003
+        "minLatencyMs": 0.041667000000003895,
+        "p50LatencyMs": 0.0455830000000077,
+        "averageLatencyMs": 0.052939499999999515,
+        "p95LatencyMs": 0.06920799999998906,
+        "maxLatencyMs": 0.1658340000000038
       },
       {
         "category": "adversarial-quasi",
@@ -7726,11 +7726,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.0678750000000008,
-        "p50LatencyMs": 0.0678750000000008,
-        "averageLatencyMs": 0.0678750000000008,
-        "p95LatencyMs": 0.0678750000000008,
-        "maxLatencyMs": 0.0678750000000008
+        "minLatencyMs": 0.061082999999996446,
+        "p50LatencyMs": 0.061082999999996446,
+        "averageLatencyMs": 0.061082999999996446,
+        "p95LatencyMs": 0.061082999999996446,
+        "maxLatencyMs": 0.061082999999996446
       },
       {
         "category": "adversarial-secret",
@@ -7744,17 +7744,17 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.023541000000008694,
-        "p50LatencyMs": 0.027916000000004715,
-        "averageLatencyMs": 0.029238636363637417,
-        "p95LatencyMs": 0.04383300000000645,
-        "maxLatencyMs": 0.04383300000000645
+        "minLatencyMs": 0.026667000000003327,
+        "p50LatencyMs": 0.03741600000000744,
+        "averageLatencyMs": 0.06228390909090949,
+        "p95LatencyMs": 0.17295799999999417,
+        "maxLatencyMs": 0.17295799999999417
       }
     ]
   },
   {
     "label": "Simple regex baseline adversarial/noisy",
-    "generatedAt": "2026-06-01T13:37:33.994Z",
+    "generatedAt": "2026-06-01T13:42:03.119Z",
     "cases": [
       {
         "id": "adv-lowercase-name-location",
@@ -7783,7 +7783,7 @@
           "contains sensitive phrase: seattle",
           "contains sensitive phrase: asthma"
         ],
-        "latencyMs": 0.00766699999999787
+        "latencyMs": 0.011832999999995764
       },
       {
         "id": "adv-spaced-email",
@@ -7809,7 +7809,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: pranav [at] example [dot] com"
         ],
-        "latencyMs": 0.005874999999988972
+        "latencyMs": 0.004082999999994286
       },
       {
         "id": "adv-phone-words",
@@ -7833,7 +7833,7 @@
           "contains sensitive phrase: four one five",
           "contains sensitive phrase: 12 Maple Street"
         ],
-        "latencyMs": 0.002540999999993687
+        "latencyMs": 0.0027910000000019863
       },
       {
         "id": "adv-medical-synonym",
@@ -7857,7 +7857,7 @@
           "contains sensitive phrase: high blood pressure",
           "contains sensitive phrase: Austin"
         ],
-        "latencyMs": 0.0019159999999942556
+        "latencyMs": 0.001957999999987692
       },
       {
         "id": "adv-secret-without-trigger",
@@ -7878,7 +7878,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue-lamp-77"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0015830000000107702
       },
       {
         "id": "adv-card-with-dots",
@@ -7904,7 +7904,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1111"
         ],
-        "latencyMs": 0.0029169999999965057
+        "latencyMs": 0.0031659999999931188
       },
       {
         "id": "adv-aadhaar-spaced",
@@ -7930,7 +7930,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 1234 5678 9012"
         ],
-        "latencyMs": 0.003167000000004805
+        "latencyMs": 0.0030000000000001137
       },
       {
         "id": "adv-json-code-preservation",
@@ -7956,7 +7956,7 @@
           "missing required phrase: `{\"email\":\"user@example.com\"}`",
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.0028750000000030695
+        "latencyMs": 0.0032910000000043738
       },
       {
         "id": "adv-multilingual-spanish",
@@ -7983,7 +7983,7 @@
           "contains sensitive phrase: Austin",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.0017500000000012506
+        "latencyMs": 0.0020000000000095497
       },
       {
         "id": "adv-multilingual-hindi-english",
@@ -8012,7 +8012,7 @@
           "contains sensitive phrase: Aarav Mehta",
           "contains sensitive phrase: Secret123"
         ],
-        "latencyMs": 0.0028750000000030695
+        "latencyMs": 0.0030000000000001137
       },
       {
         "id": "adv-benign-capitalized-topic",
@@ -8027,7 +8027,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.0017500000000012506
+        "latencyMs": 0.0018330000000048585
       },
       {
         "id": "adv-benign-fake-password-code",
@@ -8048,7 +8048,7 @@
         "textCheckFailures": [
           "missing required phrase: `password = \"example\"`"
         ],
-        "latencyMs": 0.0025839999999988095
+        "latencyMs": 0.0027500000000060254
       },
       {
         "id": "adv-credential-api-key",
@@ -8072,7 +8072,7 @@
         "overPruned": false,
         "underPruned": false,
         "textCheckFailures": [],
-        "latencyMs": 0.003457999999994854
+        "latencyMs": 0.00333299999999781
       },
       {
         "id": "adv-address-no-label",
@@ -8094,7 +8094,7 @@
           "contains sensitive phrase: 44 Cedar Road",
           "contains sensitive phrase: Seattle"
         ],
-        "latencyMs": 0.0018340000000023338
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "adv-age-profession-lowercase",
@@ -8121,7 +8121,7 @@
           "contains sensitive phrase: pharmacist",
           "contains sensitive phrase: Boston"
         ],
-        "latencyMs": 0.0015000000000071623
+        "latencyMs": 0.0017500000000012506
       },
       {
         "id": "adv-email-plus-secret",
@@ -8147,7 +8147,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: quiet harbor"
         ],
-        "latencyMs": 0.002375000000000682
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "adv-medical-abbreviation",
@@ -8173,7 +8173,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: HTN"
         ],
-        "latencyMs": 0.0017079999999936035
+        "latencyMs": 0.01666699999999821
       },
       {
         "id": "adv-ssn-dashes",
@@ -8199,7 +8199,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 123-45-6789"
         ],
-        "latencyMs": 0.0028340000000071086
+        "latencyMs": 0.005874999999988972
       },
       {
         "id": "adv-banking-natural",
@@ -8223,7 +8223,7 @@
           "contains sensitive phrase: 7788",
           "contains sensitive phrase: landlord bridge"
         ],
-        "latencyMs": 0.002290999999999599
+        "latencyMs": 0.0028330000000096334
       },
       {
         "id": "adv-location-lowercase",
@@ -8249,7 +8249,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: phoenix"
         ],
-        "latencyMs": 0.0017909999999972115
+        "latencyMs": 0.0024590000000017653
       },
       {
         "id": "adv-generated-lowercase-1",
@@ -8278,7 +8278,7 @@
           "contains sensitive phrase: mumbai",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.002084000000010633
+        "latencyMs": 0.0027079999999983784
       },
       {
         "id": "adv-generated-lowercase-2",
@@ -8307,7 +8307,7 @@
           "contains sensitive phrase: delhi",
           "contains sensitive phrase: asthma"
         ],
-        "latencyMs": 0.0017090000000052896
+        "latencyMs": 0.0017500000000012506
       },
       {
         "id": "adv-generated-lowercase-3",
@@ -8336,7 +8336,7 @@
           "contains sensitive phrase: seattle",
           "contains sensitive phrase: anxiety"
         ],
-        "latencyMs": 0.0018330000000048585
+        "latencyMs": 0.0019580000000019027
       },
       {
         "id": "adv-generated-lowercase-4",
@@ -8394,7 +8394,7 @@
           "contains sensitive phrase: boston",
           "contains sensitive phrase: hypertension"
         ],
-        "latencyMs": 0.002041999999988775
+        "latencyMs": 0.002084000000010633
       },
       {
         "id": "adv-generated-lowercase-6",
@@ -8423,7 +8423,7 @@
           "contains sensitive phrase: denver",
           "contains sensitive phrase: insomnia"
         ],
-        "latencyMs": 0.0016660000000001673
+        "latencyMs": 0.0017080000000078144
       },
       {
         "id": "adv-generated-lowercase-7",
@@ -8452,7 +8452,7 @@
           "contains sensitive phrase: chicago",
           "contains sensitive phrase: arthritis"
         ],
-        "latencyMs": 0.0018749999999982947
+        "latencyMs": 0.0019160000000084665
       },
       {
         "id": "adv-generated-lowercase-8",
@@ -8481,7 +8481,7 @@
           "contains sensitive phrase: portland",
           "contains sensitive phrase: depression"
         ],
-        "latencyMs": 0.001999999999995339
+        "latencyMs": 0.002082999999998947
       },
       {
         "id": "adv-generated-lowercase-9",
@@ -8510,7 +8510,7 @@
           "contains sensitive phrase: phoenix",
           "contains sensitive phrase: thyroid"
         ],
-        "latencyMs": 0.0017079999999936035
+        "latencyMs": 0.00666599999999562
       },
       {
         "id": "adv-generated-lowercase-10",
@@ -8539,7 +8539,7 @@
           "contains sensitive phrase: atlanta",
           "contains sensitive phrase: epilepsy"
         ],
-        "latencyMs": 0.0017500000000012506
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "adv-generated-obfuscated-email-1",
@@ -8563,7 +8563,7 @@
           "contains sensitive phrase: aarav [at] example [dot] com",
           "contains sensitive phrase: Secret100"
         ],
-        "latencyMs": 0.0020830000000131577
+        "latencyMs": 0.002333000000007246
       },
       {
         "id": "adv-generated-obfuscated-email-2",
@@ -8587,7 +8587,7 @@
           "contains sensitive phrase: maya [at] aid [dot] org",
           "contains sensitive phrase: Secret101"
         ],
-        "latencyMs": 0.0017079999999936035
+        "latencyMs": 0.001999999999995339
       },
       {
         "id": "adv-generated-obfuscated-email-3",
@@ -8611,7 +8611,7 @@
           "contains sensitive phrase: john [at] clinic [dot] net",
           "contains sensitive phrase: Secret102"
         ],
-        "latencyMs": 0.0017499999999870397
+        "latencyMs": 0.0018749999999982947
       },
       {
         "id": "adv-generated-obfuscated-email-4",
@@ -8635,7 +8635,7 @@
           "contains sensitive phrase: sofia [at] housing [dot] org",
           "contains sensitive phrase: Secret103"
         ],
-        "latencyMs": 0.0017909999999972115
+        "latencyMs": 0.0019169999999917309
       },
       {
         "id": "adv-generated-obfuscated-email-5",
@@ -8659,7 +8659,7 @@
           "contains sensitive phrase: liam [at] pantry [dot] org",
           "contains sensitive phrase: Secret104"
         ],
-        "latencyMs": 0.0016669999999976426
+        "latencyMs": 0.0018340000000023338
       },
       {
         "id": "adv-generated-obfuscated-email-6",
@@ -8683,7 +8683,7 @@
           "contains sensitive phrase: emma [at] support [dot] net",
           "contains sensitive phrase: Secret105"
         ],
-        "latencyMs": 0.0017500000000012506
+        "latencyMs": 0.005791999999999575
       },
       {
         "id": "adv-generated-obfuscated-email-7",
@@ -8707,7 +8707,7 @@
           "contains sensitive phrase: noah [at] care [dot] org",
           "contains sensitive phrase: Secret106"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0017500000000012506
       },
       {
         "id": "adv-generated-obfuscated-email-8",
@@ -8731,7 +8731,7 @@
           "contains sensitive phrase: olivia [at] help [dot] org",
           "contains sensitive phrase: Secret107"
         ],
-        "latencyMs": 0.003208000000000766
+        "latencyMs": 0.0017089999999910788
       },
       {
         "id": "adv-generated-obfuscated-email-9",
@@ -8755,7 +8755,7 @@
           "contains sensitive phrase: ethan [at] local [dot] net",
           "contains sensitive phrase: Secret108"
         ],
-        "latencyMs": 0.0016660000000001673
+        "latencyMs": 0.0017919999999946867
       },
       {
         "id": "adv-generated-obfuscated-email-10",
@@ -8779,7 +8779,7 @@
           "contains sensitive phrase: ava [at] route [dot] org",
           "contains sensitive phrase: Secret109"
         ],
-        "latencyMs": 0.0015420000000005984
+        "latencyMs": 0.0016249999999899956
       },
       {
         "id": "adv-generated-dotted-card-1",
@@ -8805,7 +8805,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1001"
         ],
-        "latencyMs": 0.0025420000000053733
+        "latencyMs": 0.00420799999999133
       },
       {
         "id": "adv-generated-dotted-card-2",
@@ -8831,7 +8831,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1002"
         ],
-        "latencyMs": 0.002292000000011285
+        "latencyMs": 0.0025419999999911624
       },
       {
         "id": "adv-generated-dotted-card-3",
@@ -8857,7 +8857,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1003"
         ],
-        "latencyMs": 0.002290999999999599
+        "latencyMs": 0.002415999999996643
       },
       {
         "id": "adv-generated-dotted-card-4",
@@ -8883,7 +8883,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1004"
         ],
-        "latencyMs": 0.0023339999999905103
+        "latencyMs": 0.002415999999996643
       },
       {
         "id": "adv-generated-dotted-card-5",
@@ -8909,7 +8909,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1005"
         ],
-        "latencyMs": 0.002250000000003638
+        "latencyMs": 0.00245800000000429
       },
       {
         "id": "adv-generated-dotted-card-6",
@@ -8935,7 +8935,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1006"
         ],
-        "latencyMs": 0.002250000000003638
+        "latencyMs": 0.002332999999993035
       },
       {
         "id": "adv-generated-dotted-card-7",
@@ -8987,7 +8987,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1008"
         ],
-        "latencyMs": 0.002250000000003638
+        "latencyMs": 0.0023339999999905103
       },
       {
         "id": "adv-generated-dotted-card-9",
@@ -9013,7 +9013,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1009"
         ],
-        "latencyMs": 0.002249999999989427
+        "latencyMs": 0.002416000000010854
       },
       {
         "id": "adv-generated-dotted-card-10",
@@ -9039,7 +9039,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: 4111.1111.1111.1010"
         ],
-        "latencyMs": 0.0021660000000025548
+        "latencyMs": 0.002332999999993035
       },
       {
         "id": "adv-generated-word-phone-1",
@@ -9063,7 +9063,7 @@
           "contains sensitive phrase: four one five five five five one two zero zero",
           "contains sensitive phrase: 12 Maple Street, Boston"
         ],
-        "latencyMs": 0.0025830000000013342
+        "latencyMs": 0.0028339999999928978
       },
       {
         "id": "adv-generated-word-phone-2",
@@ -9087,7 +9087,7 @@
           "contains sensitive phrase: two one two five five five eight eight four four",
           "contains sensitive phrase: 44 Cedar Road, Seattle"
         ],
-        "latencyMs": 0.00245800000000429
+        "latencyMs": 0.002666000000004942
       },
       {
         "id": "adv-generated-word-phone-3",
@@ -9111,7 +9111,7 @@
           "contains sensitive phrase: three zero three five five five nine one eight two",
           "contains sensitive phrase: 901 Pine Avenue, Denver"
         ],
-        "latencyMs": 0.002540999999993687
+        "latencyMs": 0.004333000000002585
       },
       {
         "id": "adv-generated-word-phone-4",
@@ -9135,7 +9135,7 @@
           "contains sensitive phrase: six one seven five five five two two zero nine",
           "contains sensitive phrase: 77 Market Street, San Francisco"
         ],
-        "latencyMs": 0.0026249999999947704
+        "latencyMs": 0.0027079999999983784
       },
       {
         "id": "adv-generated-word-phone-5",
@@ -9159,7 +9159,7 @@
           "contains sensitive phrase: two zero six five five five four four one zero",
           "contains sensitive phrase: 188 Lake View Drive, Chicago"
         ],
-        "latencyMs": 0.003457999999994854
+        "latencyMs": 0.002500000000011937
       },
       {
         "id": "adv-generated-word-phone-6",
@@ -9183,7 +9183,7 @@
           "contains sensitive phrase: three one two five five five seven seven eight eight",
           "contains sensitive phrase: 26 Hill Lane, Austin"
         ],
-        "latencyMs": 0.0023749999999864713
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "adv-generated-word-phone-7",
@@ -9207,7 +9207,7 @@
           "contains sensitive phrase: five zero three five five five six four zero zero",
           "contains sensitive phrase: 310 River Road, Portland"
         ],
-        "latencyMs": 0.002332999999993035
+        "latencyMs": 0.002540999999993687
       },
       {
         "id": "adv-generated-word-phone-8",
@@ -9231,7 +9231,7 @@
           "contains sensitive phrase: four zero four five five five one zero one zero",
           "contains sensitive phrase: 62 Park Avenue, Atlanta"
         ],
-        "latencyMs": 0.002291999999997074
+        "latencyMs": 0.0024999999999977263
       },
       {
         "id": "adv-generated-word-phone-9",
@@ -9255,7 +9255,7 @@
           "contains sensitive phrase: six zero two five five five three three nine nine",
           "contains sensitive phrase: 9 Sunset Boulevard, Phoenix"
         ],
-        "latencyMs": 0.0025420000000053733
+        "latencyMs": 0.002666000000004942
       },
       {
         "id": "adv-generated-word-phone-10",
@@ -9279,7 +9279,7 @@
           "contains sensitive phrase: two one four five five five six six seven seven",
           "contains sensitive phrase: 55 Oak Street, Dallas"
         ],
-        "latencyMs": 0.002332999999993035
+        "latencyMs": 0.00245800000000429
       },
       {
         "id": "adv-generated-spanish-1",
@@ -9306,7 +9306,7 @@
           "contains sensitive phrase: Mumbai",
           "contains sensitive phrase: diabetes"
         ],
-        "latencyMs": 0.0015839999999940346
+        "latencyMs": 0.0017080000000078144
       },
       {
         "id": "adv-generated-spanish-2",
@@ -9333,7 +9333,7 @@
           "contains sensitive phrase: Delhi",
           "contains sensitive phrase: asthma"
         ],
-        "latencyMs": 0.0014169999999893435
+        "latencyMs": 0.0015420000000005984
       },
       {
         "id": "adv-generated-spanish-3",
@@ -9360,7 +9360,7 @@
           "contains sensitive phrase: Seattle",
           "contains sensitive phrase: anxiety"
         ],
-        "latencyMs": 0.0016249999999899956
+        "latencyMs": 0.0017080000000078144
       },
       {
         "id": "adv-generated-spanish-4",
@@ -9387,7 +9387,7 @@
           "contains sensitive phrase: Austin",
           "contains sensitive phrase: migraine"
         ],
-        "latencyMs": 0.0017079999999936035
+        "latencyMs": 0.0017080000000078144
       },
       {
         "id": "adv-generated-spanish-5",
@@ -9414,7 +9414,7 @@
           "contains sensitive phrase: Boston",
           "contains sensitive phrase: hypertension"
         ],
-        "latencyMs": 0.001958999999999378
+        "latencyMs": 0.002042000000002986
       },
       {
         "id": "adv-generated-spanish-6",
@@ -9441,7 +9441,7 @@
           "contains sensitive phrase: Denver",
           "contains sensitive phrase: insomnia"
         ],
-        "latencyMs": 0.0015410000000031232
+        "latencyMs": 0.0017500000000012506
       },
       {
         "id": "adv-generated-spanish-7",
@@ -9468,7 +9468,7 @@
           "contains sensitive phrase: Chicago",
           "contains sensitive phrase: arthritis"
         ],
-        "latencyMs": 0.0016250000000042064
+        "latencyMs": 0.0017920000000088976
       },
       {
         "id": "adv-generated-spanish-8",
@@ -9495,7 +9495,7 @@
           "contains sensitive phrase: Portland",
           "contains sensitive phrase: depression"
         ],
-        "latencyMs": 0.0018340000000023338
+        "latencyMs": 0.001957999999987692
       },
       {
         "id": "adv-generated-spanish-9",
@@ -9522,7 +9522,7 @@
           "contains sensitive phrase: Phoenix",
           "contains sensitive phrase: thyroid"
         ],
-        "latencyMs": 0.0015829999999965594
+        "latencyMs": 0.0016669999999976426
       },
       {
         "id": "adv-generated-spanish-10",
@@ -9549,7 +9549,7 @@
           "contains sensitive phrase: Atlanta",
           "contains sensitive phrase: epilepsy"
         ],
-        "latencyMs": 0.0016250000000042064
+        "latencyMs": 0.0017089999999910788
       },
       {
         "id": "adv-generated-hindi-english-1",
@@ -9578,7 +9578,7 @@
           "contains sensitive phrase: Aarav Mehta",
           "contains sensitive phrase: HindiSecret1"
         ],
-        "latencyMs": 0.0028750000000030695
+        "latencyMs": 0.003167000000004805
       },
       {
         "id": "adv-generated-hindi-english-2",
@@ -9607,7 +9607,7 @@
           "contains sensitive phrase: Maya Singh",
           "contains sensitive phrase: HindiSecret2"
         ],
-        "latencyMs": 0.0024999999999977263
+        "latencyMs": 0.003500000000002501
       },
       {
         "id": "adv-generated-hindi-english-3",
@@ -9636,7 +9636,7 @@
           "contains sensitive phrase: John Carter",
           "contains sensitive phrase: HindiSecret3"
         ],
-        "latencyMs": 0.002415999999996643
+        "latencyMs": 0.0026669999999882066
       },
       {
         "id": "adv-generated-hindi-english-4",
@@ -9665,7 +9665,7 @@
           "contains sensitive phrase: Sofia Garcia",
           "contains sensitive phrase: HindiSecret4"
         ],
-        "latencyMs": 0.0025830000000013342
+        "latencyMs": 0.0026670000000024174
       },
       {
         "id": "adv-generated-hindi-english-5",
@@ -9694,7 +9694,7 @@
           "contains sensitive phrase: Liam Johnson",
           "contains sensitive phrase: HindiSecret5"
         ],
-        "latencyMs": 0.0024169999999941183
+        "latencyMs": 0.0026670000000024174
       },
       {
         "id": "adv-generated-hindi-english-6",
@@ -9723,7 +9723,7 @@
           "contains sensitive phrase: Emma Wilson",
           "contains sensitive phrase: HindiSecret6"
         ],
-        "latencyMs": 0.002333000000007246
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "adv-generated-hindi-english-7",
@@ -9752,7 +9752,7 @@
           "contains sensitive phrase: Noah Brown",
           "contains sensitive phrase: HindiSecret7"
         ],
-        "latencyMs": 0.002250000000003638
+        "latencyMs": 0.002417000000008329
       },
       {
         "id": "adv-generated-hindi-english-8",
@@ -9781,7 +9781,7 @@
           "contains sensitive phrase: Olivia Davis",
           "contains sensitive phrase: HindiSecret8"
         ],
-        "latencyMs": 0.00245800000000429
+        "latencyMs": 0.0025830000000013342
       },
       {
         "id": "adv-generated-hindi-english-9",
@@ -9810,7 +9810,7 @@
           "contains sensitive phrase: Ethan Miller",
           "contains sensitive phrase: HindiSecret9"
         ],
-        "latencyMs": 0.002417000000008329
+        "latencyMs": 0.00245800000000429
       },
       {
         "id": "adv-generated-hindi-english-10",
@@ -9839,7 +9839,7 @@
           "contains sensitive phrase: Ava Martin",
           "contains sensitive phrase: HindiSecret10"
         ],
-        "latencyMs": 0.0025839999999988095
+        "latencyMs": 0.0026249999999947704
       },
       {
         "id": "adv-generated-code-preservation-1",
@@ -9860,7 +9860,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.0029159999999990305
+        "latencyMs": 0.003167000000004805
       },
       {
         "id": "adv-generated-code-preservation-2",
@@ -9881,7 +9881,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: silver-door"
         ],
-        "latencyMs": 0.0025830000000013342
+        "latencyMs": 0.0027499999999918145
       },
       {
         "id": "adv-generated-code-preservation-3",
@@ -9902,7 +9902,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: delta-forest-19"
         ],
-        "latencyMs": 0.0027090000000100645
+        "latencyMs": 0.0029590000000041528
       },
       {
         "id": "adv-generated-code-preservation-4",
@@ -9923,7 +9923,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: orange-moon"
         ],
-        "latencyMs": 0.0027089999999958536
+        "latencyMs": 0.0028750000000030695
       },
       {
         "id": "adv-generated-code-preservation-5",
@@ -9944,7 +9944,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: river-stone-42"
         ],
-        "latencyMs": 0.002500000000011937
+        "latencyMs": 0.0026659999999907313
       },
       {
         "id": "adv-generated-code-preservation-6",
@@ -9965,7 +9965,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: hidden-bridge"
         ],
-        "latencyMs": 0.0027090000000100645
+        "latencyMs": 0.0028329999999954225
       },
       {
         "id": "adv-generated-code-preservation-7",
@@ -9986,7 +9986,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: winter-key-08"
         ],
-        "latencyMs": 0.0024169999999941183
+        "latencyMs": 0.0027500000000060254
       },
       {
         "id": "adv-generated-code-preservation-8",
@@ -10007,7 +10007,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: quiet-harbor"
         ],
-        "latencyMs": 0.0024169999999941183
+        "latencyMs": 0.0026250000000089813
       },
       {
         "id": "adv-generated-code-preservation-9",
@@ -10028,7 +10028,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: green-vault-6"
         ],
-        "latencyMs": 0.002417000000008329
+        "latencyMs": 0.0026249999999947704
       },
       {
         "id": "adv-generated-code-preservation-10",
@@ -10049,7 +10049,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue-lamp-77"
         ],
-        "latencyMs": 0.0024169999999941183
+        "latencyMs": 0.0025839999999988095
       },
       {
         "id": "adv-generated-recovery-secret-1",
@@ -10070,7 +10070,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: blue-lamp-77"
         ],
-        "latencyMs": 0.0013750000000101181
+        "latencyMs": 0.0014170000000035543
       },
       {
         "id": "adv-generated-recovery-secret-2",
@@ -10091,7 +10091,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: north-window"
         ],
-        "latencyMs": 0.0013750000000101181
+        "latencyMs": 0.0014579999999995152
       },
       {
         "id": "adv-generated-recovery-secret-3",
@@ -10112,7 +10112,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: silver-door"
         ],
-        "latencyMs": 0.001290999999994824
+        "latencyMs": 0.0014170000000035543
       },
       {
         "id": "adv-generated-recovery-secret-4",
@@ -10133,7 +10133,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: delta-forest-19"
         ],
-        "latencyMs": 0.0014590000000112013
+        "latencyMs": 0.0015829999999965594
       },
       {
         "id": "adv-generated-recovery-secret-5",
@@ -10154,7 +10154,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: orange-moon"
         ],
-        "latencyMs": 0.001208000000005427
+        "latencyMs": 0.0012920000000065102
       },
       {
         "id": "adv-generated-recovery-secret-6",
@@ -10175,7 +10175,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: river-stone-42"
         ],
-        "latencyMs": 0.002332999999993035
+        "latencyMs": 0.0014589999999969905
       },
       {
         "id": "adv-generated-recovery-secret-7",
@@ -10196,7 +10196,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: hidden-bridge"
         ],
-        "latencyMs": 0.0012920000000065102
+        "latencyMs": 0.0014589999999969905
       },
       {
         "id": "adv-generated-recovery-secret-8",
@@ -10217,7 +10217,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: winter-key-08"
         ],
-        "latencyMs": 0.0012499999999988631
+        "latencyMs": 0.0013749999999959073
       },
       {
         "id": "adv-generated-recovery-secret-9",
@@ -10238,7 +10238,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: quiet-harbor"
         ],
-        "latencyMs": 0.0012090000000029022
+        "latencyMs": 0.0013749999999959073
       },
       {
         "id": "adv-generated-recovery-secret-10",
@@ -10259,7 +10259,7 @@
         "textCheckFailures": [
           "contains sensitive phrase: green-vault-6"
         ],
-        "latencyMs": 0.001207999999991216
+        "latencyMs": 0.0013749999999959073
       }
     ],
     "summary": {
@@ -10273,11 +10273,11 @@
       "overPruningRate": 0.01,
       "underPruningRate": 0.57,
       "textCheckFailureRate": 0.98,
-      "minLatencyMs": 0.001207999999991216,
-      "p50LatencyMs": 0.002250000000003638,
-      "averageLatencyMs": 0.0022199999999998,
-      "p95LatencyMs": 0.003167000000004805,
-      "maxLatencyMs": 0.00766699999999787
+      "minLatencyMs": 0.0012920000000065102,
+      "p50LatencyMs": 0.002416000000010854,
+      "averageLatencyMs": 0.0026666099999998493,
+      "p95LatencyMs": 0.004333000000002585,
+      "maxLatencyMs": 0.01666699999999821
     },
     "categories": [
       {
@@ -10292,11 +10292,11 @@
         "overPruningRate": 0,
         "underPruningRate": 1,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0018340000000023338,
-        "p50LatencyMs": 0.0018340000000023338,
-        "averageLatencyMs": 0.0018340000000023338,
-        "p95LatencyMs": 0.0018340000000023338,
-        "maxLatencyMs": 0.0018340000000023338
+        "minLatencyMs": 0.002082999999998947,
+        "p50LatencyMs": 0.002082999999998947,
+        "averageLatencyMs": 0.002082999999998947,
+        "p95LatencyMs": 0.002082999999998947,
+        "maxLatencyMs": 0.002082999999998947
       },
       {
         "category": "adversarial-benign",
@@ -10310,11 +10310,11 @@
         "overPruningRate": 0.5,
         "underPruningRate": 0,
         "textCheckFailureRate": 0.5,
-        "minLatencyMs": 0.0017500000000012506,
-        "p50LatencyMs": 0.0017500000000012506,
-        "averageLatencyMs": 0.00216700000000003,
-        "p95LatencyMs": 0.0025839999999988095,
-        "maxLatencyMs": 0.0025839999999988095
+        "minLatencyMs": 0.0018330000000048585,
+        "p50LatencyMs": 0.0018330000000048585,
+        "averageLatencyMs": 0.002291500000005442,
+        "p95LatencyMs": 0.0027500000000060254,
+        "maxLatencyMs": 0.0027500000000060254
       },
       {
         "category": "adversarial-casing",
@@ -10328,11 +10328,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0016660000000001673,
-        "p50LatencyMs": 0.0018329999999906477,
-        "averageLatencyMs": 0.002329833333331995,
-        "p95LatencyMs": 0.00766699999999787,
-        "maxLatencyMs": 0.00766699999999787
+        "minLatencyMs": 0.0017080000000078144,
+        "p50LatencyMs": 0.001999999999995339,
+        "averageLatencyMs": 0.003249833333333877,
+        "p95LatencyMs": 0.011832999999995764,
+        "maxLatencyMs": 0.011832999999995764
       },
       {
         "category": "adversarial-credential",
@@ -10346,11 +10346,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 0,
-        "minLatencyMs": 0.003457999999994854,
-        "p50LatencyMs": 0.003457999999994854,
-        "averageLatencyMs": 0.003457999999994854,
-        "p95LatencyMs": 0.003457999999994854,
-        "maxLatencyMs": 0.003457999999994854
+        "minLatencyMs": 0.00333299999999781,
+        "p50LatencyMs": 0.00333299999999781,
+        "averageLatencyMs": 0.00333299999999781,
+        "p95LatencyMs": 0.00333299999999781,
+        "maxLatencyMs": 0.00333299999999781
       },
       {
         "category": "adversarial-developer",
@@ -10364,11 +10364,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0.9090909090909091,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0024169999999941183,
-        "p50LatencyMs": 0.0025830000000013342,
-        "averageLatencyMs": 0.0026062727272747306,
-        "p95LatencyMs": 0.0029159999999990305,
-        "maxLatencyMs": 0.0029159999999990305
+        "minLatencyMs": 0.0025839999999988095,
+        "p50LatencyMs": 0.0027500000000060254,
+        "averageLatencyMs": 0.0028295454545457233,
+        "p95LatencyMs": 0.0032910000000043738,
+        "maxLatencyMs": 0.0032910000000043738
       },
       {
         "category": "adversarial-financial",
@@ -10382,11 +10382,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0.08333333333333333,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0021660000000025548,
-        "p50LatencyMs": 0.002250000000003638,
-        "averageLatencyMs": 0.002340250000000784,
-        "p95LatencyMs": 0.0029169999999965057,
-        "maxLatencyMs": 0.0029169999999965057
+        "minLatencyMs": 0.002250000000003638,
+        "p50LatencyMs": 0.002415999999996643,
+        "averageLatencyMs": 0.0026420833333311577,
+        "p95LatencyMs": 0.00420799999999133,
+        "maxLatencyMs": 0.00420799999999133
       },
       {
         "category": "adversarial-identity",
@@ -10400,11 +10400,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0028340000000071086,
-        "p50LatencyMs": 0.0028340000000071086,
-        "averageLatencyMs": 0.0030005000000059567,
-        "p95LatencyMs": 0.003167000000004805,
-        "maxLatencyMs": 0.003167000000004805
+        "minLatencyMs": 0.0030000000000001137,
+        "p50LatencyMs": 0.0030000000000001137,
+        "averageLatencyMs": 0.004437499999994543,
+        "p95LatencyMs": 0.005874999999988972,
+        "maxLatencyMs": 0.005874999999988972
       },
       {
         "category": "adversarial-medical",
@@ -10418,11 +10418,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0.5,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0017079999999936035,
-        "p50LatencyMs": 0.0017079999999936035,
-        "averageLatencyMs": 0.0018119999999939296,
-        "p95LatencyMs": 0.0019159999999942556,
-        "maxLatencyMs": 0.0019159999999942556
+        "minLatencyMs": 0.001957999999987692,
+        "p50LatencyMs": 0.001957999999987692,
+        "averageLatencyMs": 0.009312499999992951,
+        "p95LatencyMs": 0.01666699999999821,
+        "maxLatencyMs": 0.01666699999999821
       },
       {
         "category": "adversarial-mixed",
@@ -10436,11 +10436,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.002375000000000682,
-        "p50LatencyMs": 0.002375000000000682,
-        "averageLatencyMs": 0.002375000000000682,
-        "p95LatencyMs": 0.002375000000000682,
-        "maxLatencyMs": 0.002375000000000682
+        "minLatencyMs": 0.0025830000000013342,
+        "p50LatencyMs": 0.0025830000000013342,
+        "averageLatencyMs": 0.0025830000000013342,
+        "p95LatencyMs": 0.0025830000000013342,
+        "maxLatencyMs": 0.0025830000000013342
       },
       {
         "category": "adversarial-multilingual",
@@ -10454,11 +10454,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0.5,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0014169999999893435,
-        "p50LatencyMs": 0.001958999999999378,
-        "averageLatencyMs": 0.0020890454545452867,
-        "p95LatencyMs": 0.0028750000000030695,
-        "maxLatencyMs": 0.0028750000000030695
+        "minLatencyMs": 0.0015420000000005984,
+        "p50LatencyMs": 0.002042000000002986,
+        "averageLatencyMs": 0.0022690000000015298,
+        "p95LatencyMs": 0.003167000000004805,
+        "maxLatencyMs": 0.003500000000002501
       },
       {
         "category": "adversarial-obfuscation",
@@ -10472,11 +10472,11 @@
         "overPruningRate": 0,
         "underPruningRate": 0.9545454545454546,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0015420000000005984,
-        "p50LatencyMs": 0.002332999999993035,
-        "averageLatencyMs": 0.002393772727269937,
-        "p95LatencyMs": 0.003457999999994854,
-        "maxLatencyMs": 0.005874999999988972
+        "minLatencyMs": 0.0016249999999899956,
+        "p50LatencyMs": 0.0024999999999977263,
+        "averageLatencyMs": 0.0026040909090900236,
+        "p95LatencyMs": 0.004333000000002585,
+        "maxLatencyMs": 0.005791999999999575
       },
       {
         "category": "adversarial-quasi",
@@ -10490,11 +10490,11 @@
         "overPruningRate": 0,
         "underPruningRate": 1,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.0015000000000071623,
-        "p50LatencyMs": 0.0015000000000071623,
-        "averageLatencyMs": 0.0015000000000071623,
-        "p95LatencyMs": 0.0015000000000071623,
-        "maxLatencyMs": 0.0015000000000071623
+        "minLatencyMs": 0.0017500000000012506,
+        "p50LatencyMs": 0.0017500000000012506,
+        "averageLatencyMs": 0.0017500000000012506,
+        "p95LatencyMs": 0.0017500000000012506,
+        "maxLatencyMs": 0.0017500000000012506
       },
       {
         "category": "adversarial-secret",
@@ -10508,11 +10508,11 @@
         "overPruningRate": 0,
         "underPruningRate": 1,
         "textCheckFailureRate": 1,
-        "minLatencyMs": 0.001207999999991216,
-        "p50LatencyMs": 0.0012920000000065102,
-        "averageLatencyMs": 0.0014129090909113468,
-        "p95LatencyMs": 0.002332999999993035,
-        "maxLatencyMs": 0.002332999999993035
+        "minLatencyMs": 0.0012920000000065102,
+        "p50LatencyMs": 0.0014170000000035543,
+        "averageLatencyMs": 0.0014357272727274697,
+        "p95LatencyMs": 0.0015830000000107702,
+        "maxLatencyMs": 0.0015830000000107702
       }
     ]
   }

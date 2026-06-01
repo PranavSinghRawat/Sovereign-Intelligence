@@ -1,12 +1,12 @@
 # CAMP Benchmark Summary
 
-Generated: 2026-06-01T13:37:33.996Z
+Generated: 2026-06-01T13:42:03.122Z
 
 | Variant | Cases | Precision | Recall | F1 | Over-prune | Under-prune | p50 latency | Avg latency | p95 latency | Text failures |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| CAMP clean synthetic | 100 | 100.0% | 100.0% | 100.0% | 1.0% | 0.0% | 0.04 ms | 0.11 ms | 0.13 ms | 0.0% |
-| Simple regex baseline clean synthetic | 100 | 88.5% | 45.4% | 60.0% | 0.0% | 12.0% | 0.00 ms | 0.01 ms | 0.01 ms | 56.0% |
-| CAMP adversarial/noisy | 100 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.05 ms | 0.06 ms | 0.09 ms | 0.0% |
+| CAMP clean synthetic | 100 | 100.0% | 100.0% | 100.0% | 1.0% | 0.0% | 0.05 ms | 0.11 ms | 0.14 ms | 0.0% |
+| Simple regex baseline clean synthetic | 100 | 88.5% | 45.4% | 60.0% | 0.0% | 12.0% | 0.00 ms | 0.01 ms | 0.00 ms | 56.0% |
+| CAMP adversarial/noisy | 100 | 100.0% | 100.0% | 100.0% | 0.0% | 0.0% | 0.05 ms | 0.06 ms | 0.12 ms | 0.0% |
 | Simple regex baseline adversarial/noisy | 100 | 95.2% | 19.3% | 32.1% | 1.0% | 57.0% | 0.00 ms | 0.00 ms | 0.00 ms | 98.0% |
 
 ## Category Breakdown

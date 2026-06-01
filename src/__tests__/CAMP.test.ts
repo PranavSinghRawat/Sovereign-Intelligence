@@ -128,4 +128,25 @@ describe("CAMP Middleware (Privacy Firewall)", () => {
     expect(result.processedText).not.toContain("user@example.com_PRUNED");
     expect(result.processedText).toContain("[LOCATION_PRUNED]");
   });
+
+  it("should prune a single direct identifier (like email) immediately even if CPE is below threshold", async () => {
+    const input = "My email is user@example.com.";
+    const result = await camp.process(input);
+
+    // Email weight is 0.9, which is less than 1.0 threshold
+    expect(result.cpeScore).toBe(0.9);
+    expect(result.pruned).toBe(true);
+    expect(result.processedText).toContain("[EMAIL_PRUNED]");
+    expect(result.processedText).not.toContain("user@example.com");
+  });
+
+  it("should NOT prune a single quasi-identifier (like location) if CPE is below threshold", async () => {
+    const input = "I live in Seattle.";
+    const result = await camp.process(input);
+
+    // Location weight is 0.3, which is less than 1.0 threshold, and it is not a direct identifier
+    expect(result.cpeScore).toBe(0.3);
+    expect(result.pruned).toBe(false);
+    expect(result.processedText).toBe(input);
+  });
 });

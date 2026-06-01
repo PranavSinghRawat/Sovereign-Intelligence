@@ -1,5 +1,5 @@
 variant,cases,precision,recall,f1,over_pruning_rate,under_pruning_rate,p50_latency_ms,average_latency_ms,p95_latency_ms,text_check_failure_rate
-CAMP clean synthetic,100,1.0000,1.0000,1.0000,0.0100,0.0000,0.0446,0.1108,0.1261,0.0000
-Simple regex baseline clean synthetic,100,0.8846,0.4539,0.6000,0.0000,0.1200,0.0021,0.0052,0.0052,0.5600
-CAMP adversarial/noisy,100,1.0000,1.0000,1.0000,0.0000,0.0000,0.0503,0.0585,0.0929,0.0000
-Simple regex baseline adversarial/noisy,100,0.9524,0.1932,0.3213,0.0100,0.5700,0.0023,0.0022,0.0032,0.9800
+CAMP clean synthetic,100,1.0000,1.0000,1.0000,0.0100,0.0000,0.0450,0.1089,0.1386,0.0000
+Simple regex baseline clean synthetic,100,0.8846,0.4539,0.6000,0.0000,0.1200,0.0021,0.0052,0.0044,0.5600
+CAMP adversarial/noisy,100,1.0000,1.0000,1.0000,0.0000,0.0000,0.0482,0.0570,0.1154,0.0000
+Simple regex baseline adversarial/noisy,100,0.9524,0.1932,0.3213,0.0100,0.5700,0.0024,0.0027,0.0043,0.9800
