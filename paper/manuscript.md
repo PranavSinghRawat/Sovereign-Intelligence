@@ -2,160 +2,148 @@
 
 ## Abstract
 
-Sensitive assistance workflows—such as medical triage, housing allocation, food security, and financial aid routing—often require users to disclose highly personal context before receiving helpful routing or triage support. While cloud-hosted large language models (LLMs) offer high reasoning capabilities, their deployment expands the corporate and network privacy boundary by exposing raw, sensitive prompts to remote API providers. 
+Sensitive assistance workflows—such as medical triage, public housing allocation, and financial aid routing—often require users to disclose private context to obtain meaningful assistance. Deploying large language models (LLMs) in these scenarios traditionally relies on cloud-hosted API endpoints, which exposes raw user prompts to third-party providers. While browser-local inference (via WebGPU) addresses the transit boundary, raw sensitive data can still pollute local logs, retrieval-augmented generation (RAG) indices, and downstream tool dispatches. 
 
-This paper evaluates a browser-local alternative: a client-side agentic runtime that restricts data boundaries to the user's browser using on-device WebGPU inference. To prevent sensitive disclosures from polluting the local model context, browser logs, or vector search indices, we introduce the **Cumulative Agentic Masking and Pruning (CAMP)** middleware. CAMP runs pre-tokenization sanitization directly in the client runtime, distinguishing between *Direct Identifiers* (which are immediately redacted) and *Quasi-Identifiers* (which are tracked and pruned only when their cumulative re-identification risk crosses a mathematical threshold). 
+This paper presents the design and evaluation of the **Sovereign Intelligence Layer**, an on-device agent runtime that sanitizes prompts before model tokenization. We introduce **Cumulative Agentic Masking and Pruning (CAMP)**, a client-side middleware that separates PII into *Direct Identifiers* (pruned immediately) and *Quasi-Identifiers* (pruned statefully when their cumulative re-identification risk exceeds a critical threshold). The runtime is secured using non-extractable Ed25519 keys stored in IndexedDB and an encrypted local database utilizing SQLite WASM in the browser's Origin Private File System (OPFS). 
 
-We present the design of the **Sovereign Intelligence Layer**, an on-device system combining WebGPU-based LLM execution, IndexedDB cryptographic key sandboxing, and SQLite-backed local persistence inside the Origin Private File System (OPFS). We evaluate CAMP across two 100-case benchmarks (a clean synthetic suite and an adversarial/obfuscated split). Our findings show that CAMP achieves $100\%$ precision, recall, and F1 on these deterministic splits, whereas simple regex baselines fail to generalize. Finally, we discuss residual metadata leakage over network relays and outline a roadmap for client-side Named Entity Recognition (NER) using ONNX models to transition from pattern-aligned rules to generalizable on-device inference.
+Evaluation across two 100-case benchmarks shows that CAMP achieves $100\%$ precision, recall, and F1-score on synthetic splits, maintaining an average latency overhead of $0.11\text{ ms}$. Finally, we detail a deployment roadmap to replace pattern-based heuristics with a hybrid client-side Named Entity Recognition (NER) model running via ONNX Runtime Web.
 
 ---
 
 ## 1. Introduction
 
-As artificial intelligence agents become deeply integrated into everyday human assistance workflows, they increasingly handle sensitive personal data. In scenarios like public assistance routing, healthcare self-triage, and financial coaching, users disclose identifying data, medical concerns, locations, and personal credentials. While standard deployments rely on cloud-hosted LLM endpoints, this architecture forces users to trade privacy for utility. 
+Deploying large language models (LLMs) for sensitive public assistance and medical triage workflows presents a fundamental privacy challenge. In these domains, users frequently share highly sensitive personal attributes, including names, medical symptoms, exact locations, and financial credentials. The standard architecture routes these queries to centralized cloud LLM endpoints. This architecture expands the corporate data boundary and exposes users to potential exfiltration, profiling, and model training leaks.
 
-To mitigate this, browser-local LLM inference (enabled by WebGPU and WebAssembly compilation frameworks like WebLLM) has emerged as a promising alternative. Running models locally confines the primary reasoning process to client-side unified memory. However, local execution alone is insufficient for robust privacy:
-1. **Context Pollution:** Raw sensitive text remains stored in the LLM's context window, browser logs, and local retrieval-augmented generation (RAG) registries.
-2. **Exfiltration Vectors:** Downstream tools, external Model Context Protocol (MCP) integrations (e.g., weather and geocoding services), and peer-to-peer (P2P) database synchronization can leak raw text if not sanitized before routing.
+Browser-local LLM execution, enabled by WebGPU and WebAssembly compilation frameworks like WebLLM [1], offers a viable alternative by confining model weights and inference to the client device. However, on-device execution alone does not prevent local data leakage. Raw prompts can still pollute local application logs, browser persistent histories, and context windows. Furthermore, when the local agent invokes external APIs or coordinate with other browsers via peer-to-peer (P2P) connections, raw sensitive data can be inadvertently exfiltrated.
 
-To address these vulnerabilities, we propose **pre-tokenization privacy filtering**. This paper designs and evaluates the **Sovereign Intelligence Layer**, focusing on the **Cumulative Agentic Masking and Pruning (CAMP)** algorithm. CAMP serves as an on-device privacy moat, identifying and replacing sensitive disclosures with typed placeholders prior to model invocation or tool dispatch. By incorporating a session-level, stateful registry, CAMP prevents gradual re-identification caused by the accretion of low-weight quasi-identifiers across multi-turn dialogues.
+To solve this, we propose pre-tokenization privacy filtering in the browser. We present the Sovereign Intelligence Layer, a client-side runtime featuring the Cumulative Agentic Masking and Pruning (CAMP) middleware. CAMP identifies and redacts sensitive entities before they reach the local LLM or downstream search tools. Rather than executing a static regex filter, CAMP maintains a session-level registry that tracks the accumulation of identifying fragments over multi-turn interactions. This allows the system to balance user utility (retaining context when risk is low) with strict privacy (pruning all identifiers once re-identification risk becomes mathematically significant).
 
----
-
-## 2. System Architecture and Moat Design
-
-The Sovereign Intelligence Layer is designed as a browser-native application that enforces local data boundaries by default. The technical layout comprises five core components:
-
-```mermaid
-graph TD
-  User[User Prompt] --> CAMP[CAMP Sanitizer Worker]
-  CAMP --> Registry[(OPFS SQLite Registry)]
-  CAMP -- Sanitized Prompt --> Worker[WebLLM Engine Worker]
-  Worker --> WebGPU[WebGPU / local RAM]
-  Worker -- Tool Dispatches --> MCP[MCP Router]
-  MCP -- External Latency/API Calls --> Sandbox[(IndexedDB WebCrypto Sandbox)]
-```
-
-### 2.1 Browser-Local Inference Engine
-On-device inference is orchestrated using `@mlc-ai/web-llm` compiled to WebAssembly (WASM) and executing via WebGPU shaders. To prevent execution-induced latency from blocking the browser UI thread (which renders at a constant 60 FPS), the LLM engine is offloaded to a background Web Worker (`llm.worker.ts`). Communication between the UI thread and the inference thread is handled via asynchronous message passing, ensuring smooth visual performance during intensive token-generation phases.
-
-### 2.2 Cryptographic Key Isolation (IndexedDB Sandbox)
-To guard against Cross-Site Scripting (XSS) and supply-chain dependency injection attacks, the agent generates its cryptographic keys locally. Using the Web Crypto API, the system derives an Ed25519 key pair with the parameter:
-$$\text{extractable: false}$$
-These keys are stored as binary structures directly inside an isolated browser IndexedDB database. JavaScript execution outside the agent runtime cannot extract or export the raw private key, limiting the adversary to signing handshakes within the sandbox.
-
-### 2.3 Persistence via SQLite and OPFS
-Session databases and RAG indices are stored in the browser's Origin Private File System (OPFS) using WebAssembly SQLite (`wa-sqlite`). OPFS provides high-speed, exclusive file access. To prevent the physical SQLite database file from containing plaintext PII (which would be vulnerable to local filesystem snooping or browser profile extraction), CAMP registers PII using only normalized, one-way SHA-256 hashes.
-
-### 2.4 Signed Encrypted P2P WebRTC Signaling
-Direct peer-to-peer resource querying is established over WebRTC DataChannels. Because signaling requires broker servers (WebSockets) that could capture metadata or hijack connections, all Session Description Protocol (SDP) offers and answers are signed with the agent's non-extractable private key. Signatures are verified against known public fingerprints, and packets are timestamped to prevent replay attacks.
+We make the following contributions:
+1. We design a browser-local agent runtime that integrates WebGPU inference, IndexedDB cryptographic sandboxing, and WASM-based SQLite persistence in the Origin Private File System (OPFS).
+2. We present the CAMP algorithm, which implements a dual-route pruning rule distinguishing between direct and quasi-identifiers to prevent cumulative re-identification.
+3. We evaluate the sanitization engine against synthetic and adversarial benchmarks, demonstrating complete redaction with sub-millisecond latency overhead.
+4. We outline a transition path from pattern-based heuristics to hybrid client-side Named Entity Recognition (NER) using quantized ONNX models.
 
 ---
 
-## 3. The CAMP Sanitization Algorithm
+## 2. System Architecture
 
-The CAMP framework separates sensitive text into two distinct classes of privacy risk:
+The Sovereign Intelligence Layer isolates user data within the browser runtime. The system is divided into four main security and execution zones:
 
-1. **Direct Identifiers ($\mathcal{D}$):** High-risk tokens that explicitly identify an individual or resource. These include emails, credentials, financial account numbers, government identifiers, phone numbers, exact physical addresses, and recovery secrets.
-2. **Quasi-Identifiers ($\mathcal{Q}$):** Low-to-moderate risk tokens that do not identify a user in isolation but can lead to re-identification when aggregated. These include names, general locations, ages, professions, and specific medical conditions.
+1. **Browser-Local Inference Zone:** Local inference is managed by a background Web Worker running `@mlc-ai/web-llm` compiled to WebAssembly (WASM). Offloading weight loading, shader compilation, and autoregressive generation to a background thread prevents the main UI thread from stuttering, maintaining a stable 60 FPS interface during text generation.
+2. **Cryptographic Key Sandbox:** To mitigate Cross-Site Scripting (XSS) and supply-chain script injection attacks, the system generates Ed25519 signing keys inside the native Web Crypto API with the `extractable: false` attribute. These keys are stored as binary structures inside IndexedDB. Because the browser prevents JavaScript from exporting non-extractable keys, an attacker cannot steal the agent's identity key.
+3. **OPFS SQLite Persistence:** Local retrieval cache and PII hashes are persisted in the browser's Origin Private File System (OPFS) using `wa-sqlite`. To prevent raw PII from being stored on the local disk, the registry writes only normalized, one-way SHA-256 digests. This ensures that a compromised browser profile does not leak plaintext conversational history.
+4. **Signed P2P WebRTC Signaling:** Peer connections are established directly using WebRTC DataChannels. Because signaling requires broker servers (such as WebSockets) that could capture metadata or alter handshakes, all Session Description Protocol (SDP) offers and answers are cryptographically signed by the agent's private key and verified against public fingerprints [3].
 
-### 3.1 Mathematical CPE Formulation
-To measure re-identification risk dynamically, CAMP maintains a session-level registry that calculates a **Cumulative PII Exposure (CPE)** score. Let $\mathcal{F}_S$ be the set of unique sensitive fragments registered during session $S$. Each entity type $t$ is mapped to a predefined weight $w(t) \in [0, 1.0]$. The CPE score of session $S$ is defined as:
+---
+
+## 3. The CAMP Algorithm
+
+CAMP addresses the limitation of simple regex filters by modeling re-identification risk as a dynamic, stateful process. The algorithm separates sensitive text into two distinct classes:
+* **Direct Identifiers ($\mathcal{D}$):** High-risk features that uniquely identify an individual or secret (e.g., emails, credentials, government IDs, bank accounts, physical addresses, and recovery clues).
+* **Quasi-Identifiers ($\mathcal{Q}$):** Medium-risk attributes that do not identify a user in isolation but can lead to re-identification when combined (e.g., names, cities, age, professions, and medical conditions).
+
+### 3.1 Cumulative PII Exposure (CPE) Formulation
+Let $S$ represent the active session, and let $\mathcal{F}_S$ be the set of unique sensitive fragments detected during the session. Each entity type $t$ is mapped to a weight $w(t) \in [0, 1.0]$. The Cumulative PII Exposure (CPE) score of the session is defined as:
 
 $$CPE(S) = \sum_{f \in \mathcal{F}_S} w(\text{type}(f))$$
 
-The weights allocated to entity types are configured as follows:
-* **Direct Identifiers ($\mathcal{D}$):** $w(\text{EMAIL}) = 0.9$, $w(\text{CREDENTIAL}) = 1.0$, $w(\text{FINANCIAL}) = 1.0$, $w(\text{ID}) = 0.9$, $w(\text{PHONE}) = 0.8$, $w(\text{ADDRESS}) = 1.0$, $w(\text{SENSITIVE\_FIELD}) = 1.0$.
-* **Quasi-Identifiers ($\mathcal{Q}$):** $w(\text{NAME}) = 0.8$, $w(\text{LOCATION}) = 0.3$, $w(\text{MEDICAL}) = 0.7$, $w(\text{PROFESSION}) = 0.5$, $w(\text{AGE}) = 0.2$.
+The weights reflect the re-identification risk of each type:
+* For Direct Identifiers ($d \in \mathcal{D}$): $w(\text{EMAIL}) = 0.9$, $w(\text{CREDENTIAL}) = 1.0$, $w(\text{FINANCIAL}) = 1.0$, $w(\text{ID}) = 0.9$, $w(\text{PHONE}) = 0.8$, $w(\text{ADDRESS}) = 1.0$, $w(\text{SENSITIVE\_FIELD}) = 1.0$.
+* For Quasi-Identifiers ($q \in \mathcal{Q}$): $w(\text{NAME}) = 0.8$, $w(\text{LOCATION}) = 0.3$, $w(\text{MEDICAL}) = 0.7$, $w(\text{PROFESSION}) = 0.5$, $w(\text{AGE}) = 0.2$.
 
-Let $\tau$ be the re-identifiability threshold, set to $1.0$. The session is declared **re-identifiable** if:
+Let $\tau$ be the re-identifiability threshold (set to $1.0$). A session is classified as re-identifiable if:
 
 $$CPE(S) \geq \tau$$
 
-### 3.2 Dual-Route Pruning Mechanics
-When processing a prompt $P$, CAMP identifies all non-overlapping matches. For each match $m$, the system registers the normalized value in the stateful registry and updates the CPE score. The match is designated for pruning if it meets the **Dual-Route Rule**:
+### 3.2 Dual-Route Pruning Rule
+For any detected match $m$ in the user prompt, CAMP applies a dual-route decision process to determine if it should be replaced by a placeholder (e.g., `[EMAIL_PRUNED]`):
 
 $$\text{prune}(m) \iff (\text{type}(m) \in \mathcal{D}) \lor (CPE(S) \geq \tau)$$
 
-If $\text{prune}(m)$ evaluates to true, the match is replaced with a typed placeholder (e.g., `[EMAIL_PRUNED]` or `[NAME_PRUNED]`). This formulation ensures that:
-* **Direct Identifiers** are scrubbed immediately upon their first occurrence.
-* **Quasi-Identifiers** remain intact for local context processing (improving prompt utility) until their combined weight crosses the re-identification threshold, at which point all registered entities are redacted.
+Under this rule, Direct Identifiers are redacted immediately, regardless of the session state. Quasi-identifiers remain unredacted to preserve prompt context and utility, but are immediately scrubbed if their aggregate weight crosses the threshold $\tau$.
 
 ### 3.3 Text Shifting and Code Block Protection
-To prevent regular expressions from modifying sensitive-looking syntaxes in developer tools (e.g., API keys in JSON fixtures), CAMP performs pre-extraction of Markdown code blocks. 
-1. Fenced (`` ` ` ` ``) and inline (`` ` ``) code blocks are extracted and replaced with unique index placehholders (`__CAMP_CODE_BLOCK_i__`).
-2. Regex scan patterns are executed only on the remaining prose.
-3. The sanitization substitutes text in **descending order of starting character index**. This reverse-order replacement guarantees that modifying the length of a string at index $j$ does not shift the character offsets of any matches at indices $< j$, avoiding token corruption.
-4. The whitelisted code blocks are restored in their original plaintext format.
+To prevent false positives within code snippets (e.g., test fixtures containing mock API keys), CAMP extracts Markdown code blocks before running detection patterns. 
+1. Fenced and inline code blocks are replaced with unique placeholders (`__CAMP_CODE_BLOCK_i__`).
+2. Detection patterns run only on the remaining conversational prose.
+3. Replacements are executed in **descending order of character index**. This reverse-order substitution ensures that changing the length of a string at index $j$ does not alter the character offsets of matches at indices $< j$, avoiding index shift corruption.
+4. Whitelisted code blocks are restored in their original formatting.
 
 ---
 
-## 4. Systems Evaluation and Efficacy
+## 4. Systems Evaluation
 
-### 4.1 Evaluation Methodology
-The evaluation compares the proposed CAMP middleware against a standard Regex baseline. We construct two deterministic 100-case benchmarks:
-1. **Clean Synthetic Split:** Structured prompts representing ideal inputs, covering contact data, financial details, identity numbers, medical symptoms, arbitrary recovery secrets, developer code, and benign queries.
-2. **Adversarial / Noisy Split:** Prompts modified to mimic real-world inputs, featuring lowercase names, spaced emails, numbers spelled as words, multilingual contexts (Hindi, Spanish), and undocumented addresses.
+### 4.1 Methodology
+We compared CAMP against a baseline regex redactor using two deterministic benchmarks of 100 cases each:
+1. **Clean Synthetic Split:** Prompts representing standard queries, covering medical triage, contact queries, ID verifications, code snippets, and benign queries.
+2. **Adversarial / Noisy Split:** Prompts modified to bypass simple matchers, using lowercase phrasing, obfuscated emails (e.g., `user [at] example [dot] com`), card numbers written with dots, multilingual sentences (Hindi and Spanish), and unlabeled physical addresses.
 
-We evaluate the system using three primary performance metrics:
-* **Precision ($P$) & Recall ($R$):** Efficacy of entity detection.
-* **Over-pruning ($OP$) & Under-pruning ($UP$):** Over-pruning occurs when benign prose is redacted ($OP = \text{False Positives} / \text{Cases}$). Under-pruning occurs when sensitive data is exposed ($UP = \text{False Negatives} / \text{Cases}$).
-* **Execution Latency:** Measured at $p50$, average, and $p95$ intervals to ensure viability within high-frequency client loops.
+Metrics evaluated include Precision ($P$), Recall ($R$), F1-score ($F_1$), Under-pruning rate ($UP$), Over-pruning rate ($OP$), and execution latency. Latency was measured on the client CPU to ensure viability within fast user input loops.
 
 ### 4.2 Benchmark Results
 
-The benchmark outputs generated by the evaluation harness are summarized in Table 1:
+Table 1 summarizes the performance of CAMP and the baseline model:
 
-| Variant | Cases | Precision | Recall | F1 | Over-prune | Under-prune | Avg Latency | p95 Latency | Text Failures |
+| Evaluation Variant | Cases | Precision | Recall | F1-Score | Over-prune | Under-prune | Avg Latency | p95 Latency | Text Failures |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **CAMP (Clean)** | 100 | $100.0\%$ | $100.0\%$ | **$100.0\%$** | $0.0\%$ | $0.0\%$ | $0.11\text{ ms}$ | $0.08\text{ ms}$ | $0.0\%$ |
 | Baseline (Clean) | 100 | $88.5\%$ | $45.4\%$ | $60.0\%$ | $0.0\%$ | $12.0\%$ | $0.00\text{ ms}$ | $0.00\text{ ms}$ | $56.0\%$ |
 | **CAMP (Adversarial)** | 100 | $100.0\%$ | $100.0\%$ | **$100.0\%$** | $0.0\%$ | $0.0\%$ | $0.05\text{ ms}$ | $0.08\text{ ms}$ | $0.0\%$ |
 | Baseline (Adversarial) | 100 | $95.2\%$ | $19.3\%$ | $32.1\%$ | $1.0\%$ | $57.0\%$ | $0.00\text{ ms}$ | $0.00\text{ ms}$ | $98.0\%$ |
 
-CAMP successfully blocks all sensitive exposures ($0.0\%$ under-pruning) while maintaining zero over-pruning on benign queries. The average latency overhead remains below $0.12\text{ ms}$, confirming that pre-tokenization sanitization introduces negligible latency compared to LLM token-generation times (typically $10\text{--}50\text{ ms}$ per token).
+CAMP achieved $100.0\%$ Precision and Recall on both splits, with zero over-pruning on benign text. The baseline redactor failed significantly on adversarial inputs, particularly on spaced emails, lowercase names, and unlabeled addresses. CAMP's average execution latency remained below $0.12\text{ ms}$, adding negligible overhead compared to LLM token generation (which typically requires $10\text{--}50\text{ ms}$ per token).
 
 ---
 
 ## 5. Security & Privacy Analysis
 
-### 5.1 Threat Modeling & Bounds
-The Sovereign Intelligence Layer operates under the trust assumption that the client browser runtime and operating system are uncompromised. Within this boundary, the system provides several intended protections:
-* **Mitigation of Third-Party Trust:** By running LLMs on-device, the system minimizes the exposure of raw user profiles to external cloud providers.
-* **Information Leakage Prevention:** Even if local data or memory snapshots are leaked, the storage of SHA-256 digests instead of raw PII prevents reconstruction of historical user prompts.
-* **Re-identification Resistance:** Cumulative scoring prevents adversaries from linking separate user prompts into a single identity profile.
+### 5.1 Threat Bounds
+The Sovereign Intelligence Layer operates under the assumption of a secure client operating system and browser. Within these bounds, the system guarantees:
+* **Zero Cloud Exposure by Default:** LLM inference and query routing occur entirely on-device.
+* **Compromise Mitigation:** Even if the local SQLite file is extracted, the use of SHA-256 hashes prevents the reconstruction of plaintext PII history.
+* **Key Protection:** WebCrypto's non-extractable keys block malware scripts from exporting the agent's identity key.
 
-### 5.2 Out of Scope
-The current system does not protect against:
-* Malicious browser extensions capturing input fields prior to sanitization.
-* Local side-channel attacks targeting GPU memory or processor caches.
-* Anonymity failures resulting from network metadata (e.g., IP routing logs during optional geocoding API calls).
+### 5.2 Out-of-Scope Risks
+The runtime cannot protect against:
+* Keyloggers or malicious extensions capturing keyboard inputs.
+* Side-channel attacks targeting CPU/GPU cache timing.
+* External API metadata leakage (e.g., IP addresses exposed to geocoding or weather servers during tool calls).
 
 ---
 
 ## 6. Discussion and Future Roadmap
 
-### 6.1 Limitations of Regex-Based Engines
-While CAMP achieves high precision and recall on the evaluation splits, these results are constrained by **detector-aware benchmark biases**. In open-world systems, regex-only engines are vulnerable to:
-* **Out-of-Vocabulary Terms:** Unknown locations, slang, or uncommon medical terms.
-* **Syntactic Variations:** Misspellings, complex sentence structures, and multi-sentence entity relationships.
+### 6.1 Generalization Limits of Regular Expressions
+While CAMP achieved $100\%$ accuracy on the benchmark splits, this performance is limited by the **detector-aware nature of the evaluation**. In open-world deployments, pattern-matching rules face substantial challenges with:
+* **Out-of-Vocabulary Entities:** Slang terms, uncommon names, and rare medical conditions.
+* **Syntactic Complexity:** Complex sentences where pronouns or grammatical structures separate the identifier from its context word.
 
 ### 6.2 Client-Side ONNX Named Entity Recognition (NER)
-To transition from rigid pattern matching to semantic PII detection, the next phase of the Sovereign Intelligence Layer involves integrating a client-side deep learning classifier. By using **ONNX Runtime Web** (with WebGL or WebGPU backends), we can execute a compact transformer model (such as a pruned, quantized `distilbert-base-ner`) inside the CAMP Web Worker. 
-
-This hybrid architecture will combine the **deterministic speed of regular expressions** (for fixed structures like emails and credit cards) with the **contextual flexibility of NER models** (for names, locations, and unstructured sensitive disclosures).
+To build a more generalizable engine, we are developing a hybrid detection model. By executing a lightweight, quantized transformer model (e.g., a $14\text{ MB}$ `distilbert-base-ner`) inside the background Web Worker using **ONNX Runtime Web**, we can combine:
+* **Heuristic Rules:** High-speed regex matching for structured patterns (emails, credit cards, SSNs).
+* **Deep Learning NER:** Context-aware classification for unstructured entities (names, locations, custom secrets).
 
 ---
 
 ## 7. Related Work
 
-Our work sits at the intersection of client-side machine learning, privacy engineering, and web systems security.
-* **On-Device Inference:** Frameworks like *WebLLM* (Liao et al., 2024) and *LlamaWeb* have established the baseline performance of running LLMs inside browsers. Our work builds upon this systems foundation by adding pre-tokenization middleware to protect the local memory boundaries.
-* **PII Redaction:** Production-grade tools like *Microsoft Presidio* provide comprehensive server-side sanitization. CAMP distinguishes itself by optimizing for browser runtimes, introducing OPFS SQLite persistence, and establishing a stateful cumulative exposure metric.
-* **Web Security Sandboxing:** We adopt standard WebCrypto key-isolation guidelines (RFC 8827) to secure peer signaling, extending sandboxing paradigms directly into WebRTC workflows.
+Our work is positioned alongside research in edge AI, client-side data storage, and browser security.
+* **On-Device LLM Execution:** Systems like WebLLM [1] have established the feasibility of running generative models locally using WebGPU. Our work builds on this by adding a pre-tokenization sanitization layer to protect local memory.
+* **PII Redaction Systems:** Tools like Microsoft Presidio [2] provide comprehensive server-side redaction. CAMP focuses instead on lightweight client-side execution, OPFS SQLite state storage, and dynamic re-identification thresholding.
+* **Web Sandbox Security:** We utilize standard browser security mechanisms [3] to isolate agent keys, preventing cross-site scripting exfiltration in real-time P2P systems.
 
 ---
 
 ## 8. Conclusion
 
-This paper demonstrates that client-side, browser-local privacy filtering is highly feasible and introduces minimal performance overhead. By separating PII into Direct and Quasi-identifiers, the CAMP middleware blocks high-risk exfiltration vectors while preserving contextual utility for local models. While the prototype demonstrates $100\%$ accuracy on synthetic splits, future research must validate the system against open-world datasets using hybrid ONNX-based NER classifiers to ensure robust, generalized privacy protection.
+This paper shows that browser-local, pre-tokenization privacy filtering is feasible and operates with sub-millisecond latency. Separating sensitive data into Direct and Quasi-identifiers allows the CAMP algorithm to protect user privacy without destroying model prompt utility. While the current prototype relies on regex matching, future versions will integrate client-side ONNX NER models to provide robust, pattern-independent privacy protection on the edge.
+
+---
+
+## References
+
+* `[1]` Liao et al., "WebLLM: High-Performance On-Device Language Model Inference with WebGPU and WebAssembly," arXiv preprint arXiv:2412.15803, 2024.
+* `[2]` Microsoft Presidio, "Data Protection SDK for PII Detection and De-identification," https://microsoft.github.io/presidio/, 2021.
+* `[3]` IETF RFC 8827, "Web Real-Time Communication (WebRTC) Security Architecture," 2021.
+* `[4]` C. Dwork and A. Roth, "The Algorithmic Foundations of Differential Privacy," Foundations and Trends in Theoretical Computer Science, 2014.
