@@ -1,5 +1,7 @@
 # Sovereign Intelligence Layer
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20529516.svg)](https://doi.org/10.5281/zenodo.20529516)
+
 The Sovereign Intelligence Layer is a privacy-first, browser-local agentic prototype designed to evaluate sensitive assistance workflows such as medical, housing, food, and financial resource routing.
 
 By combining browser-side WebGPU inference, deterministic client-side privacy filtering, SQLite-backed local persistence, and signed encrypted WebRTC signaling, it studies how much sensitive prompt exposure can be reduced before model inference and tool routing. Optional integrations such as weather APIs, geocoding, telemetry, and signaling relays can still introduce external metadata exposure, so this repository frames the system as browser-local by default rather than as a complete anonymity or zero-cloud guarantee.
@@ -15,6 +17,7 @@ This repository is being prepared as an applied systems and privacy-engineering 
 The central claim is intentionally narrow: deterministic pre-tokenization pruning can reduce sensitive prompt exposure in constrained browser-local assistance workflows, but it is not a formal anonymity system, zero-knowledge protocol, or differential privacy mechanism.
 
 Research materials:
+*   **Research Paper (Preprint)**: [Zenodo DOI: 10.5281/zenodo.20529516](https://doi.org/10.5281/zenodo.20529516)
 *   **Scope**: `docs/research-scope.md`
 *   **Threat Model**: `docs/threat-model.md`
 *   **Paper Draft Scaffold**: `paper/`
