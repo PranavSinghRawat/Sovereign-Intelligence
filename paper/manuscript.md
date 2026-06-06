@@ -4,7 +4,7 @@
 
 Sensitive assistance workflows—such as medical triage, public housing allocation, and financial aid routing—often require users to disclose private context to obtain meaningful assistance. Deploying large language models (LLMs) in these scenarios traditionally relies on cloud-hosted API endpoints, which exposes raw user prompts to third-party providers. While browser-local inference (via WebGPU) addresses the transit boundary, raw sensitive data can still pollute local logs, retrieval-augmented generation (RAG) indices, and downstream tool dispatches. 
 
-This paper presents the design and evaluation of the **Sovereign Intelligence Layer**, an on-device agent runtime that sanitizes prompts before model tokenization. We introduce **Cumulative Agentic Masking and Pruning (CAMP)**, a client-side middleware that separates PII into *Direct Identifiers* (pruned immediately) and *Quasi-Identifiers* (pruned statefully when their cumulative re-identification risk exceeds a critical threshold). The runtime is secured using non-extractable Ed25519 keys stored in IndexedDB and an encrypted local database utilizing SQLite WASM in the browser's Origin Private File System (OPFS). 
+This paper presents the design and evaluation of the **Sentinel Intelligence Layer**, an on-device agent runtime that sanitizes prompts before model tokenization. We introduce **Cumulative Agentic Masking and Pruning (CAMP)**, a client-side middleware that separates PII into *Direct Identifiers* (pruned immediately) and *Quasi-Identifiers* (pruned statefully when their cumulative re-identification risk exceeds a critical threshold). The runtime is secured using non-extractable Ed25519 keys stored in IndexedDB and an encrypted local database utilizing SQLite WASM in the browser's Origin Private File System (OPFS). 
 
 Evaluation across two 100-case benchmarks shows that CAMP achieves $100\%$ precision, recall, and F1-score on synthetic splits, maintaining an average latency overhead of $0.11\text{ ms}$. Finally, we detail a deployment roadmap to replace pattern-based heuristics with a hybrid client-side Named Entity Recognition (NER) model running via ONNX Runtime Web.
 
@@ -16,7 +16,7 @@ Deploying large language models (LLMs) for sensitive public assistance and medic
 
 Browser-local LLM execution, enabled by WebGPU and WebAssembly compilation frameworks like WebLLM [1], offers a viable alternative by confining model weights and inference to the client device. However, on-device execution alone does not prevent local data leakage. Raw prompts can still pollute local application logs, browser persistent histories, and context windows. Furthermore, when the local agent invokes external APIs or coordinate with other browsers via peer-to-peer (P2P) connections, raw sensitive data can be inadvertently exfiltrated.
 
-To solve this, we propose pre-tokenization privacy filtering in the browser. We present the Sovereign Intelligence Layer, a client-side runtime featuring the Cumulative Agentic Masking and Pruning (CAMP) middleware. CAMP identifies and redacts sensitive entities before they reach the local LLM or downstream search tools. Rather than executing a static regex filter, CAMP maintains a session-level registry that tracks the accumulation of identifying fragments over multi-turn interactions. This allows the system to balance user utility (retaining context when risk is low) with strict privacy (pruning all identifiers once re-identification risk becomes mathematically significant).
+To solve this, we propose pre-tokenization privacy filtering in the browser. We present the Sentinel Intelligence Layer, a client-side runtime featuring the Cumulative Agentic Masking and Pruning (CAMP) middleware. CAMP identifies and redacts sensitive entities before they reach the local LLM or downstream search tools. Rather than executing a static regex filter, CAMP maintains a session-level registry that tracks the accumulation of identifying fragments over multi-turn interactions. This allows the system to balance user utility (retaining context when risk is low) with strict privacy (pruning all identifiers once re-identification risk becomes mathematically significant).
 
 We make the following contributions:
 1. We design a browser-local agent runtime that integrates WebGPU inference, IndexedDB cryptographic sandboxing, and WASM-based SQLite persistence in the Origin Private File System (OPFS).
@@ -28,7 +28,7 @@ We make the following contributions:
 
 ## 2. System Architecture
 
-The Sovereign Intelligence Layer isolates user data within the browser runtime. The system is divided into four main security and execution zones:
+The Sentinel Intelligence Layer isolates user data within the browser runtime. The system is divided into four main security and execution zones:
 
 1. **Browser-Local Inference Zone:** Local inference is managed by a background Web Worker running `@mlc-ai/web-llm` compiled to WebAssembly (WASM). Offloading weight loading, shader compilation, and autoregressive generation to a background thread prevents the main UI thread from stuttering, maintaining a stable 60 FPS interface during text generation.
 2. **Cryptographic Key Sandbox:** To mitigate Cross-Site Scripting (XSS) and supply-chain script injection attacks, the system generates Ed25519 signing keys inside the native Web Crypto API with the `extractable: false` attribute. These keys are stored as binary structures inside IndexedDB. Because the browser prevents JavaScript from exporting non-extractable keys, an attacker cannot steal the agent's identity key.
@@ -99,7 +99,7 @@ CAMP achieved $100.0\%$ Precision and Recall on both splits, with zero over-prun
 ## 5. Security & Privacy Analysis
 
 ### 5.1 Threat Bounds
-The Sovereign Intelligence Layer operates under the assumption of a secure client operating system and browser. Within these bounds, the system guarantees:
+The Sentinel Intelligence Layer operates under the assumption of a secure client operating system and browser. Within these bounds, the system guarantees:
 * **Zero Cloud Exposure by Default:** LLM inference and query routing occur entirely on-device.
 * **Compromise Mitigation:** Even if the local SQLite file is extracted, the use of SHA-256 hashes prevents the reconstruction of plaintext PII history.
 * **Key Protection:** WebCrypto's non-extractable keys block malware scripts from exporting the agent's identity key.

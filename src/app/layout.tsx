@@ -17,7 +17,7 @@ const monoFont = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sovereign Intelligence Layer",
+  title: "Sentinel Intelligence Layer",
   description: "Private, Edge-Native Agentic Framework for Decentralized Community Resource Access",
   manifest: "/manifest.json",
 };

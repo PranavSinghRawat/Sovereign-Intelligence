@@ -227,7 +227,7 @@ export default function SimulatorPage() {
             <Activity className="w-3.5 h-3.5 text-zinc-500 animate-pulse" /> Recruiter Showcase Cockpit
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-zinc-50 via-zinc-150 to-zinc-400">
-            Sovereign Edge Sandbox
+            Sentinel Edge Sandbox
           </h1>
           <p className="text-zinc-400 text-sm max-w-[70ch] mx-auto leading-relaxed">
             Because direct browser-to-browser WebRTC database synchronization and local WebGPU LLMs are hard to experience instantly, use this interactive console to inspect the underlying protocol stacks, security constraints, and data routes.

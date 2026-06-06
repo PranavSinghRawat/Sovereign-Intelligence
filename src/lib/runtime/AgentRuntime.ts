@@ -6,7 +6,7 @@ import { telemetry } from "../metrics/Telemetry";
 import { ragManager, SearchResult } from "./RAGManager";
 
 /**
- * Sovereign Intelligence Layer - AgentRuntime
+ * Sentinel Intelligence Layer - AgentRuntime
  * 
  * Optimized for M1 MacBook Air (Unified Memory) using WebGPU.
  */
@@ -134,7 +134,7 @@ export class AgentRuntime {
     }
 
     // 1. Hardened System Guardrail (Version 2.0 - General & Resource Assistant)
-    const SYSTEM_PROMPT = `You are the Sovereign Intelligence Layer, a client-side AI assistant running on WebGPU.
+    const SYSTEM_PROMPT = `You are the Sentinel Intelligence Layer, a client-side AI assistant running on WebGPU.
 
 CAPABILITIES:
 1. General Chat: You can assist with general-purpose requests including coding, writing, mathematics, history, and general discussion.
@@ -281,7 +281,7 @@ RULES:
 
       // 4a. Handle greetings deterministically (no model needed)
       if (isGreeting && !matchedType && !isWeather) {
-        const greeting = "I'm the Sovereign Intelligence Layer (Version 2.0). I can help you find verified community resources (food, medical, finance), check real-time weather information, or assist with general queries like coding and mathematics — all processed 100% locally on your device with zero cloud dependency. Try asking: \"Find me food banks in Seattle\" or \"What's the weather in London?\"";
+        const greeting = "I'm the Sentinel Intelligence Layer (Version 2.0). I can help you find verified community resources (food, medical, finance), check real-time weather information, or assist with general queries like coding and mathematics — all processed 100% locally on your device with zero cloud dependency. Try asking: \"Find me food banks in Seattle\" or \"What's the weather in London?\"";
         if (onStream) onStream(greeting);
         const defaultCamp: CAMPResult = this.lastCAMPResult || { processedText: "", cpeScore: 0, pruned: false, fragmentsDetected: [] };
         metricsCapture.update(0, greeting.length, defaultCamp);
@@ -500,4 +500,4 @@ ${contextBlock}`;
   }
 }
 
-export const sovereignRuntime = new AgentRuntime();
+export const sentinelRuntime = new AgentRuntime();

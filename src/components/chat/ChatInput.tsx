@@ -34,7 +34,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ input, setInput, isThinkin
         </button>
       </div>
       <p className="text-[10px] text-center mt-3 text-zinc-550 uppercase tracking-widest font-mono font-medium">
-        Sovereign Intelligence Layer • Private Edge-Native Node
+        Sentinel Intelligence Layer • Private Edge-Native Node
       </p>
     </div>
   );

@@ -98,7 +98,7 @@ export class WebRTCNode {
    */
   async createOffer(): Promise<string> {
     // We are the Offerer, so we create the channel
-    this.dataChannel = this.peerConnection.createDataChannel("sovereign-agent-protocol");
+    this.dataChannel = this.peerConnection.createDataChannel("sentinel-agent-protocol");
     this.setupDataChannel();
 
     const offer = await this.peerConnection.createOffer();

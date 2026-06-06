@@ -8,7 +8,7 @@ vi.mock("@mlc-ai/web-llm", () => {
   };
 });
 
-import { sovereignRuntime } from "../lib/runtime/AgentRuntime";
+import { sentinelRuntime } from "../lib/runtime/AgentRuntime";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
 
 describe("AgentRuntime - Hybrid Safety Guardrails", () => {
@@ -17,7 +17,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "I have heavy chest pain, am i having a heart attack?" }
     ];
 
-    const response = await sovereignRuntime.generateResponse(dangerousQuery);
+    const response = await sentinelRuntime.generateResponse(dangerousQuery);
 
     expect(response.text).toContain("strictly forbidden from providing medical diagnoses");
     expect(response.text).toContain("Please seek professional medical attention immediately");
@@ -28,7 +28,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "Should i take antibiotics? Can you prescribe me some?" }
     ];
 
-    const response = await sovereignRuntime.generateResponse(dangerousQuery);
+    const response = await sentinelRuntime.generateResponse(dangerousQuery);
 
     expect(response.text).toContain("strictly forbidden from providing medical diagnoses");
   });
@@ -39,7 +39,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     ];
 
     // This should NOT trigger the guardrail — it should pass through and hit the engine check
-    await expect(sovereignRuntime.generateResponse(safeQuery)).rejects.toThrow("AgentRuntime not initialized.");
+    await expect(sentinelRuntime.generateResponse(safeQuery)).rejects.toThrow("AgentRuntime not initialized.");
   });
 
   it("should throw initialization error for standard resource queries if engine is not initialized", async () => {
@@ -47,14 +47,14 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "Where is the nearest food bank in Seattle?" }
     ];
 
-    await expect(sovereignRuntime.generateResponse(standardQuery)).rejects.toThrow("AgentRuntime not initialized.");
+    await expect(sentinelRuntime.generateResponse(standardQuery)).rejects.toThrow("AgentRuntime not initialized.");
   });
 
   it("should route general-purpose chat queries to the LLM", async () => {
     const mockCreate = vi.fn(() => {
       throw new Error("LLM Engine call reached for general chat");
     });
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {
       chat: {
         completions: {
           create: mockCreate
@@ -66,7 +66,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "Write a JavaScript function to reverse a string." }
     ];
 
-    await expect(sovereignRuntime.generateResponse(codingQuery)).rejects.toThrow("LLM Engine call reached for general chat");
+    await expect(sentinelRuntime.generateResponse(codingQuery)).rejects.toThrow("LLM Engine call reached for general chat");
     expect(mockCreate).toHaveBeenCalled();
 
     // Verify the system prompt has the general chat rules
@@ -75,7 +75,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     expect(systemPrompt).toContain("General Chat: You can assist with general-purpose requests");
 
     // Cleanup
-    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = null;
   });
 
   it("should route weather queries to the weather tool, execute fetch, and then call the LLM engine", async () => {
@@ -109,7 +109,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     const mockCreate = vi.fn(() => {
       throw new Error("LLM Engine call reached for weather");
     });
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {
       chat: {
         completions: {
           create: mockCreate
@@ -122,7 +122,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     ];
 
     // Triggers weather fetch tool successfully first, then reaches LLM engine step
-    await expect(sovereignRuntime.generateResponse(weatherQuery)).rejects.toThrow("LLM Engine call reached for weather");
+    await expect(sentinelRuntime.generateResponse(weatherQuery)).rejects.toThrow("LLM Engine call reached for weather");
 
     expect(mockFetch).toHaveBeenCalled();
     expect(mockCreate).toHaveBeenCalled();
@@ -134,22 +134,22 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     expect(systemPrompt).toContain("Temperature: 15.5°C");
 
     // Cleanup
-    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = null;
     vi.unstubAllGlobals();
   });
 
   it("should return a clarification prompt when weather query is missing a location", async () => {
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {} as unknown;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {} as unknown;
 
     const noLocQuery: ChatCompletionMessageParam[] = [
       { role: "user", content: "What is the weather like?" }
     ];
 
-    const result = await sovereignRuntime.generateResponse(noLocQuery);
+    const result = await sentinelRuntime.generateResponse(noLocQuery);
     expect(result.text).toBe("Which city or location would you like to check the weather for?");
 
     // Cleanup
-    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = null;
   });
 
   it("should resolve weather queries using conversational memory when a location is provided in the next turn", async () => {
@@ -183,7 +183,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     const mockCreate = vi.fn(() => {
       throw new Error("LLM Engine call reached for weather follow-up");
     });
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {
       chat: {
         completions: {
           create: mockCreate
@@ -197,7 +197,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "New York" }
     ];
 
-    await expect(sovereignRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for weather follow-up");
+    await expect(sentinelRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for weather follow-up");
     expect(mockFetch).toHaveBeenCalled();
     expect(mockCreate).toHaveBeenCalled();
 
@@ -208,25 +208,25 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     expect(systemPrompt).toContain("Temperature: 22°C");
 
     // Cleanup
-    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = null;
     vi.unstubAllGlobals();
   });
 
   it("should return a clarification prompt when community resource query is missing a location, and resolve in the next turn", async () => {
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {} as unknown;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {} as unknown;
 
     const noLocQuery: ChatCompletionMessageParam[] = [
       { role: "user", content: "Where are some food banks?" }
     ];
 
-    const result = await sovereignRuntime.generateResponse(noLocQuery);
+    const result = await sentinelRuntime.generateResponse(noLocQuery);
     expect(result.text).toBe("Which city or area do you need food resources for?");
 
     // Verify follow-up
     const mockCreate = vi.fn(() => {
       throw new Error("LLM Engine call reached for resources follow-up");
     });
-    (sovereignRuntime as unknown as { engine: unknown }).engine = {
+    (sentinelRuntime as unknown as { engine: unknown }).engine = {
       chat: {
         completions: {
           create: mockCreate
@@ -259,7 +259,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
       { role: "user", content: "Boston" }
     ];
 
-    await expect(sovereignRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for resources follow-up");
+    await expect(sentinelRuntime.generateResponse(conversation)).rejects.toThrow("LLM Engine call reached for resources follow-up");
     expect(mockCreate).toHaveBeenCalled();
 
     const lastCall = (mockCreate.mock.calls as unknown as [ [ { messages: { content: string }[] } ] ])[0][0];
@@ -268,7 +268,7 @@ describe("AgentRuntime - Hybrid Safety Guardrails", () => {
     expect(systemPrompt).toContain("Boston Food Pantry");
 
     // Cleanup
-    (sovereignRuntime as unknown as { engine: unknown }).engine = null;
+    (sentinelRuntime as unknown as { engine: unknown }).engine = null;
     vi.unstubAllGlobals();
   });
 });

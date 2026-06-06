@@ -50,7 +50,7 @@ export class ZKSignalingChannel {
     // 1. Setup Local BroadcastChannel (for same-device cross-tab communication)
     if (typeof window !== "undefined" && "BroadcastChannel" in window) {
       try {
-        this.bc = new BroadcastChannel(`sovereign-zk-sig-${this.passphraseHex}`);
+        this.bc = new BroadcastChannel(`sentinel-zk-sig-${this.passphraseHex}`);
         this.bc.onmessage = (event) => {
           this.onLogCallback("Received local signaling handshake signal.");
           this.handleIncomingRawMessage(event.data);

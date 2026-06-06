@@ -6,7 +6,7 @@ import { Cpu, ChevronLeft, Shield } from "lucide-react";
 import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { useSovereignAgent } from "@/hooks/useSovereignAgent";
+import { useSentinelAgent } from "@/hooks/useSentinelAgent";
 import { useWebRTC } from "@/hooks/useWebRTC";
 import { MetricsSidebar } from "@/components/chat/MetricsSidebar";
 import { MessageList } from "@/components/chat/MessageList";
@@ -29,7 +29,7 @@ export default function ChatPage() {
     metrics,
     handleSend,
     addExternalMessage
-  } = useSovereignAgent();
+  } = useSentinelAgent();
 
   const {
     p2pStatus,
@@ -76,7 +76,7 @@ export default function ChatPage() {
               <div className="absolute inset-0 animate-pulse rounded-full bg-zinc-800 scale-125" />
               <Cpu className="w-12 h-12 text-zinc-100 relative mx-auto" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Sovereign Intelligence</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Sentinel Intelligence</h1>
             <p className="text-zinc-400 font-mono text-xs uppercase tracking-wider">{initProgress}</p>
             <div className="w-48 h-1 bg-zinc-900 rounded-full overflow-hidden mx-auto">
               <motion.div 

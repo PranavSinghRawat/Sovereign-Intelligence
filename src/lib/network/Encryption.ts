@@ -5,7 +5,7 @@
  */
 
 // Simple salt for PBKDF2 key derivation
-const SALT = new Uint8Array([83, 111, 118, 101, 114, 101, 105, 103, 110, 95, 69, 50, 69, 69, 95, 83]); // "Sovereign_E2EE_S"
+const SALT = new Uint8Array([83, 101, 110, 116, 105, 110, 101, 108, 95, 69, 50, 69, 69, 95, 83, 95]); // "Sentinel_E2EE_S_"
 
 /**
  * Derives a CryptoKey from a given seed string (SDP offer string) using PBKDF2.

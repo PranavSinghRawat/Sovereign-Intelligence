@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChatCompletionMessageParam } from "@mlc-ai/web-llm";
-import { sovereignRuntime } from "@/lib/runtime/AgentRuntime";
+import { sentinelRuntime } from "@/lib/runtime/AgentRuntime";
 import { metricsCapture } from "@/lib/metrics/MetricsCapture";
 import { useAgentStore, ExtendedChatMessage } from "@/store/agentStore";
 import { camp, CAMPResult } from "@/lib/middleware/CAMP";
 import { getCurrentWeather } from "@/lib/mcp/ResourceTools";
 
-export function useSovereignAgent() {
+export function useSentinelAgent() {
   const [input, setInput] = useState("");
   
   // Zustand store mappings
@@ -57,7 +57,7 @@ export function useSovereignAgent() {
           return;
         }
 
-        const gpuCheck = await sovereignRuntime.checkWebGPUSupport();
+        const gpuCheck = await sentinelRuntime.checkWebGPUSupport();
         if (!gpuCheck.supported) {
           if (isMounted) {
             setInitProgress(`WebGPU unsupported: ${gpuCheck.reason}. Entering Demonstration Mode...`);
@@ -71,7 +71,7 @@ export function useSovereignAgent() {
           return;
         }
 
-        await sovereignRuntime.initialize((report) => {
+        await sentinelRuntime.initialize((report) => {
           if (isMounted) setInitProgress(report.text);
         });
         if (isMounted) setIsInitializing(false);
@@ -96,7 +96,7 @@ export function useSovereignAgent() {
     return () => {
       isMounted = false;
       clearInterval(interval);
-      sovereignRuntime.destroy();
+      sentinelRuntime.destroy();
     };
   }, [setInitProgress, setIsInitializing, setMetrics, setIsSimulationMode]);
 
@@ -177,7 +177,7 @@ export function useSovereignAgent() {
           mockResponse = "I found the following matching verified resource in the local SQLite directory:\n\n- **SafeHaven Medical Clinic** (Downtown, Immediate availability, 0.8 miles away)\n\nThis resource query was processed 100% locally on your browser context via OPFS. No personal details were exposed.";
         } else {
           // 4. General Chat
-          mockResponse = `Hello! I am your Sovereign Edge Assistant. Since WebGPU hardware acceleration is not active or supported in this browser, I am running in interactive demonstration mode.\n\nYour prompt: "${originalInput}" has been processed by the CAMP Privacy Firewall. No identification details were leaked. How can I help you today?`;
+          mockResponse = `Hello! I am your Sentinel Edge Assistant. Since WebGPU hardware acceleration is not active or supported in this browser, I am running in interactive demonstration mode.\n\nYour prompt: "${originalInput}" has been processed by the CAMP Privacy Firewall. No identification details were leaked. How can I help you today?`;
         }
 
         setThinkingStep(null);
@@ -234,7 +234,7 @@ export function useSovereignAgent() {
 
     try {
       let streamingText = "";
-      const result = await sovereignRuntime.generateResponse(
+      const result = await sentinelRuntime.generateResponse(
         [...messages, userMessage],
         (chunk) => {
           setThinkingStep(null);

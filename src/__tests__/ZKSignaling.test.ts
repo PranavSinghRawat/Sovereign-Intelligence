@@ -74,7 +74,7 @@ describe("ZK-Signaling Channel Protocol", () => {
 
     const bcInstance = (channel as unknown as { bc: MockBroadcastChannel }).bc;
     expect(bcInstance).toBeDefined();
-    expect(bcInstance.name).toBe(`sovereign-zk-sig-${derivedRoom}`);
+    expect(bcInstance.name).toBe(`sentinel-zk-sig-${derivedRoom}`);
 
     // Wait a brief moment for WebSocket to simulate connecting
     await new Promise((resolve) => setTimeout(resolve, 10));

@@ -27,7 +27,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isThinking, 
         <div className="h-full flex flex-col items-center justify-center opacity-30 text-center space-y-4">
           <Bot className="w-10 h-10 text-zinc-400" />
           <p className="text-sm text-zinc-400 leading-relaxed max-w-[45ch]">
-            Sovereign Edge Node ready. All prompts, database queries, and response generations are processed 100% locally.
+            Sentinel Edge Node ready. All prompts, database queries, and response generations are processed 100% locally.
           </p>
         </div>
       )}

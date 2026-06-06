@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Sovereign Intelligence Layer - Landing Page E2E Suite", () => {
+test.describe("Sentinel Intelligence Layer - Landing Page E2E Suite", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to local server
     await page.goto("/chat");
   });
 
   test("should display main branding and loading state or chat layout", async ({ page }) => {
-    await expect(page.getByText(/Sovereign Intelligence/).first()).toBeVisible();
+    await expect(page.getByText(/Sentinel Intelligence/).first()).toBeVisible();
   });
 
   test("should render the P2P secure connections widget inside the sidebar", async ({ page }) => {

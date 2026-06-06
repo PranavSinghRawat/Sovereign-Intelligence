@@ -44,7 +44,7 @@ Email: pranavrawat0514@gmail.com}
 \begin{abstract}
 Sensitive assistance workflows—such as medical triage, public housing allocation, and financial aid routing—often require users to disclose private context to obtain meaningful assistance. Deploying large language models (LLMs) in these scenarios traditionally relies on cloud-hosted API endpoints, which exposes raw user prompts to third-party providers. While browser-local inference (via WebGPU) addresses the transit boundary, raw sensitive data can still pollute local logs, retrieval-augmented generation (RAG) indices, and downstream tool dispatches. 
 
-This paper presents the design and evaluation of the Sovereign Intelligence Layer, an on-device agent runtime that sanitizes prompts before model tokenization. We introduce Cumulative Agentic Masking and Pruning (CAMP), a client-side middleware that separates PII into Direct Identifiers (pruned immediately) and Quasi-Identifiers (pruned statefully when their cumulative re-identification risk exceeds a critical threshold). The runtime is secured using non-extractable Ed25519 keys stored in IndexedDB and an encrypted local database utilizing SQLite WASM in the browser's Origin Private File System (OPFS). 
+This paper presents the design and evaluation of the Sentinel Intelligence Layer, an on-device agent runtime that sanitizes prompts before model tokenization. We introduce Cumulative Agentic Masking and Pruning (CAMP), a client-side middleware that separates PII into Direct Identifiers (pruned immediately) and Quasi-Identifiers (pruned statefully when their cumulative re-identification risk exceeds a critical threshold). The runtime is secured using non-extractable Ed25519 keys stored in IndexedDB and an encrypted local database utilizing SQLite WASM in the browser's Origin Private File System (OPFS). 
 
 Evaluation across two 100-case benchmarks shows that CAMP achieves 100\% precision, recall, and F1-score on synthetic splits, maintaining an average latency overhead of 0.11 ms. Finally, we detail a deployment roadmap to replace pattern-based heuristics with a hybrid client-side Named Entity Recognition (NER) model running via ONNX Runtime Web.
 \end{abstract}
@@ -59,7 +59,7 @@ Deploying large language models (LLMs) for sensitive public assistance and medic
 
 Browser-local LLM execution, enabled by WebGPU and WebAssembly compilation frameworks like WebLLM \cite{webllm}, offers a viable alternative by confining model weights and inference to the client device. However, on-device execution alone does not prevent local data leakage. Raw prompts can still pollute local application logs, browser persistent histories, and context windows. Furthermore, when the local agent invokes external APIs or coordinates with other browsers via peer-to-peer (P2P) connections, raw sensitive data can be inadvertently exfiltrated.
 
-To solve this, we propose pre-tokenization privacy filtering in the browser. We present the Sovereign Intelligence Layer, a client-side runtime featuring the Cumulative Agentic Masking and Pruning (CAMP) middleware. CAMP identifies and redacts sensitive entities before they reach the local LLM or downstream search tools. Rather than executing a static regex filter, CAMP maintains a session-level registry that tracks the accumulation of identifying fragments over multi-turn interactions. This allows the system to balance user utility (retaining context when risk is low) with strict privacy (pruning all identifiers once re-identification risk becomes mathematically significant).
+To solve this, we propose pre-tokenization privacy filtering in the browser. We present the Sentinel Intelligence Layer, a client-side runtime featuring the Cumulative Agentic Masking and Pruning (CAMP) middleware. CAMP identifies and redacts sensitive entities before they reach the local LLM or downstream search tools. Rather than executing a static regex filter, CAMP maintains a session-level registry that tracks the accumulation of identifying fragments over multi-turn interactions. This allows the system to balance user utility (retaining context when risk is low) with strict privacy (pruning all identifiers once re-identification risk becomes mathematically significant).
 
 We make the following contributions:
 \begin{enumerate}
@@ -71,7 +71,7 @@ We make the following contributions:
 
 \section{System Architecture}
 
-The Sovereign Intelligence Layer isolates user data within the browser runtime. The system is divided into four main security and execution zones:
+The Sentinel Intelligence Layer isolates user data within the browser runtime. The system is divided into four main security and execution zones:
 
 \begin{figure}[htbp]
 \centering
@@ -95,7 +95,7 @@ The Sovereign Intelligence Layer isolates user data within the browser runtime. 
     \path [draw, -{Latex[scale=1.1]}] (worker) -- (mcp);
     \path [draw, <->, >=Latex] (mcp) -- (crypto);
 \end{tikzpicture}
-\caption{Sovereign Intelligence Layer System Architecture.}
+\caption{Sentinel Intelligence Layer System Architecture.}
 \label{fig:architecture}
 \end{figure}
 
@@ -188,7 +188,7 @@ Table \ref{tab:results} summarizes the performance of CAMP and the baseline mode
 \section{Security \& Privacy Analysis}
 
 \subsection{Threat Bounds}
-The Sovereign Intelligence Layer operates under the assumption of a secure client operating system and browser. Within these bounds, the system guarantees:
+The Sentinel Intelligence Layer operates under the assumption of a secure client operating system and browser. Within these bounds, the system guarantees:
 \begin{itemize}
     \item \textbf{Zero Cloud Exposure by Default:} LLM inference and query routing occur entirely on-device.
     \item \textbf{Compromise Mitigation:} Even if the local SQLite file is extracted, the use of SHA-256 hashes prevents the reconstruction of plaintext PII history.

@@ -1,7 +1,7 @@
 import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
 
 /**
- * Sovereign Intelligence Layer - SQLite Wasm Manager
+ * Sentinel Intelligence Layer - SQLite Wasm Manager
  */
 export class SqliteDatabase {
   private static instance: SqliteDatabase;
@@ -29,10 +29,10 @@ export class SqliteDatabase {
       const sqlite3 = await (sqlite3InitModule as any)();
 
       if ("opfs" in sqlite3) {
-        this.db = new sqlite3.oo1.OpfsDb("/sovereign_intelligence.db");
+        this.db = new sqlite3.oo1.OpfsDb("/sentinel_intelligence.db");
         this.isOpfs = true;
       } else {
-        this.db = new sqlite3.oo1.DB("/sovereign_intelligence.db", "ct");
+        this.db = new sqlite3.oo1.DB("/sentinel_intelligence.db", "ct");
         this.isOpfs = false;
       }
 

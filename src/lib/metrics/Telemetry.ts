@@ -8,7 +8,7 @@
 export class TelemetryLogger {
   private hasOptedIn: boolean;
   private readonly TELEMETRY_ENDPOINT = process.env.NEXT_PUBLIC_TELEMETRY_ENDPOINT || "https://httpbin.org/post";
-  private readonly STORAGE_KEY = "sovereign_telemetry_opt_in";
+  private readonly STORAGE_KEY = "sentinel_telemetry_opt_in";
 
   constructor() {
     // Restore persisted opt-in preference from localStorage

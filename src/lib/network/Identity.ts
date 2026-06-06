@@ -40,7 +40,7 @@ function openDB(): Promise<IDBDatabase> {
       reject(new Error("IndexedDB is not supported in this environment"));
       return;
     }
-    const request = indexedDB.open("sovereign_identity_db", 1);
+    const request = indexedDB.open("sentinel_identity_db", 1);
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains("keys")) {

@@ -41,7 +41,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-zinc-400 text-base leading-relaxed max-w-[65ch]">
-            The Sovereign Intelligence Layer compiles and runs a grounded 1.2B AI assistant directly in your browser. Utilizing hardware-accelerated WebGPU, no network requests are sent. Search medical clinics and community aid in complete safety.
+            The Sentinel Intelligence Layer compiles and runs a grounded 1.2B AI assistant directly in your browser. Utilizing hardware-accelerated WebGPU, no network requests are sent. Search medical clinics and community aid in complete safety.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">

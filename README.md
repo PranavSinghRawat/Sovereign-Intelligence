@@ -1,8 +1,8 @@
-# Sovereign Intelligence Layer
+# Sentinel Intelligence Layer
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20529516.svg)](https://doi.org/10.5281/zenodo.20529516)
 
-The Sovereign Intelligence Layer is a privacy-first, browser-local agentic prototype designed to evaluate sensitive assistance workflows such as medical, housing, food, and financial resource routing.
+The Sentinel Intelligence Layer is a privacy-first, browser-local agentic prototype designed to evaluate sensitive assistance workflows such as medical, housing, food, and financial resource routing.
 
 By combining browser-side WebGPU inference, deterministic client-side privacy filtering, SQLite-backed local persistence, and signed encrypted WebRTC signaling, it studies how much sensitive prompt exposure can be reduced before model inference and tool routing. Optional integrations such as weather APIs, geocoding, telemetry, and signaling relays can still introduce external metadata exposure, so this repository frames the system as browser-local by default rather than as a complete anonymity or zero-cloud guarantee.
 
@@ -151,7 +151,7 @@ Replaced local storage key arrays with non-extractable Ed25519 WebCrypto keys st
 ### Installation
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/PranavSinghRawat/Sovereign-Intelligence.git
+    git clone https://github.com/PranavSinghRawat/Sentinel-Intelligence.git
     ```
 2.  Install dependencies:
     ```bash

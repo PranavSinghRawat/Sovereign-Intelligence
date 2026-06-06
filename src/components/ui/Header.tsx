@@ -28,7 +28,7 @@ export function Header() {
         <div className="w-8 h-8 rounded-xl bg-zinc-100 flex items-center justify-center shadow-sm">
           <Globe className="w-4 h-4 text-zinc-950" />
         </div>
-        <span className="font-bold tracking-wider font-mono text-xs text-zinc-100">SOVEREIGN</span>
+        <span className="font-bold tracking-wider font-mono text-xs text-zinc-100">SENTINEL</span>
       </Link>
 
       {/* Desktop nav */}
